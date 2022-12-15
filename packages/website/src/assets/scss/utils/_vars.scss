@@ -1,0 +1,38 @@
+/****************/
+/**** COLORS ****/
+/****************/
+// Main
+$jungle-green: #30bf75;
+$jewel-green: #117340;
+
+// Basic
+$cod-gray: #141414;
+$mine-shaft: #333333;
+$dove-gray: #616161;
+$alto: #d9d9d9;
+$concrete: #f2f2f2;
+
+// Generic variables
+$primary-color: $jungle-green;
+$secondary-color: $jewel-green;
+$black: $cod-gray;
+$grey: $mine-shaft;
+$white: $concrete;
+
+/***************/
+/**** FONTS ****/
+/***************/
+$montserrat: 'Montserrat', sans-serif;
+
+// Generic variables
+$font-primary: $montserrat;
+
+/*********************/
+/**** BREAKPOINTS ****/
+/*********************/
+$bp-tablet-down: 767px;
+$bp-tablet-up: 768px;
+$bp-desktop-down: 1279px;
+$bp-desktop-up: 1280px;
+$bp-desktop-large-down: 1599px;
+$bp-desktop-large-up: 1600px;

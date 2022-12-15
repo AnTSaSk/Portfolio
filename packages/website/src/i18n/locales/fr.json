@@ -1,0 +1,17 @@
+{
+  "seo": {
+    "meta": {
+      "description": {
+        "landing": "AnTSaSk/Alexis Besson est un Lead Développeur Front-end"
+      },
+      "title": {
+        "landing": "@:seo.meta.variable.default Lead Développeur Front-end"
+      },
+      "variable": {
+        "after": "{'•'} Alexis Besson",
+        "default": "Alexis Besson {'•'} ",
+        "long": "Alexis Besson, Lead Développeur Front-end {'•'} "
+      }
+    }
+  }
+}
