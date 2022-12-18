@@ -1,10 +1,16 @@
 {
+  "easteregg": {
+    "log": {
+      "message": "Vous ne trouverez rien ici, si ce n'est de merveilleux liens vers mes réseaux sociaux :"
+    }
+  },
   "seo": {
     "meta": {
       "description": {
-        "landing": "AnTSaSk/Alexis Besson est un Lead Développeur Front-end"
+        "landing": "Alexis Besson/AnTSask est un Lead Développeur Front-end, travaillant sur JavaScript, principalement avec VueJS"
       },
       "title": {
+        "generic": "Alexis Besson's portfolio",
         "landing": "@:seo.meta.variable.default Lead Développeur Front-end"
       },
       "variable": {

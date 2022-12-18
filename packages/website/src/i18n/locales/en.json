@@ -1,10 +1,16 @@
 {
+  "easteregg": {
+    "log": {
+      "message": "You won't find anything here, except wonderful links to my social networks:"
+    }
+  },
   "seo": {
     "meta": {
       "description": {
-        "landing": "AnTSaSk/Alexis Besson is a Lead Front-end Developer"
+        "landing": "Alexis Besson/AnTSask is a Lead Front-end Developer, working on JavaScript, mostly with VueJS"
       },
       "title": {
+        "generic": "Alexis Besson's portfolio • Lead Front-end Develop",
         "landing": "@:seo.meta.variable.default Lead Front-end Developer"
       },
       "variable": {
