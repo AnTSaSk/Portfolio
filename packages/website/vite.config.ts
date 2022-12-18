@@ -1,7 +1,8 @@
 import { resolve } from 'path';
 
-import vue from '@vitejs/plugin-vue';
 import VueI18nPlugin from '@intlify/unplugin-vue-i18n/vite';
+import UnheadVite from '@unhead/addons/vite';
+import vue from '@vitejs/plugin-vue';
 import { defineConfig } from 'vite';
 import eslintPlugin from 'vite-plugin-eslint';
 import svgLoader from 'vite-svg-loader';
@@ -11,6 +12,7 @@ export default defineConfig({
   // Build
   build: {
     outDir: '../../dist/website',
+    emptyOutDir: true,
   },
 
   // Env
@@ -39,6 +41,7 @@ export default defineConfig({
       defaultImport: 'url',
     }),
     eslintPlugin(),
+    UnheadVite(),
   ],
 
   resolve: {
