@@ -1,6 +1,24 @@
 import { useI18n } from 'vue-i18n';
 
 /**
+ * getCurrentUrl
+ *
+ * @returns {string}
+ */
+export const getCurrentUrl = (): string => {
+  let currentUrl = import.meta.env.VUE_APP_HOST_URL;
+
+  if (window.location.pathname || window.location.search) {
+    currentUrl = new URL(
+      `${window.location.pathname}${window.location.search}`,
+      currentUrl,
+    );
+  }
+
+  return currentUrl.toString();
+};
+
+/**
  * generateHeadMeta
  *
  * @param   {string}  title
@@ -19,7 +37,8 @@ export const generateHeadMeta = ({
   image?: string;
 }) => {
   const { t } = useI18n();
-  const currentUrl = window.location.href;
+
+  const currentUrl = getCurrentUrl();
   const currentOrigin = window.location.origin;
 
   return [

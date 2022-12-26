@@ -24,7 +24,7 @@
   import { ROUTER_LANDING } from '@/constants/router';
 
   // Utils
-  import { generateHeadMeta } from '@/utils/seo';
+  import { getCurrentUrl, generateHeadMeta } from '@/utils/seo';
 
   // Assets
   import Logo from '@/assets/images/logo.svg?component';
@@ -45,6 +45,12 @@
         description: 'seo.meta.description.landing',
       }),
     ),
+    link: [
+      {
+        rel: 'canonical',
+        href: getCurrentUrl(),
+      },
+    ],
   });
 </script>
 
