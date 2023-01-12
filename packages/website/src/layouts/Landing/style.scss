@@ -1,9 +1,9 @@
 .t-page.-landing {
-  color: $cod-gray;
-  background: $concrete;
+  color: $black;
+  background: $athens-gray;
 
   @media (prefers-color-scheme: dark) {
-    color: $concrete;
-    background: $cod-gray;
+    color: $athens-gray;
+    background: $black;
   }
 }
