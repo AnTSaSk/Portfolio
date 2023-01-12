@@ -1,4 +1,16 @@
 {
+  "common": {
+    "locale": {
+      "en": {
+        "long": "English",
+        "short": "en"
+      },
+      "fr": {
+        "long": "French",
+        "short": "fr"
+      }
+    }
+  },
   "easteregg": {
     "log": {
       "message": "You won't find anything here, except wonderful links to my social networks:"
@@ -18,6 +30,11 @@
         "default": "Alexis Besson {'•'} ",
         "long": "Alexis Besson, Lead Front-end Developer {'•'} "
       }
+    }
+  },
+  "view": {
+    "landing": {
+      "subtitle": "Lead Front-end Developer"
     }
   }
 }

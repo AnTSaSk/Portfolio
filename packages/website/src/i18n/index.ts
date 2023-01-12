@@ -4,14 +4,20 @@
 import messages from '@intlify/unplugin-vue-i18n/messages';
 import { createI18n } from 'vue-i18n';
 
+// Constants
+import { AVAILABLE_LOCALES } from '@/constants/i18n';
+
+// Utils
+import { getCurrentLocale } from '@/utils/i18n';
+
 /**************/
 /**** I18N ****/
 /**************/
 const i18n = createI18n({
   legacy: false,
-  locale: 'en',
+  locale: getCurrentLocale(),
   fallbackLocale: 'en',
-  availableLocales: ['en', 'fr'],
+  availableLocales: AVAILABLE_LOCALES,
   messages,
   globalInjection: true,
   escapeParameter: true,

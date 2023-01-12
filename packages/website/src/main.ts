@@ -27,8 +27,8 @@ head.use(
   ),
 );
 
-app.use(router);
-app.use(head);
 app.use(i18n);
+app.use(head);
+app.use(router);
 
 app.mount('#app');

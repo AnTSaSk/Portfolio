@@ -4,7 +4,7 @@
 
     <div class="o-landing__content">
       <h1 class="o-landing__title">Alexis Besson</h1>
-      <h2 class="o-landing__subtitle">Lead Front-end Developer</h2>
+      <h2 class="o-landing__subtitle">{{ t('view.landing.subtitle') }}</h2>
     </div>
   </div>
 </template>
