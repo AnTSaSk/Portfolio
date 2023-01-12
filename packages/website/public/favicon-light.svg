@@ -1,13 +1,15 @@
-<svg width="300" height="277" viewBox="0 0 300 277" xmlns="http://www.w3.org/2000/svg">
-    <path d="M122.041 52.2581H156.774L34.4951 276.774H0L122.041 52.2581Z" fill="#30BF75"/>
-    <path d="M122.041 52.2581H156.774L34.4951 276.774H0L122.041 52.2581Z" fill="url(#logo_gradient)"/>
-    <path d="M114.043 257.419H79.5483L201.59 32.9032L219.677 0H222.581L232.258 32.9032L233.687 37.7419L114.043 257.419Z" fill="#30BF75"/>
-    <path d="M114.043 257.419H79.5483L201.59 32.9032L219.677 0H222.581L232.258 32.9032L233.687 37.7419L114.043 257.419Z" fill="url(#logo_gradient)"/>
-    <path fill-rule="evenodd" clip-rule="evenodd" d="M238.731 199.347H163.091L181.587 165.387H229.46L213.476 106.834L239.944 58.2376L300 257.419H254.583L238.731 199.347Z" fill="#141414" />
+<svg viewBox="0 0 155 143" xmlns="http://www.w3.org/2000/svg">
+    <path d="M63.0546 27H81L17.8225 143H0L63.0546 27Z" fill="url(#first_gradient)"/>
+    <path d="M58.9224 133H41.1L104.155 17L113.5 0H115L120 17L120.738 19.5L58.9224 133Z" fill="url(#second_gradient)"/>
+    <path fill-rule="evenodd" clip-rule="evenodd" d="M123.344 102.996H84.2636L93.8199 85.4499H118.554L110.296 55.1978L123.971 30.0895L155 133H131.535L123.344 102.996Z" fill="#111315" />
     <defs>
-        <linearGradient id="logo_gradient" x1="116.844" y1="0" x2="116.844" y2="276.774" gradientUnits="userSpaceOnUse">
+        <linearGradient id="first_gradient" x1="114.5" y1="3.22134e-06" x2="-4.35819e-06" y2="162.5" gradientUnits="userSpaceOnUse">
             <stop stop-color="#30BF75"/>
-            <stop offset="1" stop-color="#117340" stop-opacity="0.8"/>
+            <stop offset="1" stop-color="#1E9782"/>
+        </linearGradient>
+        <linearGradient id="second_gradient" x1="114.5" y1="3.22134e-06" x2="-4.35819e-06" y2="162.5" gradientUnits="userSpaceOnUse">
+            <stop stop-color="#30BF75"/>
+            <stop offset="1" stop-color="#1E9782"/>
         </linearGradient>
     </defs>
 </svg>

@@ -1,4 +1,4 @@
-import { useI18n } from 'vue-i18n';
+import i18n from '@/i18n';
 
 /**
  * getCurrentUrl
@@ -36,7 +36,7 @@ export const generateHeadMeta = ({
   description: string;
   image?: string;
 }) => {
-  const { t } = useI18n();
+  const { t } = i18n.global;
 
   const currentUrl = getCurrentUrl();
   const currentOrigin = window.location.origin;
@@ -74,7 +74,7 @@ export const generateHeadMeta = ({
     },
     {
       name: 'og:image',
-      content: image || `${currentOrigin}/socialnetwork.webp`,
+      content: image || `${currentOrigin}/SocialNetworkBanner.webp`,
     },
 
     // Twitter Card
@@ -100,7 +100,7 @@ export const generateHeadMeta = ({
     },
     {
       name: 'twitter:image:src',
-      content: image || `${currentOrigin}/socialnetwork.webp`,
+      content: image || `${currentOrigin}/SocialNetworkBanner.webp`,
     },
   ];
 };
