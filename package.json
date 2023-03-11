@@ -5,44 +5,48 @@
   "author": "Alexis Besson <alexis.bessonweb@gmail.com>",
   "private": true,
   "scripts": {
-    "dev:styleguide": "yarn workspace @antsask/styleguide run dev",
-    "dev:website": "yarn workspace @antsask/website run dev",
+    "postinstall": "husky install",
+    "lint": "yarn workspaces foreach run lint",
+    "lint:styleguide": "yarn workspace @antsask/styleguide run lint",
+    "lint:website": "yarn workspace @antsask/website run lint",
+    "lint:style": "yarn workspaces foreach run lint:style",
     "lint:style:styleguide": "yarn workspace @antsask/styleguide run lint:style",
     "lint:style:website": "yarn workspace @antsask/website run lint:style",
-    "lint:style": "yarn workspaces run lint:style",
+    "lint:markup": "yarn workspaces foreach run lint:markup",
     "lint:markup:styleguide": "yarn workspace @antsask/styleguide run lint:markup",
     "lint:markup:website": "yarn workspace @antsask/website run lint:markup",
-    "lint:markup": "yarn workspaces run lint:markup",
+    "dev:styleguide": "yarn workspace @antsask/styleguide run dev",
+    "dev:website": "yarn workspace @antsask/website run dev",
     "build:styleguide": "yarn workspace @antsask/styleguide run build",
     "build:website": "yarn workspace @antsask/website run build",
-    "build": "yarn workspaces run build"
+    "build": "yarn workspaces foreach run build"
   },
   "workspaces": [
     "packages/*"
   ],
   "devDependencies": {
-    "@typescript-eslint/eslint-plugin": "5.46.1",
-    "@typescript-eslint/parser": "5.46.1",
+    "@typescript-eslint/eslint-plugin": "5.54.1",
+    "@typescript-eslint/parser": "5.54.1",
     "@vitejs/plugin-vue": "4.0.0",
-    "eslint": "8.30.0",
-    "eslint-config-prettier": "8.5.0",
-    "eslint-plugin-import": "2.26.0",
+    "eslint": "8.36.0",
+    "eslint-config-prettier": "8.7.0",
+    "eslint-plugin-import": "2.27.5",
     "eslint-plugin-prettier": "4.2.1",
-    "eslint-plugin-vue": "9.8.0",
-    "postcss": "8.4.20",
-    "postcss-scss": "4.0.6",
-    "prettier": "2.8.1",
-    "sass": "1.57.0",
-    "stylelint": "14.16.0",
-    "stylelint-config-prettier": "9.0.4",
-    "stylelint-order": "5.0.0",
-    "typescript": "4.9.4",
-    "vite": "4.0.1",
+    "eslint-plugin-vue": "9.9.0",
+    "husky": "8.0.3",
+    "postcss-scss": "^4.0.6",
+    "prettier": "2.8.4",
+    "sass": "1.59.2",
+    "stylelint": "15.2.0",
+    "stylelint-order": "6.0.3",
+    "typescript": "4.9.5",
+    "vite": "4.1.4",
     "vue-eslint-parser": "9.1.0",
-    "vue-tsc": "1.0.13"
+    "vue-tsc": "1.2.0"
   },
   "dependencies": {
-    "vite-svg-loader": "3.6.0",
-    "vue": "3.2.45"
-  }
+    "vite-svg-loader": "4.0.0",
+    "vue": "3.2.47"
+  },
+  "packageManager": "yarn@3.4.1"
 }
