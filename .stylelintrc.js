@@ -2,7 +2,7 @@ module.exports = {
   plugins: ['stylelint-order'],
   overrides: [
     {
-      files: ['**/*.scss'],
+      files: ['*.scss', '**/*.scss'],
       customSyntax: require('postcss-scss'),
     },
   ],
