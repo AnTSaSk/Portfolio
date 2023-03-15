@@ -1,9 +1,9 @@
 {
   "name": "@antsask/website",
-  "private": true,
   "version": "0.1.0",
   "repository": "git@github.com:AnTSaSk/Portfolio.git",
   "author": "Alexis Besson <alexis.bessonweb@gmail.com>",
+  "private": true,
   "type": "module",
   "scripts": {
     "dev": "vite",
@@ -13,16 +13,34 @@
     "build": "vue-tsc && vite build",
     "preview": "vite preview"
   },
+  "dependencies": {
+    "@antsask/styleguide": "*",
+    "@intlify/unplugin-vue-i18n": "0.9.2",
+    "@unhead/addons": "1.1.23",
+    "@vueuse/head": "1.1.23",
+    "vue-i18n": "9.2.2",
+    "vue-router": "4.1.6"
+  },
   "devDependencies": {
     "@vueuse/schema-org": "2.1.2",
     "vite-plugin-eslint": "1.8.1"
   },
-  "dependencies": {
-    "@antsask/styleguide": "*",
-    "@intlify/unplugin-vue-i18n": "0.9.1",
-    "@unhead/addons": "1.1.22",
-    "@vueuse/head": "1.1.19",
-    "vue-i18n": "9.2.2",
-    "vue-router": "4.1.6"
+  "peerDependencies": {
+    "@typescript-eslint/eslint-plugin": "*",
+    "@typescript-eslint/parser": "*",
+    "@vitejs/plugin-vue": "*",
+    "eslint": "*",
+    "eslint-config-prettier": "*",
+    "eslint-plugin-import": "*",
+    "eslint-plugin-prettier": "*",
+    "eslint-plugin-vue": "*",
+    "sass": "*",
+    "stylelint": "*",
+    "stylelint-order": "*",
+    "typescript": "*",
+    "vite": "*",
+    "vue": "*",
+    "vue-eslint-parser": "*",
+    "vue-tsc": "*"
   }
 }
