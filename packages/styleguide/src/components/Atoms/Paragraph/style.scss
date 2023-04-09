@@ -1,0 +1,44 @@
+.a-paragraph {
+  font-family: $text-font;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.5;
+
+  &.-uppercase {
+    text-transform: uppercase;
+  }
+
+  &.-primary {
+    color: $primary-color;
+  }
+
+  &.-secondary {
+    color: $secondary-color;
+  }
+
+  // Body
+  &[class*='b1'] {
+    font-size: rem(16px);
+  }
+
+  &[class*='b2'] {
+    font-size: rem(14px);
+  }
+
+  &[class*='b3'] {
+    font-size: rem(12px);
+  }
+
+  // Weight
+  &[class*='Regular'] {
+    font-weight: 400;
+  }
+
+  &[class*='Medium'] {
+    font-weight: 500;
+  }
+
+  &[class*='Semibold'] {
+    font-weight: 600;
+  }
+}

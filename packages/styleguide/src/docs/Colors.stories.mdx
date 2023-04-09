@@ -2,58 +2,59 @@ import { Meta } from '@storybook/addon-docs';
 
 <Meta title="Docs/Colors" />
 
-<style>{`
-  body {
-    font-family: 'Montserrat';
-  }
+<style>
+    {`
+    body {
+        font-family: 'Montserrat';
+    }
 
-  .subheading {
-    --mediumdark: '#999999';
-    font-weight: 900;
-    font-size: 13px;
-    color: #999;
-    letter-spacing: 6px;
-    line-height: 24px;
-    text-transform: uppercase;
-    margin-bottom: 12px;
-    margin-top: 40px;
-  }
+    .subheading {
+        --mediumdark: '#999999';
+        font-weight: 900;
+        font-size: 13px;
+        color: #999;
+        letter-spacing: 6px;
+        line-height: 24px;
+        text-transform: uppercase;
+        margin-bottom: 12px;
+        margin-top: 40px;
+    }
 
-  .color-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-  }
+    .color-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
 
-  .color-item {
-    display: block;
-    box-shadow: 0px 4px 32px rgba(0, 0, 0, 0.08);
-    border-radius: 8px;
-    width: 150px;
-    height: 220px;
-    color: #333333;
-    display: flex;
-    overflow: hidden;
-    align-items: flex-end;
-  }
+    .color-item {
+        display: block;
+        box-shadow: 0px 4px 32px rgba(0, 0, 0, 0.08);
+        border-radius: 8px;
+        width: 150px;
+        height: 220px;
+        color: #333333;
+        display: flex;
+        overflow: hidden;
+        align-items: flex-end;
+    }
 
-  .color-info {
-    background: #FFF;
-    color: #011826;
-    font-weight: 500;
-    font-size: 16px;
-    width: 100%;
-    padding: 15px;
-  }
+    .color-info {
+        background: #FFF;
+        color: #011826;
+        font-weight: 500;
+        font-size: 16px;
+        width: 100%;
+        padding: 15px;
+    }
 
-  .color-item span {
-    display: block;
-    font-size: 12px;
-    font-weight: 400;
-    color: #949DAE;
-  }
-
-`}</style>
+    .color-item span {
+        display: block;
+        font-size: 12px;
+        font-weight: 400;
+        color: #949DAE;
+    }
+  `}
+</style>
 
 # Colors
 
@@ -71,6 +72,11 @@ import { Meta } from '@storybook/addon-docs';
             Elm
             <span>#1e9782</span>
         </div>
+    </div> <div className="color-item" style={{ background: '#30bf8c' }}>
+        <div className="color-info">
+            Shadow
+            <span>#30bf8c</span>
+        </div>
     </div>
     <div
         className="color-item"
@@ -82,6 +88,41 @@ import { Meta } from '@storybook/addon-docs';
         <div className="color-info">
             Gradient
             <span>#30bf75 - #1e9782</span>
+        </div>
+    </div>
+    <div
+        className="color-item"
+        style={{
+            background:
+                'linear-gradient(109.14deg, #1e9782 -1.67%, #30bf75 115.85%)',
+        }}
+    >
+        <div className="color-info">
+            Reverse Gradient
+            <span>#1e9782 - #30bf75</span>
+        </div>
+    </div>
+</div>
+
+<div className="subheading">Functionnal</div>
+
+<div className="color-list">
+    <div className="color-item" style={{ background: '#1DBF6A' }}>
+        <div className="color-info">
+            Green
+            <span>#1DBF6A</span>
+        </div>
+    </div>
+    <div className="color-item" style={{ background: '#F2660C' }}>
+        <div className="color-info">
+            Orange
+            <span>#F2660C</span>
+        </div>
+    </div>
+    <div className="color-item" style={{ background: '#BF2D1D' }}>
+        <div className="color-info">
+            Red
+            <span>#BF2D1D</span>
         </div>
     </div>
 </div>

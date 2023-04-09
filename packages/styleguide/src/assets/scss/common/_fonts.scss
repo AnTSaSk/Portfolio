@@ -22,3 +22,28 @@
   src: url('/fonts/Montserrat/Montserrat-SemiBold.woff2') format('woff2');
   font-display: swap;
 }
+
+// NotoSans
+@font-face {
+  font-family: 'Noto Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: url('/fonts/NotoSans/NotoSans-Regular.woff2') format('woff2');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Noto Sans';
+  font-style: normal;
+  font-weight: 500;
+  src: url('/fonts/NotoSans/NotoSans-Medium.woff2') format('woff2');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Noto Sans';
+  font-style: normal;
+  font-weight: 600;
+  src: url('/fonts/NotoSans/NotoSans-SemiBold.woff2') format('woff2');
+  font-display: swap;
+}

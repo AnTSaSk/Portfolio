@@ -13,13 +13,13 @@
   import { Variant, Tag } from './index.d';
 
   export interface Props {
-    variant?: Variant;
     tag?: Tag;
+    variant?: Variant;
   }
 
   withDefaults(defineProps<Props>(), {
-    variant: 'h1Regular',
     tag: 'h1',
+    variant: 'h1Regular',
   });
 </script>
 

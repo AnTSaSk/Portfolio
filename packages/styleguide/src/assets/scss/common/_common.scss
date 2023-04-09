@@ -9,7 +9,9 @@
 html {
   box-sizing: border-box;
   width: 100%;
-  font-family: sans-serif;
+  color: $black;
+  font-family: $text-font;
+  font-weight: 400;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -22,13 +24,10 @@ button {
   appearance: none;
 }
 
-#app,
-.t-page {
-  height: 100vh;
+#app {
+  position: relative;
+  height: 100%;
   overflow-x: hidden;
-  color: $black;
-  font-family: $text-font;
-  font-weight: 400;
 }
 
 .-sr-only {

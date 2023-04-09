@@ -19,7 +19,7 @@ const Template: StoryFn<typeof Component> = (args) => ({
   </Component>`,
 });
 
-const text = 'I’m Alexis Besson, Lead Front-end Developer';
+const text = 'I’m Alexis Besson';
 
 export const Heading1Regular = Template.bind({});
 Heading1Regular.args = {

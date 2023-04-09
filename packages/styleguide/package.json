@@ -13,6 +13,10 @@
     "lint:markup": "vue-tsc --noEmit",
     "build": "yarn lint:markup && storybook build -o ../../dist/styleguide"
   },
+  "lint-staged": {
+    "*.{ts,vue}": "yarn run lint",
+    "*.{css,scss}": "yarn run lint:style"
+  },
   "dependencies": {
     "vue": "3.2.47"
   },
