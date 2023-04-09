@@ -15,9 +15,9 @@ module.exports = {
       },
     },
   ],
-  framework: '@storybook/vue3',
-  core: {
-    builder: '@storybook/builder-vite',
+  framework: {
+    name: '@storybook/vue3-vite',
+    options: {},
   },
   features: {
     storyStoreV7: true,
@@ -27,7 +27,6 @@ module.exports = {
       ...config.resolve.alias,
       '@': path.resolve(__dirname, '../src'),
     };
-
     config.css = {
       preprocessorOptions: {
         scss: {
@@ -38,7 +37,9 @@ module.exports = {
         },
       },
     };
-
     return config;
+  },
+  docs: {
+    autodocs: true,
   },
 };
