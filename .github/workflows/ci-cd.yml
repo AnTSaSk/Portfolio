@@ -19,7 +19,6 @@ jobs:
         with:
           node-version: lts/hydrogen
           cache: 'yarn'
-      - run: corepack prepare yarn@stable --activate
       - run: yarn
       - run: yarn build:website
 
