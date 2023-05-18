@@ -19,7 +19,7 @@ jobs:
         with:
           node-version: lts/hydrogen
           cache: 'yarn'
-      - run: yarn
+      - run: yarn --immutable
       - run: yarn build:website
 
       - name: Upload artifacts
