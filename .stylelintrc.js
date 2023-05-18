@@ -1,9 +1,8 @@
 module.exports = {
-  extends: ['stylelint-config-prettier'],
   plugins: ['stylelint-order'],
   overrides: [
     {
-      files: ['**/*.scss'],
+      files: ['*.scss', '**/*.scss'],
       customSyntax: require('postcss-scss'),
     },
   ],

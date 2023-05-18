@@ -25,8 +25,8 @@ jobs:
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
         with:
-          name: dist
-          path: ./dist/
+          name: website
+          path: ./packages/websites/.output/
 
   # 2.0 - Deployment
   deploy:
@@ -40,8 +40,8 @@ jobs:
       - name: Download artifacts
         uses: actions/download-artifact@v3
         with:
-          name: dist
-          path: dist
+          name: website
+          path: website
 
       - name: Install SSH Key
         uses: shimataro/ssh-key-action@v2
@@ -58,7 +58,7 @@ jobs:
 
       - name: Deploy with Rsync
         run: |
-          rsync -avz -e ssh dist/website/ ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:www/alexisbesson/releases/${{ env.release_name }}/
+          rsync -avz -e ssh website ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:www/alexisbesson/releases/${{ env.release_name }}/
 
       - name: Change current release version
         uses: appleboy/ssh-action@master

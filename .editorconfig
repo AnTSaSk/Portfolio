@@ -15,6 +15,6 @@ max_line_length = off
 [*.md]
 trim_trailing_whitespace = false
 
-[*.{cjs,mjs,js,jsx,ts,tsx,vue,css,sass,scss,json,yml}]
+[*.{cjs,mjs,js,jsx,cts,mts,ts,tsx,vue,css,sass,scss,json,yml}]
 indent_style = space
 indent_size = 2

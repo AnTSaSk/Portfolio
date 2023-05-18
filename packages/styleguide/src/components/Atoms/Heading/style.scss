@@ -1,0 +1,52 @@
+.a-heading {
+  font-family: $primary-font;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.2;
+
+  &.-uppercase {
+    text-transform: uppercase;
+  }
+
+  &.-primary {
+    color: $primary-color;
+  }
+
+  &.-secondary {
+    color: $secondary-color;
+  }
+
+  // Heading
+  &[class*='h1'] {
+    font-size: rem(48px);
+  }
+
+  &[class*='h2'] {
+    font-size: rem(36px);
+  }
+
+  &[class*='h3'] {
+    font-size: rem(28px);
+  }
+
+  &[class*='h4'] {
+    font-size: rem(22px);
+  }
+
+  &[class*='h5'] {
+    font-size: rem(18px);
+  }
+
+  // Weight
+  &[class*='Regular'] {
+    font-weight: 400;
+  }
+
+  &[class*='Medium'] {
+    font-weight: 500;
+  }
+
+  &[class*='Semibold'] {
+    font-weight: 600;
+  }
+}

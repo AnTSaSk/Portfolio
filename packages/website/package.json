@@ -1,26 +1,44 @@
 {
   "name": "@antsask/website",
-  "private": true,
   "version": "0.1.0",
   "repository": "git@github.com:AnTSaSk/Portfolio.git",
   "author": "Alexis Besson <alexis.bessonweb@gmail.com>",
+  "private": true,
+  "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "nuxt dev",
     "lint": "npx eslint --ext .ts,.vue --ignore-path ./../../.gitignore .",
     "lint:style": "stylelint src/**/*.{css,scss}",
     "lint:markup": "vue-tsc --noEmit",
-    "preview": "vite preview",
-    "build": "yarn lint:markup && vite build"
-  },
-  "devDependencies": {
-    "@vueuse/schema-org": "2.0.2",
-    "vite-plugin-eslint": "1.8.1"
+    "build": "vue-tsc && nuxt build",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview",
+    "postinstall": "nuxt prepare"
   },
   "dependencies": {
-    "@intlify/unplugin-vue-i18n": "0.8.1",
-    "@unhead/addons": "1.0.13",
-    "@vueuse/head": "1.0.22",
-    "vue-i18n": "9.2.2",
-    "vue-router": "4.1.6"
+    "@antsask/styleguide": "*"
+  },
+  "devDependencies": {
+    "@nuxtjs/i18n": "next",
+    "@types/node": "^18",
+    "@vueuse/core": "10.1.2",
+    "@vueuse/nuxt": "10.1.2",
+    "nuxt": "3.4.3",
+    "vite-svg-loader": "^4.0.0",
+    "vue-tsc": "1.6.5"
+  },
+  "peerDependencies": {
+    "@typescript-eslint/eslint-plugin": "*",
+    "@typescript-eslint/parser": "*",
+    "eslint": "*",
+    "eslint-config-prettier": "*",
+    "eslint-plugin-import": "*",
+    "eslint-plugin-prettier": "*",
+    "eslint-plugin-vue": "*",
+    "sass": "*",
+    "stylelint": "*",
+    "stylelint-order": "*",
+    "typescript": "*",
+    "vue-eslint-parser": "*"
   }
 }

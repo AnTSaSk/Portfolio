@@ -1,0 +1,44 @@
+/****************/
+/**** COLORS ****/
+/****************/
+
+// Main colors
+$jungle-green: #30bf75;
+$elm-green: #1e9782;
+$shadow: #30bf8c;
+
+$gradient: linear-gradient(109.14deg, #30bf75 -1.67%, #1e9782 115.85%);
+$reverse-gradient: linear-gradient(109.14deg, #1e9782 -1.67%, #30bf75 115.85%);
+
+// Basic
+$woodsmoke: #111315;
+$shark: #313335;
+$shuttle-gay: #616365;
+$iron: #d9dcdf;
+$athens-gray: #f2f5f7;
+$white: #ffffff;
+
+// Generic variables
+$primary-color: $jungle-green;
+$secondary-color: $elm-green;
+$black: $woodsmoke;
+$grey: $shark;
+
+/***************/
+/**** FONTS ****/
+/***************/
+$montserrat: 'Montserrat', sans-serif;
+$noto: 'Noto Sans';
+
+$primary-font: $montserrat;
+$text-font: $noto;
+
+/*********************/
+/**** BREAKPOINTS ****/
+/*********************/
+$bp-tablet-down: 767px;
+$bp-tablet-up: 768px;
+$bp-desktop-down: 1279px;
+$bp-desktop-up: 1280px;
+$bp-desktop-large-down: 1599px;
+$bp-desktop-large-up: 1600px;

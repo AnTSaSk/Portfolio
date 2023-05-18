@@ -1,19 +1,23 @@
-import i18n from '@/i18n';
-
 /**
  * getCurrentUrl
  *
  * @returns {string}
  */
 export const getCurrentUrl = (): string => {
-  let currentUrl = import.meta.env.VUE_APP_HOST_URL;
+  const runtimeConfig = useRuntimeConfig();
 
-  if (window.location.pathname || window.location.search) {
-    currentUrl = new URL(
-      `${window.location.pathname}${window.location.search}`,
-      currentUrl,
-    );
-  }
+  let currentUrl: URL = new URL(runtimeConfig.public.baseUrl);
+
+  onNuxtReady(() => {
+    if (window && (window.location.pathname || window.location.search)) {
+      currentUrl = new URL(
+        `${window.location.pathname}${window.location.search}`,
+        import.meta.url,
+      );
+
+      return currentUrl.toString();
+    }
+  });
 
   return currentUrl.toString();
 };
@@ -36,70 +40,75 @@ export const generateHeadMeta = ({
   description: string;
   image?: string;
 }) => {
-  const { t } = i18n.global;
+  const { t } = useI18n();
+  const runtimeConfig = useRuntimeConfig();
 
   const currentUrl = getCurrentUrl();
-  const currentOrigin = window.location.origin;
+  let currentOrigin = runtimeConfig.public.baseUrl || '';
+
+  onNuxtReady(() => {
+    currentOrigin = window.location.origin;
+  });
 
   return [
+    // {
+    //   property: 'title',
+    //   content: title,
+    // },
     {
-      name: 'title',
-      content: t(title),
-    },
-    {
-      name: 'description',
-      content: t(description),
+      property: 'description',
+      content: description,
     },
 
     // OpenGraph Data
     {
-      name: 'og:site_name',
+      property: 'og:site_name',
       content: t('seo.meta.title.generic'),
     },
     {
-      name: 'og:title',
-      content: t(title),
+      property: 'og:title',
+      content: title,
     },
     {
-      name: 'og:description',
-      content: t(description),
+      property: 'og:description',
+      content: description,
     },
     {
-      name: 'og:type',
+      property: 'og:type',
       content: 'website',
     },
     {
-      name: 'og:url',
+      property: 'og:url',
       content: currentUrl,
     },
     {
-      name: 'og:image',
+      property: 'og:image',
       content: image || `${currentOrigin}/SocialNetworkBanner.webp`,
     },
 
     // Twitter Card
     {
-      name: 'twitter:card',
+      property: 'twitter:card',
       content: 'summary',
     },
     {
-      name: 'twitter:site',
+      property: 'twitter:site',
       content: currentUrl,
     },
     {
-      name: 'twitter:title',
-      content: t(title),
+      property: 'twitter:title',
+      content: title,
     },
     {
-      name: 'twitter:description',
-      content: t(description),
+      property: 'twitter:description',
+      content: description,
     },
     {
-      name: 'twitter:create',
+      property: 'twitter:create',
       content: '@AlexisBessonWeb',
     },
     {
-      name: 'twitter:image:src',
+      property: 'twitter:image:src',
       content: image || `${currentOrigin}/SocialNetworkBanner.webp`,
     },
   ];

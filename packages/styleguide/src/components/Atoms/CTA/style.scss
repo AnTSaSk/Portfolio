@@ -1,0 +1,157 @@
+@property --gradientPrimaryColor {
+  syntax: '<color>';
+  initial-value: #30bf75;
+  inherits: false;
+}
+
+@property --gradientSecondaryColor {
+  syntax: '<color>';
+  initial-value: #1e9782;
+  inherits: false;
+}
+
+.a-cta {
+  position: relative;
+  display: flex;
+  overflow: hidden;
+  font-family: $text-font;
+  line-height: 1.5;
+  z-index: 0;
+
+  &.-main {
+    padding: 8px 16px;
+    color: $athens-gray;
+    text-shadow: 0 2px 2px rgb($woodsmoke, 0.2);
+    background: linear-gradient(
+      109.14deg,
+      var(--gradientPrimaryColor) -1.67%,
+      var(--gradientSecondaryColor) 115.85%
+    );
+    border-radius: 4px;
+    transition: --gradientPrimaryColor 300ms ease-in-out,
+      --gradientSecondaryColor 300ms ease-in-out, box-shadow 300ms ease-in-out;
+
+    // Active/Hover/Focus
+    &:active,
+    &:hover,
+    &:focus,
+    &:focus-visible,
+    &:focus-within {
+      --gradientPrimaryColor: #1e9782;
+      --gradientSecondaryColor: #30bf75;
+    }
+
+    // Focus
+    &:focus,
+    &:focus-visible,
+    &:focus-within {
+      outline: none;
+      box-shadow: 0 8px 16px 2px rgb($jungle-green, 0.5);
+    }
+
+    // Disabled
+    &:disabled {
+      color: rgb($shuttle-gay, 0.6);
+      background: $athens-gray;
+      cursor: not-allowed;
+    }
+  }
+
+  &.-text {
+    padding: 4px 2px;
+
+    @mixin light {
+      color: $shark;
+
+      // Hover/Focus
+      &:hover,
+      &:focus,
+      &:focus-visible,
+      &:focus-within {
+        color: $jungle-green;
+        fill: $jungle-green;
+      }
+
+      // Focus
+      &:focus,
+      &:focus-visible,
+      &:focus-within {
+        border: 1px solid $jungle-green;
+        border-radius: 4px;
+        outline: none;
+      }
+
+      &:active {
+        color: $elm-green;
+        border: none;
+        fill: $elm-green;
+      }
+
+      // Disabled
+      &:disabled {
+        color: $shuttle-gay;
+        text-shadow: 0 2px 2px rgb($woodsmoke, 0.2);
+        cursor: not-allowed;
+      }
+    }
+
+    @mixin dark {
+      color: $athens-gray;
+
+      // Hover/Focus
+      &:hover,
+      &:focus,
+      &:focus-visible,
+      &:focus-within {
+        color: $jungle-green;
+        fill: $jungle-green;
+      }
+
+      // Focus
+      &:focus,
+      &:focus-visible,
+      &:focus-within {
+        border: 1px solid $jungle-green;
+        border-radius: 4px;
+        outline: none;
+      }
+
+      &:active {
+        color: $elm-green;
+        border: none;
+        fill: $elm-green;
+      }
+
+      // Disabled
+      &:disabled {
+        color: $iron;
+        text-shadow: 0 2px 2px rgb($white, 0.3);
+        cursor: not-allowed;
+      }
+    }
+
+    @media (prefers-color-scheme: light) {
+      @include light;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      @include dark;
+
+      &:disabled {
+        opacity: 0.6;
+      }
+    }
+
+    [data-theme='light'] & {
+      @include light;
+    }
+
+    [data-theme='dark'] & {
+      @include dark;
+
+      &:disabled {
+        opacity: 0.6;
+      }
+    }
+  }
+}
