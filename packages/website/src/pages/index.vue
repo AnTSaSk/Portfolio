@@ -3,9 +3,7 @@
     <Logo class="a-logo" />
 
     <div class="o-landing__content">
-      <h1 class="o-landing__title">
-        Alexis Besson - {{ runtimeConfig.public.baseUrl }}
-      </h1>
+      <h1 class="o-landing__title">Alexis Besson</h1>
       <h2 class="o-landing__subtitle">{{ t('view.landing.subtitle') }}</h2>
     </div>
   </div>
@@ -28,7 +26,6 @@
   /**** COMPOSABLES ****/
   /*********************/
   const { t } = useI18n();
-  const runtimeConfig = useRuntimeConfig();
 
   /*************/
   /**** SEO ****/
