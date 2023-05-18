@@ -1,0 +1,18 @@
+.t-page {
+  position: relative;
+  height: 100%;
+
+  // Default
+  // &.-default {}
+
+  // Landing
+  &.-landing {
+    color: $black;
+    background: $athens-gray;
+
+    @media (prefers-color-scheme: dark) {
+      color: $athens-gray;
+      background: $black;
+    }
+  }
+}

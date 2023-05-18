@@ -1,2 +1,6 @@
-@import 'utils/_index';
-@import 'common/_index';
+#app,
+#__nuxt {
+  position: relative;
+  height: 100vh;
+  overflow: hidden;
+}

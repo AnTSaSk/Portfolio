@@ -2,16 +2,14 @@
   &,
   &::before,
   &::after {
-    box-sizing: inherit;
+    box-sizing: border-box;
   }
 }
 
 html {
   box-sizing: border-box;
   width: 100%;
-  color: $black;
-  font-family: $text-font;
-  font-weight: 400;
+  font-family: sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -22,12 +20,6 @@ button {
   border: none;
   cursor: pointer;
   appearance: none;
-}
-
-#app {
-  position: relative;
-  height: 100%;
-  overflow-x: hidden;
 }
 
 .-sr-only {
