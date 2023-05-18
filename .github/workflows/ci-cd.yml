@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - main
-    tags:
+    # tags:
     ## `any` branch by default
     # branches: []
 
@@ -18,9 +18,10 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: lts/hydrogen
-
+          cache: 'yarn'
+          cache-dependency-path: subdir/yarn.lock
       - run: yarn
-      - run: yarn build
+      - run: yarn build:website
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v3
