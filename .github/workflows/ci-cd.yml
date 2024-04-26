@@ -60,7 +60,7 @@ jobs:
 
       - name: Deploy with Rsync
         run: |
-          rsync -avz -e ssh website ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:www/alexisbesson/releases/${{ env.release_name }}/
+          rsync -avz -e ssh website ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/var/www/alexisbesson/releases/${{ env.release_name }}/
 
       - name: Change current release version
         uses: appleboy/ssh-action@master
@@ -72,5 +72,5 @@ jobs:
           key: ${{ secrets.SSH_KEY }}
           envs: RELEASE_NAME
           script: |
-            cd www/alexisbesson
+            cd /var/www/alexisbesson
             ln -snf "releases/$RELEASE_NAME" current
