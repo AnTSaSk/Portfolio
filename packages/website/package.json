@@ -7,39 +7,29 @@
   "type": "module",
   "scripts": {
     "dev": "nuxt dev",
-    "lint": "npx eslint --ext .ts,.vue --ignore-path ./../../.gitignore .",
+    "lint": "npx eslint .",
     "lint:style": "stylelint src/**/*.{css,scss}",
     "lint:markup": "vue-tsc --noEmit",
     "build": "vue-tsc && nuxt build",
     "generate": "nuxt generate",
     "preview": "nuxt preview",
-    "postinstall": "nuxt prepare"
+    "postinstall": "nuxt prepare",
+    "test": "vitest run --config vitest.unit.config.ts",
+    "test:watch": "vitest --config vitest.unit.config.ts",
+    "test:unit": "vitest run --config vitest.unit.config.ts",
+    "test:coverage": "vitest run --config vitest.unit.config.ts --coverage"
   },
   "dependencies": {
-    "@antsask/styleguide": "*"
+    "@antsask/styleguide": "workspace:*"
   },
   "devDependencies": {
-    "@nuxtjs/i18n": "next",
-    "@types/node": "^18",
-    "@vueuse/core": "10.1.2",
-    "@vueuse/nuxt": "10.1.2",
-    "nuxt": "3.5.0",
-    "vite-svg-loader": "4.0.0",
-    "vue-tsc": "1.6.5"
-  },
-  "peerDependencies": {
-    "@typescript-eslint/eslint-plugin": "*",
-    "@typescript-eslint/parser": "*",
-    "@vitejs/plugin-vue": "*",
-    "eslint": "*",
-    "eslint-config-prettier": "*",
-    "eslint-plugin-import": "*",
-    "eslint-plugin-prettier": "*",
-    "eslint-plugin-vue": "*",
-    "sass": "*",
-    "stylelint": "*",
-    "stylelint-order": "*",
-    "typescript": "*",
-    "vue-eslint-parser": "*"
+    "@nuxtjs/i18n": "10.2.3",
+    "@nuxtjs/seo": "^3.4.0",
+    "@types/node": "24.10.13",
+    "@vitest/coverage-v8": "^3.2.4",
+    "nuxt": "4.3.1",
+    "vite-svg-loader": "5.1.0",
+    "vitest": "^3.0.0",
+    "vue-tsc": "3.2.4"
   }
 }

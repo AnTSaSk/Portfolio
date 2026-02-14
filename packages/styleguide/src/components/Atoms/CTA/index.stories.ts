@@ -1,50 +1,51 @@
-import { Meta, StoryFn } from '@storybook/vue3';
+import type { Meta, StoryObj } from '@storybook/vue3-vite';
 
 import Component from './index.vue';
-// @ts-ignore-next-line
 import { SideBySide } from '../../../../.storybook/decorator';
 
-export default {
+const meta = {
   title: 'Design System/Atoms/CTA',
   component: Component,
-} as Meta<typeof Component>;
+  tags: ['autodocs'],
+} satisfies Meta<typeof Component>;
 
-const Template: StoryFn<typeof Component> = (args) => ({
-  components: { Component },
-  setup() {
-    return {
-      args,
-    };
+export default meta;
+type Story = StoryObj<typeof meta>;
+
+export const Main: Story = {
+  args: {
+    variant: 'main',
+    // @ts-expect-error 'content' is a custom arg for slot rendering
+    content: 'Contact me',
   },
-  template: `<Component v-bind="args">
+  render: (args) => ({
+    components: { Component },
+    setup() {
+      return { args };
+    },
+    template: `<Component v-bind="args">
     {{ args.content }}
   </Component>`,
-});
-
-export const Main = Template.bind({});
-Main.args = {
-  variant: 'main',
-  content: 'Contact me',
+  }),
 };
 
-export const MainDisabled = Template.bind({});
-MainDisabled.args = {
-  variant: 'main',
-  content: 'Contact me',
-  disabled: true,
+export const MainDisabled: Story = {
+  args: { ...Main.args, disabled: true },
+  render: Main.render,
 };
 
-export const Text = Template.bind({});
-Text.decorators = [SideBySide];
-Text.args = {
-  variant: 'text',
-  content: 'Contact me',
+export const Text: Story = {
+  args: {
+    variant: 'text',
+    // @ts-expect-error 'content' is a custom arg for slot rendering
+    content: 'Contact me',
+  },
+  decorators: [SideBySide],
+  render: Main.render,
 };
 
-export const TextDisabled = Template.bind({});
-TextDisabled.decorators = [SideBySide];
-TextDisabled.args = {
-  variant: 'text',
-  content: 'Contact me',
-  disabled: true,
+export const TextDisabled: Story = {
+  args: { ...Text.args, disabled: true },
+  decorators: [SideBySide],
+  render: Main.render,
 };

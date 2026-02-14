@@ -1,0 +1,23 @@
+/// Apply styles for light theme (prefers-color-scheme + data-theme attribute)
+/// @content Styles to apply in light mode
+@mixin light {
+  @media (prefers-color-scheme: light) {
+    @content;
+  }
+
+  [data-theme='light'] & {
+    @content;
+  }
+}
+
+/// Apply styles for dark theme (prefers-color-scheme + data-theme attribute)
+/// @content Styles to apply in dark mode
+@mixin dark {
+  @media (prefers-color-scheme: dark) {
+    @content;
+  }
+
+  [data-theme='dark'] & {
+    @content;
+  }
+}

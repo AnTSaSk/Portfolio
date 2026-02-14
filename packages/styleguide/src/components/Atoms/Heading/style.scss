@@ -16,37 +16,29 @@
     color: $secondary-color;
   }
 
-  // Heading
-  &[class*='h1'] {
+  // Variants (size + weight)
+  &.-h1-regular {
     font-size: rem(48px);
-  }
-
-  &[class*='h2'] {
-    font-size: rem(36px);
-  }
-
-  &[class*='h3'] {
-    font-size: rem(28px);
-  }
-
-  &[class*='h4'] {
-    font-size: rem(22px);
-  }
-
-  &[class*='h5'] {
-    font-size: rem(18px);
-  }
-
-  // Weight
-  &[class*='Regular'] {
     font-weight: 400;
   }
 
-  &[class*='Medium'] {
+  &.-h2-regular {
+    font-size: rem(36px);
+    font-weight: 400;
+  }
+
+  &.-h3-medium {
+    font-size: rem(28px);
     font-weight: 500;
   }
 
-  &[class*='Semibold'] {
+  &.-h4-semibold {
+    font-size: rem(22px);
+    font-weight: 600;
+  }
+
+  &.-h5-semibold {
+    font-size: rem(18px);
     font-weight: 600;
   }
 }

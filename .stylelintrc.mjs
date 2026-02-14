@@ -1,13 +1,29 @@
-module.exports = {
-  plugins: ['stylelint-order'],
+import stylelintOrder from 'stylelint-order';
+import postcssScss from 'postcss-scss';
+
+export default {
+  plugins: [stylelintOrder],
   overrides: [
     {
       files: ['*.scss', '**/*.scss'],
-      customSyntax: require('postcss-scss'),
+      customSyntax: postcssScss,
     },
   ],
   rules: {
-    'max-empty-lines': [1, { severity: 'warning' }],
+    'max-nesting-depth': [
+      2,
+      {
+        ignoreAtRules: ['media', 'include', 'mixin'],
+        ignoreRules: [/^\[data-theme/],
+      },
+    ],
+    'selector-class-pattern': [
+      '^(a|m|o|t)-[a-z][a-z0-9]*(?:__[a-z][a-z0-9]*(?:-[a-z0-9]+)*)*(?:\\.-[a-z][a-z0-9]*(?:-[a-z0-9]+)*)*$|^-[a-z][a-z0-9]*(?:-[a-z0-9]+)*$|^-sr-only(?:-focusable)?$',
+      {
+        message:
+          'Class must follow ABEM: .{a,m,o,t}-name, .-modifier, or &__element (selector-class-pattern)',
+      },
+    ],
     'order/order': [
       'custom-properties',
       'dollar-variables',
@@ -41,10 +57,10 @@ module.exports = {
       'grid-row-start',
       'grid-row-end',
       'grid-row-gap',
-      'grid-columns',
-      'grid-columns-start',
-      'grid-columns-end',
-      'grid-columns-gap',
+      'grid-column',
+      'grid-column-start',
+      'grid-column-end',
+      'grid-column-gap',
       'grid-template',
       'grid-template-areas',
       'grid-template-rows',
@@ -231,7 +247,7 @@ module.exports = {
       'animation-direction',
       'animation-fill-mode',
 
-      'appareance',
+      'appearance',
       'content',
       'clip',
       'clip-path',

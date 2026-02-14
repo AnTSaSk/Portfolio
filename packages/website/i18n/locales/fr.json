@@ -19,10 +19,10 @@
   "seo": {
     "meta": {
       "description": {
-        "landing": "Alexis Besson/AnTSask est un Lead Développeur Front-end, travaillant sur JavaScript, principalement avec VueJS"
+        "landing": "Alexis Besson \u2014 Lead D\u00e9veloppeur Front-end sp\u00e9cialis\u00e9 en Vue.js, Nuxt, TypeScript et JavaScript moderne. D\u00e9couvrez mon portfolio, mes projets et mon parcours professionnel."
       },
       "title": {
-        "generic": "Alexis Besson's portfolio",
+        "generic": "Portfolio d'Alexis Besson \u2022 Lead D\u00e9veloppeur Front-end",
         "landing": "@:seo.meta.variable.default Lead Développeur Front-end"
       },
       "variable": {
@@ -31,6 +31,20 @@
         "long": "Alexis Besson, Lead Développeur Front-end {'•'} "
       }
     }
+  },
+  "error": {
+    "title": {
+      "404": "Page introuvable",
+      "default": "Une erreur est survenue"
+    },
+    "description": {
+      "404": "La page que vous recherchez n'existe pas ou a été déplacée.",
+      "default": "Quelque chose s'est mal passé. Veuillez réessayer plus tard."
+    },
+    "back": "Retour à l'accueil"
+  },
+  "layouts": {
+    "title": "{title} • Alexis Besson"
   },
   "view": {
     "landing": {

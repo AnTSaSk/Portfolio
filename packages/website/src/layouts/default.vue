@@ -22,29 +22,28 @@
   </Html>
 </template>
 
-<script lang="ts">
-  export default {
-    name: ROUTE_LAYOUT_DEFAULT,
-  };
-</script>
-
 <script setup lang="ts">
-  import { computed, useI18n, useLocaleHead, useRoute } from '#imports';
-
   // Constants
   import { ROUTE_LAYOUT_DEFAULT } from '@/constants/routes';
+
+  defineOptions({
+    name: ROUTE_LAYOUT_DEFAULT,
+  });
 
   const { t } = useI18n();
   const route = useRoute();
 
   const head = useLocaleHead({
-    addDirAttribute: true,
-    addSeoAttributes: true,
-    identifierAttribute: 'id',
+    dir: true,
+    seo: true,
   });
-  const title = computed(() =>
+
+  const title = computed((): string =>
     t('layouts.title', { title: t(route.meta.title as string) }),
   );
+
+  const { applySeoMeta } = useSeo();
+  applySeoMeta(title);
 </script>
 
 <style lang="scss" src="./style.scss"></style>
