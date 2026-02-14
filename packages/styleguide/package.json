@@ -21,6 +21,7 @@
     "@storybook/addon-a11y": "10.2.8",
     "@storybook/addon-docs": "10.2.8",
     "@storybook/addon-links": "10.2.8",
+    "@storybook/vue3": "10.2.8",
     "@storybook/vue3-vite": "10.2.8",
     "@vitejs/plugin-vue": "^6.0.0",
     "@vitest/coverage-v8": "^3.2.4",
