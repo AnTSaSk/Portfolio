@@ -128,7 +128,7 @@ describe('useSeo', () => {
 
       applySeoMeta(title);
 
-      const meta = mockUseSeoMeta.mock.calls[0][0];
+      const meta = mockUseSeoMeta.mock.calls[0]![0];
 
       expect(meta.title()).toBe('Test Title');
       expect(meta.description()).toBe('seo.meta.description.landing');

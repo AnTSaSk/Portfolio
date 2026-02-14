@@ -22,7 +22,7 @@ describe('logDecoration', () => {
   it('includes GitHub URL in message', () => {
     logDecoration();
 
-    const message = vi.mocked(console.log).mock.calls[0][2] as string;
+    const message = vi.mocked(console.log).mock.calls[0]![2] as string;
 
     expect(message).toContain('github.com/AnTSaSk');
   });
@@ -30,7 +30,7 @@ describe('logDecoration', () => {
   it('includes LinkedIn URL in message', () => {
     logDecoration();
 
-    const message = vi.mocked(console.log).mock.calls[0][2] as string;
+    const message = vi.mocked(console.log).mock.calls[0]![2] as string;
 
     expect(message).toContain('linkedin.com/in/alexis-besson-web');
   });
@@ -38,7 +38,7 @@ describe('logDecoration', () => {
   it('includes translated easter egg message', () => {
     logDecoration();
 
-    const message = vi.mocked(console.log).mock.calls[0][2] as string;
+    const message = vi.mocked(console.log).mock.calls[0]![2] as string;
 
     expect(message).toContain('translated:easteregg.log.message');
   });
