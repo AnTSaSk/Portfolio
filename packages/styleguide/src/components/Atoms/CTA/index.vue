@@ -4,22 +4,18 @@
     :class="`a-cta -${variant}`"
     :href="href"
     :disabled="disabled"
+    :aria-disabled="disabled || undefined"
   >
     <slot />
   </Component>
 </template>
 
-<script lang="ts">
-  export default {
-    name: 'AtomCTA',
-  };
-</script>
-
 <script setup lang="ts">
   import { computed } from 'vue';
 
-  // Types
-  import type { Tag, Variant } from './index.d';
+  export type Tag = 'a' | 'button';
+
+  export type Variant = 'main' | 'text';
 
   export interface Props {
     variant: Variant;
@@ -27,19 +23,14 @@
     disabled?: boolean;
   }
 
-  const props = withDefaults(defineProps<Props>(), {
-    // tag: 'a',
-    href: undefined,
-    disabled: false,
+  defineOptions({
+    name: 'AtomCTA',
   });
 
-  /**
-   * getTag
-   *
-   * @returns {Tag}
-   */
+  const { variant, href = undefined, disabled = false } = defineProps<Props>();
+
   const getTag = computed((): Tag => {
-    if (props.href) {
+    if (href) {
       return 'a';
     }
 

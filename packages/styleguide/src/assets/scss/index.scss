@@ -1,2 +1,2 @@
-@import 'utils/_index';
-@import 'common/_index';
+@forward 'utils/_index';
+@use 'common/_index';

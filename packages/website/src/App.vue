@@ -8,14 +8,13 @@
   // Utils
   import { logDecoration } from '@/utils/easteregg';
 
+  defineOptions({
+    name: 'App',
+  });
+
   const runtimeConfig = useRuntimeConfig();
 
-  /**
-   * getLayoutName
-   *
-   * @returns {string}
-   */
-  const getLayoutName = computed((): string => {
+  const getLayoutName = computed((): 'landing' | 'default' => {
     if (runtimeConfig.public.layout === 'landing') {
       return 'landing';
     }

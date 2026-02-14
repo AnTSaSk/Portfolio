@@ -16,14 +16,14 @@
 
   &__title {
     font-family: $montserrat;
-    font-size: 44px;
+    font-size: rem(44px);
     font-weight: 400;
     text-transform: uppercase;
   }
 
   &__subtitle {
     font-family: $montserrat;
-    font-size: 16px;
+    font-size: rem(16px);
     font-weight: 600;
     text-transform: uppercase;
   }
@@ -34,7 +34,7 @@
   height: 277px;
   fill: $black;
 
-  @media (prefers-color-scheme: dark) {
+  @include dark {
     fill: $athens-gray;
   }
 }

@@ -1,13 +1,15 @@
-import { App } from 'vue';
+import type { App } from 'vue';
 
 /*****************************/
 /**** START - DO NO TOUCH ****/
 /*****************************/
 
 // imports components
+import CTA from './components/Atoms/CTA';
 import Heading from './components/Atoms/Heading';
+import Paragraph from './components/Atoms/Paragraph';
 
-const components = [Heading];
+const components = [CTA, Heading, Paragraph];
 // end imports components
 
 /***************************/
@@ -20,8 +22,8 @@ const components = [Heading];
  * @param {App} Vue
  */
 const install = (Vue: App) => {
-  for (const component in components) {
-    Vue.component(components[component].name, components[component]);
+  for (const component of components) {
+    Vue.component(component.name!, component);
   }
 };
 
@@ -32,7 +34,7 @@ export default { install };
 /*****************************/
 
 // export components
-export { Heading };
+export { CTA, Heading, Paragraph };
 // end export components
 
 /***************************/

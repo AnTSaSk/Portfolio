@@ -9,18 +9,16 @@
   </div>
 </template>
 
-<script lang="ts">
-  export default {
-    name: ROUTE_COMMON_HOMEPAGE,
-  };
-</script>
-
 <script setup lang="ts">
   // Constants
   import { ROUTE_COMMON_HOMEPAGE } from '@/constants/routes';
 
   // Assets
   import Logo from '@/assets/images/logo.svg';
+
+  defineOptions({
+    name: ROUTE_COMMON_HOMEPAGE,
+  });
 
   /*********************/
   /**** COMPOSABLES ****/
@@ -36,4 +34,4 @@
   });
 </script>
 
-<style lang="scss" src="./style.scss"></style>
+<style scoped lang="scss" src="./style.scss"></style>

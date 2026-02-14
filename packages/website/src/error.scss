@@ -1,0 +1,33 @@
+.t-error {
+  display: flex;
+  flex-direction: column;
+  gap: rem(40px);
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: $black;
+  background: $athens-gray;
+
+  @include dark {
+    color: $athens-gray;
+    background: $black;
+  }
+
+  &__logo {
+    width: rem(200px);
+    height: rem(185px);
+    fill: $black;
+
+    @include dark {
+      fill: $athens-gray;
+    }
+  }
+
+  &__content {
+    display: flex;
+    flex-direction: column;
+    gap: rem(20px);
+    align-items: center;
+    text-align: center;
+  }
+}

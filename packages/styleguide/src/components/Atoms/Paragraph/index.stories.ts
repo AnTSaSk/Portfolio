@@ -1,70 +1,50 @@
-import type { Meta, StoryFn } from '@storybook/vue3';
+import type { Variant } from './index.vue';
+import type { Meta, StoryObj } from '@storybook/vue3-vite';
 
 import Component from './index';
 
-export default {
+const meta = {
   title: 'Design System/Atoms/Paragraph',
   component: Component,
-} as Meta<typeof Component>;
+  tags: ['autodocs'],
+} satisfies Meta<typeof Component>;
 
-const Template: StoryFn<typeof Component> = (args) => ({
-  components: { Component },
-  setup() {
-    return {
-      args,
-    };
-  },
-  template: `<Component :variant="args.variant" :tag="args.tag">
-    {{ args.content }}
-  </Component>`,
-});
+export default meta;
+type Story = StoryObj<typeof meta>;
 
 const text = 'Lead Front-end Developer';
 
-export const Body1SemiBold = Template.bind({});
-Body1SemiBold.args = {
-  variant: 'b2SemiBold',
-  content: text,
-};
-export const Body1Medium = Template.bind({});
-Body1Medium.args = {
-  variant: 'b1Medium',
-  content: text,
-};
-export const Body1Regular = Template.bind({});
-Body1Regular.args = {
-  variant: 'b1Regular',
-  content: text,
-};
+const paragraphStory = (variant: Variant): Story => ({
+  args: {
+    variant,
+    // @ts-expect-error 'content' is a custom arg for slot rendering
+    content: text,
+  },
+  render: (args) => ({
+    components: { Component },
+    setup() {
+      return { args };
+    },
+    template: `<Component :variant="args.variant" :tag="args.tag">
+    {{ args.content }}
+  </Component>`,
+  }),
+});
 
-export const Body2SemiBold = Template.bind({});
-Body2SemiBold.args = {
-  variant: 'b2SemiBold',
-  content: text,
-};
-export const Body2Medium = Template.bind({});
-Body2Medium.args = {
-  variant: 'b2Medium',
-  content: text,
-};
-export const Body2Regular = Template.bind({});
-Body2Regular.args = {
-  variant: 'b2Regular',
-  content: text,
-};
+export const Body1SemiBold: Story = paragraphStory('b1SemiBold');
 
-export const Body3SemiBold = Template.bind({});
-Body3SemiBold.args = {
-  variant: 'b3SemiBold',
-  content: text,
-};
-export const Body3Medium = Template.bind({});
-Body3Medium.args = {
-  variant: 'b3Medium',
-  content: text,
-};
-export const Body3Regular = Template.bind({});
-Body3Regular.args = {
-  variant: 'b3Regular',
-  content: text,
-};
+export const Body1Medium: Story = paragraphStory('b1Medium');
+
+export const Body1Regular: Story = paragraphStory('b1Regular');
+
+export const Body2SemiBold: Story = paragraphStory('b2SemiBold');
+
+export const Body2Medium: Story = paragraphStory('b2Medium');
+
+export const Body2Regular: Story = paragraphStory('b2Regular');
+
+export const Body3SemiBold: Story = paragraphStory('b3SemiBold');
+
+export const Body3Medium: Story = paragraphStory('b3Medium');
+
+export const Body3Regular: Story = paragraphStory('b3Regular');

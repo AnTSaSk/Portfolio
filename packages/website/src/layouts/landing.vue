@@ -22,45 +22,43 @@
   </Html>
 </template>
 
-<script lang="ts">
-  export default {
-    name: ROUTE_LAYOUT_LANDING,
-  };
-</script>
-
 <script setup lang="ts">
   // Constants
+  import {
+    LINK_EXTERNAL_GITHUB,
+    LINK_EXTERNAL_LINKEDIN,
+  } from '@/constants/links';
   import { ROUTE_LAYOUT_LANDING } from '@/constants/routes';
 
-  // Utils
-  import { generateHeadMeta } from '@/utils/seo';
+  defineOptions({
+    name: ROUTE_LAYOUT_LANDING,
+  });
 
   const { t } = useI18n();
   const route = useRoute();
 
   const head = useLocaleHead({
-    addDirAttribute: true,
-    addSeoAttributes: true,
-    identifierAttribute: 'id',
+    dir: true,
+    seo: true,
   });
 
-  const title = computed(() => t(route.meta.title as string));
-  const description = computed(() => t(route.meta.description as string));
+  const title = computed((): string => t(route.meta.title as string));
 
-  useHead({
-    htmlAttrs: {
-      dir: head.value.htmlAttrs?.dir || 'ltr',
-      lang: head.value.htmlAttrs?.lang || 'en',
-    },
-    link: [...(head.value.link || [])],
-    meta: [
-      ...(head.value.meta || []),
-      ...generateHeadMeta({
-        title: title.value,
-        description: description.value,
-      }),
-    ],
-  });
+  const { baseUrl, applySeoMeta } = useSeo();
+  applySeoMeta(title);
+
+  useSchemaOrg([
+    definePerson({
+      name: 'Alexis Besson',
+      url: baseUrl.value,
+      jobTitle: 'Lead Front-end Developer',
+      sameAs: [LINK_EXTERNAL_GITHUB, LINK_EXTERNAL_LINKEDIN],
+    }),
+    defineWebSite({
+      name: 'Alexis Besson Portfolio',
+    }),
+    defineWebPage(),
+  ]);
 </script>
 
 <style lang="scss" src="./style.scss"></style>

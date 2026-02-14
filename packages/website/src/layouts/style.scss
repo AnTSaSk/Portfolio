@@ -10,7 +10,7 @@
     color: $black;
     background: $athens-gray;
 
-    @media (prefers-color-scheme: dark) {
+    @include dark {
       color: $athens-gray;
       background: $black;
     }

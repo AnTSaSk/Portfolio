@@ -19,24 +19,41 @@ Thumbs.db
 logs
 *.log
 npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
 pnpm-debug.log*
-lerna-debug.log*
+
+# Legacy package manager
+yarn.lock
 
 # Build
 /dist/*
 !/dist/.htaccess
 dist-ssr
+*.tsbuildinfo
+
+# vue-tsc generated
+packages/website/src/**/*.vue.d.ts
+packages/website/src/**/*.vue.js
+packages/website/src/constants/*.d.ts
+packages/website/src/constants/*.js
+packages/website/src/utils/*.d.ts
+packages/website/src/utils/*.js
+packages/website/src/server/**/*.d.ts
+packages/website/src/server/**/*.js
+packages/website/nuxt.config.d.ts
+
+# Environment
+.env
+.env.*
+!.env.example
+
+# Claude
+.claude/
+CLAUDE.md
+
+# Test coverage
+coverage/
 
 # Misc
 node_modules
 *.local
 
-# Yarn
-.yarn/*
-!.yarn/patches
-!.yarn/releases
-!.yarn/plugins
-!.yarn/sdks
-!.yarn/versions

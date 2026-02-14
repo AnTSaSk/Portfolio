@@ -4,24 +4,26 @@
   </component>
 </template>
 
-<script lang="ts">
-  export default {
-    name: 'AtomHeading',
-  };
-</script>
 <script setup lang="ts">
-  import { Variant, Tag } from './index.d';
+  export type Variant =
+    | 'h1-regular'
+    | 'h2-regular'
+    | 'h3-medium'
+    | 'h4-semibold'
+    | 'h5-semibold';
+
+  export type Tag = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
 
   export interface Props {
     tag?: Tag;
     variant?: Variant;
   }
 
-  withDefaults(defineProps<Props>(), {
-    tag: 'h1',
-    variant: 'h1Regular',
+  defineOptions({
+    name: 'AtomHeading',
   });
+
+  const { tag = 'h1', variant = 'h1-regular' } = defineProps<Props>();
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="scss" src="./style.scss"></style>

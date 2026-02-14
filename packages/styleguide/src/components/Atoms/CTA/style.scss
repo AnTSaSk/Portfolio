@@ -28,8 +28,10 @@
       var(--gradientSecondaryColor) 115.85%
     );
     border-radius: 4px;
-    transition: --gradientPrimaryColor 300ms ease-in-out,
-      --gradientSecondaryColor 300ms ease-in-out, box-shadow 300ms ease-in-out;
+    transition:
+      --gradientPrimaryColor 300ms ease-in-out,
+      --gradientSecondaryColor 300ms ease-in-out,
+      box-shadow 300ms ease-in-out;
 
     // Active/Hover/Focus
     &:active,
@@ -60,7 +62,7 @@
   &.-text {
     padding: 4px 2px;
 
-    @mixin light {
+    @include light {
       color: $shark;
 
       // Hover/Focus
@@ -95,7 +97,7 @@
       }
     }
 
-    @mixin dark {
+    @include dark {
       color: $athens-gray;
 
       // Hover/Focus
@@ -127,29 +129,6 @@
         color: $iron;
         text-shadow: 0 2px 2px rgb($white, 0.3);
         cursor: not-allowed;
-      }
-    }
-
-    @media (prefers-color-scheme: light) {
-      @include light;
-    }
-
-    @media (prefers-color-scheme: dark) {
-      @include dark;
-
-      &:disabled {
-        opacity: 0.6;
-      }
-    }
-
-    [data-theme='light'] & {
-      @include light;
-    }
-
-    [data-theme='dark'] & {
-      @include dark;
-
-      &:disabled {
         opacity: 0.6;
       }
     }
