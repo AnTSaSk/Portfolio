@@ -23,6 +23,9 @@ RUN corepack enable pnpm && pnpm install --frozen-lockfile
 # Copy source code
 COPY packages/ packages/
 
+# Regenerate Nuxt types after source copy (postinstall ran before source was available)
+RUN pnpm --filter @antsask/website exec nuxt prepare
+
 # Build the website (includes vue-tsc type check + nuxt build)
 RUN pnpm build:website
 
