@@ -39,7 +39,7 @@ services:
         - "traefik.http.services.${APP_NAME:-portfolio}.loadbalancer.healthcheck.path=/health"
         - "traefik.http.services.${APP_NAME:-portfolio}.loadbalancer.healthcheck.interval=30s"
 
-        # Apply middlewares: custom security headers + rate limiting
+        # Apply middlewares: compress (defined globally in Traefik), custom security headers + rate limiting
         # IMPORTANT: Custom middleware WITHOUT X-Robots-Tag to allow SEO indexing
         # The global security-headers middleware includes X-Robots-Tag: noindex
         # which would block search engines from indexing this public portfolio

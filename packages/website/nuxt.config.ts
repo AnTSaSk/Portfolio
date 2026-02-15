@@ -70,7 +70,7 @@ export default defineNuxtConfig({
           quietDeps: true,
           additionalData: `
             @use 'sass:math';
-            @use "@antsask/styleguide/src/assets/scss/index.scss" as *;
+            @use "${fileURLToPath(new URL('../styleguide/src/assets/scss/index.scss', import.meta.url))}" as *;
             @use "${fileURLToPath(new URL('./src/assets/scss/index.scss', import.meta.url))}" as *;
           `,
         },

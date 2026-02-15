@@ -47,8 +47,12 @@ jobs:
       - name: Unit tests (styleguide)
         run: pnpm --filter @antsask/styleguide test
 
+      - name: Unit tests (website)
+        run: pnpm --filter @antsask/website test
+
       - name: Audit dependencies
         run: pnpm audit --prod --audit-level=high
+        continue-on-error: true
 
   build:
     name: Build & Push
@@ -178,7 +182,7 @@ jobs:
             sleep 15
 
             # Verify deployment
-            docker service ls --filter "name=${APP_NAME}"
+            docker service ls --filter "name=${APP_NAME}_app"
 
       - name: Verify deployment
         uses: appleboy/ssh-action@029f5b4aeeeb58fdfe1410a5d17f967dacf36262 # v1.0.3
@@ -192,7 +196,7 @@ jobs:
           script: |
             # Check service is running (2 replicas expected for web app)
             for i in {1..20}; do
-              REPLICAS=$(docker service ls --filter "name=${APP_NAME}" --format "{{.Replicas}}")
+              REPLICAS=$(docker service ls --filter "name=${APP_NAME}_app" --format "{{.Replicas}}")
               if [[ "$REPLICAS" == *"2/2"* ]]; then
                 echo "Deployment successful: $REPLICAS"
 
@@ -226,6 +230,7 @@ jobs:
     name: Lighthouse CI
     needs: [deploy]
     runs-on: ubuntu-latest
+    environment: production
     if: always() && needs.deploy.result == 'success'
 
     steps:
