@@ -53,8 +53,8 @@ services:
         - "traefik.http.middlewares.${APP_NAME:-portfolio}-security.headers.browserXssFilter=true"
         - "traefik.http.middlewares.${APP_NAME:-portfolio}-security.headers.referrerPolicy=strict-origin-when-cross-origin"
         - "traefik.http.middlewares.${APP_NAME:-portfolio}-security.headers.permissionsPolicy=accelerometer=(), ambient-light-sensor=(), autoplay=(), camera=(), document-domain=(), encrypted-media=(), fullscreen=(self), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), midi=(), payment=(), picture-in-picture=(), usb=()"
-        # CSP adapted for Nuxt 3 SSR (unsafe-inline required for Vue hydration styles)
-        - "traefik.http.middlewares.${APP_NAME:-portfolio}-security.headers.contentSecurityPolicy=default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; connect-src 'self'; frame-ancestors 'none'; form-action 'self'; base-uri 'self'"
+        # CSP adapted for Nuxt 3 SSR (unsafe-inline required for Vue hydration scripts and styles)
+        - "traefik.http.middlewares.${APP_NAME:-portfolio}-security.headers.contentSecurityPolicy=default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; connect-src 'self'; frame-ancestors 'none'; form-action 'self'; base-uri 'self'"
 
         # Middleware: Rate limiting
         - "traefik.http.middlewares.${APP_NAME:-portfolio}-ratelimit.ratelimit.average=100"
