@@ -27,6 +27,7 @@
   import {
     LINK_EXTERNAL_GITHUB,
     LINK_EXTERNAL_LINKEDIN,
+    LINK_EXTERNAL_TWITTER,
   } from '@/constants/links';
   import { ROUTE_LAYOUT_LANDING } from '@/constants/routes';
 
@@ -52,12 +53,50 @@
   useSchemaOrg([
     definePerson({
       name: 'Alexis Besson',
+      givenName: 'Alexis',
+      familyName: 'Besson',
       url: baseUrl.value,
-      jobTitle: 'Lead Front-end Developer',
-      sameAs: [LINK_EXTERNAL_GITHUB, LINK_EXTERNAL_LINKEDIN],
+      jobTitle: t('view.landing.subtitle'),
+      description: t('seo.meta.description.landing'),
+      knowsAbout: [
+        'JavaScript',
+        'TypeScript',
+        'Vue.js',
+        'Nuxt',
+        'Node.js',
+        'React',
+        'React Native',
+        'Front-end Architecture',
+        'Design Systems',
+        'Storybook',
+        'SCSS',
+        'CSS',
+        'CI/CD',
+        'GitHub Actions',
+        'E2E Testing',
+        'Unit Testing',
+        'Agile',
+        'Mentoring',
+      ],
+      knowsLanguage: ['en', 'fr'],
+      worksFor: {
+        '@type': 'Organization',
+        name: 'Arneo',
+      },
+      alumniOf: {
+        '@type': 'EducationalOrganization',
+        name: "Campus Fonderie de l'Image",
+      },
+      sameAs: [
+        LINK_EXTERNAL_GITHUB,
+        LINK_EXTERNAL_LINKEDIN,
+        LINK_EXTERNAL_TWITTER,
+      ],
     }),
     defineWebSite({
-      name: 'Alexis Besson Portfolio',
+      name: t('seo.meta.title.generic'),
+      description: t('seo.meta.description.landing'),
+      inLanguage: ['en-US', 'fr-FR'],
     }),
     defineWebPage(),
   ]);

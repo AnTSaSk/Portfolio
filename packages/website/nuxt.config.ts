@@ -11,8 +11,20 @@ export default defineNuxtConfig({
       charset: 'utf-8',
       viewport: 'width=device-width, initial-scale=1',
       templateParams: {
-        separator: '•',
+        separator: '|',
       },
+      meta: [
+        {
+          name: 'theme-color',
+          content: '#30BF75',
+          media: '(prefers-color-scheme: light)',
+        },
+        {
+          name: 'theme-color',
+          content: '#1E9782',
+          media: '(prefers-color-scheme: dark)',
+        },
+      ],
       link: [
         {
           rel: 'icon',
@@ -50,9 +62,9 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       layout: 'landing',
-      baseUrl: process.env.NUXT_BASE_URL,
+      baseUrl: process.env.NUXT_BASE_URL || 'https://alexisbesson.fr',
       i18n: {
-        baseUrl: process.env.NUXT_BASE_URL,
+        baseUrl: process.env.NUXT_BASE_URL || 'https://alexisbesson.fr',
       },
     },
   },
@@ -93,8 +105,24 @@ export default defineNuxtConfig({
   site: {
     url: process.env.NUXT_BASE_URL || 'https://alexisbesson.fr',
     name: 'Alexis Besson',
-    description: 'Lead Front-end Developer portfolio',
+    description:
+      'Lead Front-end Developer specializing in Vue.js, TypeScript & Node.js',
     defaultLocale: 'en',
+  },
+
+  // Robots (used by nuxt-simple-robots via @nuxtjs/seo)
+  robots: {
+    groups: [
+      {
+        userAgent: ['*'],
+        allow: ['/'],
+      },
+    ],
+  },
+
+  // OG Image (disabled — static banner in public/SocialNetworkBanner.webp)
+  ogImage: {
+    enabled: false,
   },
 
   // I18n

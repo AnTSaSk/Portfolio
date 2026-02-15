@@ -1,6 +1,6 @@
 <template>
   <div class="o-landing">
-    <Logo class="a-logo" />
+    <Logo class="a-logo" aria-hidden="true" />
 
     <div class="o-landing__content">
       <h1 class="o-landing__title">Alexis Besson</h1>

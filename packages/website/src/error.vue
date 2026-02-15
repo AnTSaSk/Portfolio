@@ -59,6 +59,10 @@
   useHead(() => ({
     title: title.value,
   }));
+
+  useSeoMeta({
+    robots: 'noindex, nofollow',
+  });
 </script>
 
 <style scoped lang="scss" src="./error.scss" />
