@@ -19,7 +19,7 @@ services:
       restart_policy:
         condition: any
         delay: 5s
-        max_attempts: 3
+        max_attempts: 10
         window: 120s
       resources:
         limits:
@@ -71,7 +71,7 @@ services:
       - /tmp:mode=1777,size=64m
       - /app/.output/server/.data:mode=1777,size=32m
     healthcheck:
-      test: ["CMD", "wget", "--no-verbose", "--tries=1", "--spider", "http://localhost:3000/health"]
+      test: ["CMD", "wget", "-q", "-O", "/dev/null", "http://localhost:3000/health"]
       interval: 30s
       timeout: 10s
       retries: 3
