@@ -71,7 +71,7 @@ services:
       - /tmp:mode=1777,size=64m
       - /app/.output/server/.data:mode=1777,size=32m
     healthcheck:
-      test: ["CMD", "wget", "-q", "-O", "/dev/null", "http://localhost:3000/health"]
+      test: ["CMD", "wget", "-q", "-O", "/dev/null", "http://127.0.0.1:3000/health"]
       interval: 30s
       timeout: 10s
       retries: 3
