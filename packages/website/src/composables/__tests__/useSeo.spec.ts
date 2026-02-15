@@ -118,6 +118,8 @@ describe('useSeo', () => {
           ogImageHeight: 630,
           twitterCard: 'summary_large_image',
           twitterCreator: '@AlexisBessonWeb',
+          author: 'Alexis Besson',
+          robots: 'index, follow',
         }),
       );
     });

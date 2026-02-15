@@ -19,16 +19,16 @@
   "seo": {
     "meta": {
       "description": {
-        "landing": "Alexis Besson \u2014 Lead Front-end Developer specializing in Vue.js, Nuxt, TypeScript & modern JavaScript. Explore my portfolio, projects, and professional experience."
+        "landing": "Alexis Besson \u2014 Lead Front-end Developer with 10+ years of experience. Expert in JavaScript, TypeScript, Vue.js & Node.js. Building scalable design systems, leading teams and delivering SaaS & marketplace projects."
       },
       "title": {
-        "generic": "Alexis Besson's portfolio • Lead Front-end Developer",
-        "landing": "@:seo.meta.variable.default Lead Front-end Developer"
+        "generic": "Alexis Besson {'|'} Lead Front-end Developer \u2014 Vue.js, TypeScript & Node.js",
+        "landing": "Alexis Besson {'|'} Lead Front-end Developer \u2014 Vue.js, TypeScript & Node.js"
       },
       "variable": {
-        "after": "{'•'} Alexis Besson",
-        "default": "Alexis Besson {'•'} ",
-        "long": "Alexis Besson, Lead Front-end Developer {'•'} "
+        "after": "{'|'} Alexis Besson",
+        "default": "Alexis Besson {'|'} ",
+        "long": "Alexis Besson, Lead Front-end Developer {'|'} "
       }
     }
   },

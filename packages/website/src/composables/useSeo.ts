@@ -45,6 +45,8 @@ export const useSeo = () => {
       twitterDescription: () => description.value,
       twitterCreator: '@AlexisBessonWeb',
       twitterImage: () => ogImage.value,
+      author: 'Alexis Besson',
+      robots: 'index, follow',
     });
   };
 
