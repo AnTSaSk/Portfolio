@@ -47,6 +47,8 @@
   const { baseUrl, applySeoMeta } = useSeo();
   applySeoMeta(title);
 
+  useHead({ titleTemplate: '%s' });
+
   useSchemaOrg([
     definePerson({
       name: 'Alexis Besson',

@@ -38,9 +38,7 @@
     seo: true,
   });
 
-  const title = computed((): string =>
-    t('layouts.title', { title: t(route.meta.title as string) }),
-  );
+  const title = computed((): string => t(route.meta.title as string));
 
   const { applySeoMeta } = useSeo();
   applySeoMeta(title);
