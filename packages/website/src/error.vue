@@ -57,7 +57,7 @@
   const handleError = () => clearError({ redirect: '/' });
 
   useHead(() => ({
-    title: `${title.value} - Alexis Besson`,
+    title: title.value,
   }));
 </script>
 

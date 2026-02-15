@@ -43,9 +43,7 @@
     },
     "back": "Retour à l'accueil"
   },
-  "layouts": {
-    "title": "{title} • Alexis Besson"
-  },
+  "layouts": {},
   "view": {
     "landing": {
       "subtitle": "Lead Développeur Front-end"

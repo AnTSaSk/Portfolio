@@ -10,6 +10,9 @@ export default defineNuxtConfig({
     head: {
       charset: 'utf-8',
       viewport: 'width=device-width, initial-scale=1',
+      templateParams: {
+        separator: '•',
+      },
       link: [
         {
           rel: 'icon',
@@ -96,6 +99,7 @@ export default defineNuxtConfig({
 
   // I18n
   i18n: {
+    baseUrl: process.env.NUXT_BASE_URL || 'https://alexisbesson.fr',
     defaultLocale: 'en',
     detectBrowserLanguage: {
       useCookie: true,
