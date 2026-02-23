@@ -116,7 +116,7 @@ jobs:
           restore-keys: trivy-db
 
       - name: Run Trivy vulnerability scanner
-        uses: aquasecurity/trivy-action@f9424c10c36e288d5fa79bd3dfd1aeb2d6eae808  # 0.33.0
+        uses: aquasecurity/trivy-action@e368e328979b113139d6f9068e03accaed98a518  # 0.34.1
         with:
           image-ref: ${{ env.REGISTRY }}/${{ steps.image.outputs.name }}:${{ github.sha }}
           format: table
