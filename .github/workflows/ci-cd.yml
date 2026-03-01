@@ -108,29 +108,8 @@ jobs:
           cache-to: type=gha,mode=max
           platforms: linux/amd64
 
-      # Direct binary download — bypasses setup-trivy git checkout issues
-      # (both v0.2.4 branch resolution and v0.2.5 shallow-clone SHA fail in Actions)
-      - name: Install Trivy
-        env:
-          TRIVY_VERSION: '0.69.1'
-        run: |
-          curl -sSfL "https://github.com/aquasecurity/trivy/releases/download/v${TRIVY_VERSION}/trivy_${TRIVY_VERSION}_Linux-64bit.tar.gz" \
-            | tar -xzf - -C /usr/local/bin trivy
-
-      - name: Run Trivy vulnerability scanner
-        uses: aquasecurity/trivy-action@e368e328979b113139d6f9068e03accaed98a518 # v0.34.1
-        with:
-          skip-setup-trivy: 'true'
-          image-ref: ${{ env.REGISTRY }}/${{ steps.image.outputs.name }}:${{ github.sha }}
-          format: table
-          exit-code: '1'
-          ignore-unfixed: true
-          severity: CRITICAL,HIGH
-          scanners: vuln
-          trivyignores: .trivyignore
-          cache: 'false'
-          # Skip npm global modules (not used at runtime, only node binary is needed)
-          skip-dirs: /usr/local/lib/node_modules
+      # TODO: Re-enable Trivy vulnerability scanning when aquasecurity/trivy GitHub repo is restored
+      # Ref: https://www.reddit.com/r/devsecops/comments/1rhp8mz/trivy_github_repository_is_empty/
 
   deploy:
     name: Deploy to Swarm
