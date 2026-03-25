@@ -36,7 +36,7 @@ The website consumes the styleguide as a workspace dependency. Components follow
 - **Git hooks** — Husky + lint-staged runs linters on every commit
 - **Type checking** — `vue-tsc --noEmit` across all packages
 - **Testing** — Unit tests with Vitest + Vue Test Utils, e2e with Nuxt Test Utils + Playwright
-- **CI/CD** — GitHub Actions pipeline: lint, type-check, audit, build, Trivy scan, deploy, Lighthouse CI
+- **CI/CD** — GitHub Actions pipeline: lint, type-check, audit, build, deploy, Lighthouse CI
 - **Lighthouse thresholds** — Performance 85%, Accessibility 90%, SEO 90%
 
 ## Getting Started
