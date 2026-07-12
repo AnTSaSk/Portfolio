@@ -1,9 +1,7 @@
-import type { App } from 'vue';
-
-import Component from './index.vue';
-
-Component.install = (Vue: App) => {
-  Vue.component(Component.name!, Component);
-};
-
-export default Component;
+export { default, default as Heading } from './index.vue';
+export type {
+  HeadingLevel,
+  HeadingTag,
+  HeadingTone,
+  Props as HeadingProps,
+} from './index.vue';

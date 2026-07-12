@@ -1,29 +1,43 @@
 <template>
-  <component :is="tag" :class="`a-heading -${variant}`">
+  <component :is="resolvedTag" :class="classes">
     <slot />
   </component>
 </template>
 
 <script setup lang="ts">
-  export type Variant =
-    | 'h1-regular'
-    | 'h2-regular'
-    | 'h3-medium'
-    | 'h4-semibold'
-    | 'h5-semibold';
+  import { computed } from 'vue';
 
-  export type Tag = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6';
+  export type HeadingLevel = 'h1' | 'h2' | 'h3' | 'h4' | 'h5';
+  export type HeadingTag = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p' | 'a';
+  export type HeadingTone = 'default' | 'muted' | 'accent';
 
   export interface Props {
-    tag?: Tag;
-    variant?: Variant;
+    level?: HeadingLevel;
+    tag?: HeadingTag;
+    tone?: HeadingTone;
+    uppercase?: boolean;
+    balance?: boolean;
   }
 
-  defineOptions({
-    name: 'AtomHeading',
-  });
+  defineOptions({ name: 'AtomHeading' });
 
-  const { tag = 'h1', variant = 'h1-regular' } = defineProps<Props>();
+  const {
+    level = 'h2',
+    tag = undefined,
+    tone = 'default',
+    uppercase = false,
+    balance = true,
+  } = defineProps<Props>();
+
+  const resolvedTag = computed(() => tag ?? level);
+
+  const classes = computed(() => [
+    'a-heading',
+    `-${level}`,
+    tone !== 'default' && `-${tone}`,
+    uppercase && '-uppercase',
+    !balance && '-noBalance',
+  ]);
 </script>
 
-<style scoped lang="scss" src="./style.scss"></style>
+<style src="./style.css" />

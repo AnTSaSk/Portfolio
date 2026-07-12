@@ -1,0 +1,44 @@
+@layer components {
+  /* Solid-fill glyphs (DS preview authority): sprite paths carry no own
+     fill/stroke, currentColor is inherited from this class. */
+  .a-icon {
+    display: inline-block;
+    color: currentcolor;
+    fill: currentcolor;
+    stroke: none;
+  }
+
+  .a-icon.-xs {
+    width: 12px;
+    height: 12px;
+  }
+
+  .a-icon.-sm {
+    width: 16px;
+    height: 16px;
+  }
+
+  .a-icon.-md {
+    width: 20px;
+    height: 20px;
+  }
+
+  .a-icon.-lg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .a-icon.-xl {
+    width: 32px;
+    height: 32px;
+  }
+
+  /* Higher specificity than .a-icon (2 classes vs 1) wins the fill/stroke reset. */
+  .a-icon.-stroke {
+    fill: none;
+    stroke: currentcolor;
+    stroke-width: 1.6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+}

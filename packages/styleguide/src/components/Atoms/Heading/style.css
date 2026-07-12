@@ -1,0 +1,55 @@
+@layer components {
+  /* Typography atom: owns size / weight / line-height only. Color comes
+     from context (inherits) or a tone modifier — never coupled to level. */
+  .a-heading {
+    margin: 0;
+    color: inherit;
+    font-family: var(--font-display);
+    line-height: var(--lh-heading);
+    text-wrap: balance;
+  }
+
+  .a-heading.-h1 {
+    font-size: var(--fs-h1);
+    font-weight: var(--fw-regular);
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+  }
+
+  .a-heading.-h2 {
+    font-size: var(--fs-h2);
+    font-weight: var(--fw-regular);
+  }
+
+  .a-heading.-h3 {
+    font-size: var(--fs-h3);
+    font-weight: var(--fw-medium);
+  }
+
+  .a-heading.-h4 {
+    font-size: var(--fs-h4);
+    font-weight: var(--fw-semibold);
+  }
+
+  .a-heading.-h5 {
+    font-size: var(--fs-h5);
+    font-weight: var(--fw-semibold);
+  }
+
+  .a-heading.-muted {
+    color: var(--fg-3);
+  }
+
+  .a-heading.-accent {
+    color: var(--link);
+  }
+
+  .a-heading.-uppercase {
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+  }
+
+  .a-heading.-noBalance {
+    text-wrap: normal;
+  }
+}

@@ -1,0 +1,142 @@
+@layer components {
+  /* Typography is delegated to the Text -tag composition; this atom only
+     owns spacing, border, color and interactive states. */
+  .a-tag {
+    display: inline-flex;
+    gap: 6px;
+    align-items: center;
+    justify-content: center;
+    padding: 3px 9px 3px 11px;
+    color: light-dark(var(--color-shark), var(--color-iron));
+    background: transparent;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-md);
+    cursor: default;
+    transition:
+      color var(--duration-fast) var(--ease-standard),
+      background var(--duration-fast) var(--ease-standard),
+      border-color var(--duration-fast) var(--ease-standard);
+  }
+
+  .a-tag.-withLead {
+    padding-left: 8px;
+  }
+
+  .a-tag.-withTrail {
+    padding-right: 7px;
+  }
+
+  .a-tag__lead,
+  .a-tag__trail {
+    display: inline-flex;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .a-tag__lead svg,
+  .a-tag__trail svg {
+    width: 11px;
+    height: 11px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .a-tag__count {
+    font-weight: var(--fw-medium);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.04em;
+    opacity: 0.55;
+  }
+
+  .a-tag__dot {
+    width: 6px;
+    height: 6px;
+    background: currentColor;
+    border-radius: 50%;
+  }
+
+  button.a-tag:hover:not([disabled]) {
+    color: light-dark(var(--color-woodsmoke), var(--color-white));
+    border-color: currentColor;
+  }
+
+  button.a-tag:focus-visible {
+    color: var(--color-jungle-green);
+    border-color: var(--color-jungle-green);
+    outline: 2px solid var(--color-jungle-green);
+    outline-offset: 2px;
+  }
+
+  button.a-tag:active:not([disabled]) {
+    color: light-dark(var(--color-woodsmoke), var(--color-white));
+    background: light-dark(var(--color-iron), var(--color-shark));
+    border-color: light-dark(var(--color-iron), var(--color-shark));
+  }
+
+  .a-tag[disabled],
+  .a-tag[aria-disabled='true'] {
+    cursor: not-allowed;
+    opacity: 0.4;
+  }
+
+  .a-tag.-selected {
+    padding: 3px 9px;
+    color: light-dark(var(--color-woodsmoke), var(--color-white));
+    border-color: light-dark(var(--color-woodsmoke), var(--color-white));
+  }
+
+  .a-tag.-selected .a-tag__dot {
+    background: var(--color-jungle-green);
+  }
+
+  .a-tag.-selected .a-tag__count {
+    color: var(--color-jungle-green);
+    opacity: 1;
+  }
+
+  .a-tag.-strong {
+    color: var(--fg-2);
+  }
+
+  .a-tag.-brand {
+    color: var(--color-jungle-green);
+    border-color: var(--color-jungle-green);
+  }
+
+  button.a-tag.-brand:hover:not([disabled]) {
+    color: var(--color-elm);
+    border-color: var(--color-elm);
+  }
+
+  button.a-tag.-brand:active:not([disabled]) {
+    color: var(--color-jungle-green);
+    background: color-mix(in srgb, var(--color-jungle-green) 12%, transparent);
+    border-color: var(--color-jungle-green);
+  }
+
+  .a-tag.-brand.-selected {
+    color: var(--color-jungle-green);
+    border-color: var(--color-jungle-green);
+  }
+
+  /* -info uses the design source's dedicated blue token (--color-info-tag),
+     distinct from the green --color-info token used elsewhere. */
+  .a-tag.-info {
+    color: var(--color-info-tag);
+    border-color: color-mix(in srgb, var(--color-info-tag) 45%, transparent);
+  }
+
+  .a-tag.-warning {
+    color: var(--color-warning);
+    border-color: color-mix(in srgb, var(--color-warning) 50%, transparent);
+  }
+
+  .a-tag.-error {
+    color: var(--color-error);
+    border-color: color-mix(in srgb, var(--color-error) 50%, transparent);
+  }
+}

@@ -1,0 +1,22 @@
+@layer components {
+  /* Fills its parent's width; no position/margin — external placement is the parent's job. */
+  .a-watermark {
+    display: block;
+    width: 100%;
+    overflow: visible;
+    color: currentcolor;
+    opacity: 0.05;
+    user-select: none;
+    pointer-events: none;
+  }
+
+  /* font-size is the SVG viewBox coordinate space, not a UI typography role. */
+  .a-watermark text {
+    font-family: var(--font-display);
+    font-size: 100px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+    fill: currentcolor;
+  }
+}

@@ -1,0 +1,46 @@
+@layer components {
+  .a-themeSwitcher {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    color: inherit;
+    background: transparent;
+    border: 1px solid currentcolor;
+    cursor: pointer;
+    opacity: 0.55;
+    transition:
+      color var(--duration-fast) var(--ease-standard),
+      border-color var(--duration-fast) var(--ease-standard),
+      opacity var(--duration-fast) var(--ease-standard);
+  }
+
+  .a-themeSwitcher.-square {
+    border-radius: 6px;
+  }
+
+  .a-themeSwitcher.-circle {
+    border-radius: 50%;
+  }
+
+  .a-themeSwitcher:hover {
+    opacity: 1;
+  }
+
+  .a-themeSwitcher.-active {
+    color: var(--color-jungle-green);
+    border-color: var(--color-jungle-green);
+    opacity: 1;
+  }
+
+  .a-themeSwitcher:focus-visible {
+    border-color: var(--color-jungle-green);
+    opacity: 1;
+  }
+
+  .a-themeSwitcher[disabled] {
+    cursor: not-allowed;
+    opacity: 0.3;
+  }
+}

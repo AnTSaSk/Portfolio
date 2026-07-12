@@ -1,0 +1,27 @@
+@layer components {
+  .a-langSwitcher {
+    display: inline-flex;
+    gap: var(--space-1);
+    align-items: center;
+    padding: 4px 8px;
+    color: inherit;
+    background: transparent;
+    border: none;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    opacity: 0.5;
+    transition:
+      color 180ms,
+      opacity 180ms;
+  }
+
+  .a-langSwitcher:hover {
+    opacity: 0.85;
+  }
+
+  .a-langSwitcher:focus-visible {
+    outline: 2px solid var(--color-jungle-green);
+    outline-offset: 2px;
+    opacity: 1;
+  }
+}

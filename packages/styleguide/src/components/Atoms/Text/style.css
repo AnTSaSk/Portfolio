@@ -1,0 +1,74 @@
+@layer components {
+  /* Typography atom: owns size / weight / line-height only. Color comes
+     from context (inherits) or a tone modifier — never coupled to variant. */
+  .a-text {
+    margin: 0;
+    color: inherit;
+    font-family: var(--font-body);
+    font-size: var(--fs-body);
+    line-height: var(--lh-body);
+  }
+
+  .a-text.-lede {
+    font-size: var(--fs-lede);
+  }
+
+  .a-text.-bodyS {
+    font-size: var(--fs-body);
+  }
+
+  .a-text.-caption {
+    font-size: var(--fs-caption);
+  }
+
+  .a-text.-cta {
+    font-size: var(--fs-body);
+    white-space: nowrap;
+  }
+
+  .a-text.-eyebrow {
+    font-family: var(--font-display);
+    font-size: var(--fs-eyebrow);
+    font-weight: var(--fw-semibold);
+    line-height: 1.4;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+
+  .a-text.-tag {
+    font-family: var(--font-display);
+    font-size: var(--fs-tag);
+    font-weight: var(--fw-semibold);
+    line-height: 1.4;
+    letter-spacing: var(--ls-tag);
+    text-transform: uppercase;
+  }
+
+  .a-text.-medium {
+    font-weight: var(--fw-medium);
+  }
+
+  .a-text.-semibold {
+    font-weight: var(--fw-semibold);
+  }
+
+  .a-text.-muted {
+    color: var(--fg-3);
+  }
+
+  .a-text.-accent {
+    color: var(--link);
+  }
+
+  .a-text.-prose {
+    max-width: 56ch;
+    text-wrap: pretty;
+  }
+
+  .a-text.-truncate {
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: var(--truncate-lines);
+  }
+}

@@ -1,73 +1,95 @@
 import { mount } from '@vue/test-utils';
 import { describe, expect, it } from 'vitest';
 
-import Heading from '../index.vue';
+import Heading from '@/components/Atoms/Heading/index.vue';
 
-describe('AtomHeading', () => {
-  it('has the correct component name', () => {
-    const wrapper = mount(Heading);
+describe('Heading', () => {
+  it('renders the default h2 tag with the -h2 level class', () => {
+    const wrapper = mount(Heading, { slots: { default: 'Title' } });
 
-    expect(wrapper.vm.$options.name).toBe('AtomHeading');
+    expect(wrapper.element.tagName).toBe('H2');
+    expect(wrapper.classes()).toContain('a-heading');
+    expect(wrapper.classes()).toContain('-h2');
   });
 
-  describe('tag rendering', () => {
-    it('renders as <h1> by default', () => {
-      const wrapper = mount(Heading);
-
-      expect(wrapper.element.tagName).toBe('H1');
+  it('applies the -{level} class matching the level prop', () => {
+    const wrapper = mount(Heading, {
+      props: { level: 'h3' },
+      slots: { default: 'Title' },
     });
 
-    it.each(['h1', 'h2', 'h3', 'h4', 'h5', 'h6'] as const)(
-      'renders as <%s> when tag="%s"',
-      (tag) => {
-        const wrapper = mount(Heading, {
-          props: { tag },
-        });
-
-        expect(wrapper.element.tagName).toBe(tag.toUpperCase());
-      },
-    );
+    expect(wrapper.element.tagName).toBe('H3');
+    expect(wrapper.classes()).toContain('-h3');
   });
 
-  describe('variants', () => {
-    it('applies "a-heading" base class with "-h1-regular" modifier by default', () => {
-      const wrapper = mount(Heading);
-
-      expect(wrapper.classes()).toContain('a-heading');
-      expect(wrapper.classes()).toContain('-h1-regular');
+  it('decouples semantic tag from visual level when tag differs from level', () => {
+    const wrapper = mount(Heading, {
+      props: { level: 'h1', tag: 'h2' },
+      slots: { default: 'Title' },
     });
 
-    it.each([
-      'h1-regular',
-      'h2-regular',
-      'h3-medium',
-      'h4-semibold',
-      'h5-semibold',
-    ] as const)('applies "-$s" modifier for variant="%s"', (variant) => {
-      const wrapper = mount(Heading, {
-        props: { variant },
-      });
-
-      expect(wrapper.classes()).toContain('a-heading');
-      expect(wrapper.classes()).toContain(`-${variant}`);
-    });
+    expect(wrapper.element.tagName).toBe('H2');
+    expect(wrapper.classes()).toContain('-h1');
   });
 
-  describe('slot content', () => {
-    it('renders slot content', () => {
-      const wrapper = mount(Heading, {
-        slots: { default: 'Hello World' },
-      });
+  it('applies no tone modifier for the default tone', () => {
+    const wrapper = mount(Heading, { slots: { default: 'Title' } });
 
-      expect(wrapper.text()).toBe('Hello World');
+    expect(wrapper.classes()).not.toContain('-muted');
+    expect(wrapper.classes()).not.toContain('-accent');
+  });
+
+  it('applies the -muted tone modifier', () => {
+    const wrapper = mount(Heading, {
+      props: { tone: 'muted' },
+      slots: { default: 'Title' },
     });
 
-    it('renders HTML slot content', () => {
-      const wrapper = mount(Heading, {
-        slots: { default: '<span>Rich content</span>' },
-      });
+    expect(wrapper.classes()).toContain('-muted');
+  });
 
-      expect(wrapper.find('span').text()).toBe('Rich content');
+  it('applies the -accent tone modifier', () => {
+    const wrapper = mount(Heading, {
+      props: { tone: 'accent' },
+      slots: { default: 'Title' },
     });
+
+    expect(wrapper.classes()).toContain('-accent');
+  });
+
+  it('applies the -uppercase modifier when uppercase is true', () => {
+    const wrapper = mount(Heading, {
+      props: { uppercase: true },
+      slots: { default: 'Title' },
+    });
+
+    expect(wrapper.classes()).toContain('-uppercase');
+  });
+
+  it('applies no -uppercase modifier by default', () => {
+    const wrapper = mount(Heading, { slots: { default: 'Title' } });
+
+    expect(wrapper.classes()).not.toContain('-uppercase');
+  });
+
+  it('applies the -noBalance modifier when balance is false', () => {
+    const wrapper = mount(Heading, {
+      props: { balance: false },
+      slots: { default: 'Title' },
+    });
+
+    expect(wrapper.classes()).toContain('-noBalance');
+  });
+
+  it('applies no -noBalance modifier by default (balance true)', () => {
+    const wrapper = mount(Heading, { slots: { default: 'Title' } });
+
+    expect(wrapper.classes()).not.toContain('-noBalance');
+  });
+
+  it('renders the default slot content', () => {
+    const wrapper = mount(Heading, { slots: { default: 'Section title' } });
+
+    expect(wrapper.text()).toBe('Section title');
   });
 });

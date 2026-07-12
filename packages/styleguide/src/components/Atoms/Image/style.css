@@ -1,0 +1,17 @@
+@layer components {
+  /* Fills its zone; the parent decides ratio/crop. */
+  .a-image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .a-image.-contain {
+    object-fit: contain;
+  }
+
+  .a-image.-none {
+    object-fit: none;
+  }
+}
