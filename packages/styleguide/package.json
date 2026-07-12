@@ -34,19 +34,19 @@
     "@storybook/vue3": "10.5.0",
     "@storybook/vue3-vite": "10.5.0",
     "@vitejs/plugin-vue": "6.0.7",
-    "@vitest/coverage-v8": "4.1.10",
+    "@vitest/coverage-v8": "catalog:",
     "@vue/test-utils": "2.4.11",
     "eslint-plugin-storybook": "10.5.0",
     "glob": "13.0.6",
-    "jsdom": "29.1.1",
+    "jsdom": "catalog:",
     "storybook": "10.5.0",
     "svg-sprite": "2.0.4",
-    "vite": "8.1.4",
-    "vitest": "4.1.10",
+    "vite": "catalog:",
+    "vitest": "catalog:",
     "vue-docgen-api": "4.79.2",
-    "vue-tsc": "3.3.7"
+    "vue-tsc": "catalog:"
   },
   "peerDependencies": {
-    "vue": "3.5.39"
+    "vue": "catalog:"
   }
 }

@@ -8,7 +8,7 @@
   "scripts": {
     "dev": "nuxt dev",
     "lint": "npx eslint .",
-    "lint:style": "stylelint src/**/*.{css,scss}",
+    "lint:style": "stylelint src/**/*.css",
     "lint:markup": "vue-tsc --noEmit",
     "build": "vue-tsc && nuxt build",
     "generate": "nuxt generate",
@@ -20,18 +20,22 @@
     "test:coverage": "vitest run --config vitest.unit.config.ts --coverage"
   },
   "dependencies": {
-    "@antsask/styleguide": "workspace:*"
+    "@antsask/styleguide": "workspace:*",
+    "@nuxt/content": "3.15.0",
+    "@sentry/nuxt": "10.65.0",
+    "better-sqlite3": "12.11.1",
+    "satori": "0.26.0"
   },
   "devDependencies": {
-    "@nuxtjs/i18n": "10.2.3",
-    "@nuxtjs/seo": "3.4.0",
-    "@types/node": "24.10.13",
-    "@vitest/coverage-v8": "4.0.18",
-    "nuxt": "4.3.1",
-    "vite-svg-loader": "5.1.0",
-    "vitest": "4.0.18",
-    "vue": "3.5.28",
-    "vue-i18n": "11.2.8",
-    "vue-tsc": "3.2.4"
+    "@nuxtjs/i18n": "10.4.1",
+    "@nuxtjs/seo": "5.3.2",
+    "@types/node": "catalog:",
+    "@vitest/coverage-v8": "catalog:",
+    "nuxt": "4.4.8",
+    "vite-svg-loader": "5.1.1",
+    "vitest": "catalog:",
+    "vue": "catalog:",
+    "vue-i18n": "11.4.6",
+    "vue-tsc": "catalog:"
   }
 }
