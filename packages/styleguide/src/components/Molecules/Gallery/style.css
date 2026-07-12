@@ -1,0 +1,49 @@
+@layer components {
+  @media (max-width: 767px) {
+    .m-gallery {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .m-gallery {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+
+  .m-gallery__fig {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 0;
+  }
+
+  .m-gallery__media {
+    overflow: hidden;
+    aspect-ratio: 4 / 3;
+    background: var(--bg-surface-alt);
+    border: var(--border-1);
+    border-radius: var(--radius-md);
+  }
+
+  .m-gallery__fig:first-child .m-gallery__media {
+    aspect-ratio: 16 / 9;
+  }
+
+  .m-gallery__fig:first-child {
+    grid-column: 1 / -1;
+  }
+
+  /* -threeUp: no verbatim source in the design, derived — equal 4/3 figures, no hero */
+  .m-gallery.-threeUp {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .m-gallery.-threeUp .m-gallery__fig:first-child {
+    grid-column: auto;
+  }
+
+  .m-gallery.-threeUp .m-gallery__fig:first-child .m-gallery__media {
+    aspect-ratio: 4 / 3;
+  }
+}

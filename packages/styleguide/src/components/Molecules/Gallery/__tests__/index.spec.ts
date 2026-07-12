@@ -1,0 +1,106 @@
+import { mount } from '@vue/test-utils';
+import { describe, expect, it } from 'vitest';
+
+import Gallery from '@/components/Molecules/Gallery/index.vue';
+
+const withImage = {
+  image: { src: '/gallery-1.jpg', alt: 'First shot' },
+  caption: 'Fig. 01',
+};
+
+const withoutImage = { caption: 'Fig. 02' };
+
+describe('Gallery', () => {
+  it('renders a section.m-gallery root with an aria-label', () => {
+    const wrapper = mount(Gallery, {
+      props: { items: [withImage], ariaLabel: 'Project gallery' },
+    });
+
+    const section = wrapper.find('section.m-gallery');
+
+    expect(section.exists()).toBe(true);
+    expect(section.attributes('aria-label')).toBe('Project gallery');
+  });
+
+  it('renders no variant modifier class for the default styleA variant', () => {
+    const wrapper = mount(Gallery, {
+      props: { items: [withImage], ariaLabel: 'Project gallery' },
+    });
+
+    expect(wrapper.find('section.m-gallery').classes()).not.toContain(
+      '-threeUp',
+    );
+  });
+
+  it('applies the -threeUp modifier class on the root when variant is threeUp', () => {
+    const wrapper = mount(Gallery, {
+      props: {
+        items: [withImage],
+        ariaLabel: 'Project gallery',
+        variant: 'threeUp',
+      },
+    });
+
+    expect(wrapper.find('section.m-gallery').classes()).toContain('-threeUp');
+  });
+
+  it('renders one figure.m-gallery__fig per item', () => {
+    const wrapper = mount(Gallery, {
+      props: {
+        items: [withImage, withoutImage, withImage],
+        ariaLabel: 'Project gallery',
+      },
+    });
+
+    expect(wrapper.findAll('figure.m-gallery__fig')).toHaveLength(3);
+  });
+
+  it('renders an Image inside the figure when the item has an image', () => {
+    const wrapper = mount(Gallery, {
+      props: { items: [withImage], ariaLabel: 'Project gallery' },
+    });
+
+    const figure = wrapper.find('figure.m-gallery__fig');
+    const img = figure.find('img.a-image');
+
+    expect(img.exists()).toBe(true);
+    expect(img.attributes('src')).toBe('/gallery-1.jpg');
+    expect(img.attributes('alt')).toBe('First shot');
+    expect(figure.find('.u-placeholder').exists()).toBe(false);
+  });
+
+  it('renders a u-placeholder inside the figure when the item has no image', () => {
+    const wrapper = mount(Gallery, {
+      props: { items: [withoutImage], ariaLabel: 'Project gallery' },
+    });
+
+    const figure = wrapper.find('figure.m-gallery__fig');
+
+    expect(figure.find('.u-placeholder').exists()).toBe(true);
+    expect(figure.find('img.a-image').exists()).toBe(false);
+  });
+
+  it('renders the caption as .m-gallery__cap when the item has one', () => {
+    const wrapper = mount(Gallery, {
+      props: { items: [withImage], ariaLabel: 'Project gallery' },
+    });
+
+    const cap = wrapper.find('figure.m-gallery__fig .m-gallery__cap');
+
+    expect(cap.exists()).toBe(true);
+    expect(cap.text()).toBe('Fig. 01');
+  });
+
+  it('renders no .m-gallery__cap when the item has no caption', () => {
+    const wrapper = mount(Gallery, {
+      props: {
+        items: [{ image: { src: '/gallery-3.jpg', alt: 'Third shot' } }],
+        ariaLabel: 'Project gallery',
+      },
+    });
+
+    expect(wrapper.find('figure.m-gallery__fig .m-gallery__cap').exists()).toBe(
+      false,
+    );
+  });
+});

@@ -1,0 +1,51 @@
+@layer components {
+  .m-pagination {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .m-pagination__btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    inline-size: 38px;
+    block-size: 38px;
+    color: var(--fg-3);
+    border: var(--border-1);
+    border-radius: 50%;
+    transition:
+      color 200ms,
+      border-color 200ms,
+      background 200ms;
+  }
+
+  .m-pagination__btn:hover:not(:disabled) {
+    color: var(--fg-1);
+    border-color: var(--fg-3);
+  }
+
+  .m-pagination__btn:focus-visible {
+    outline: 2px solid var(--color-jungle-green);
+    outline-offset: 3px;
+  }
+
+  .m-pagination__btn[aria-current='page'] {
+    color: var(--color-white);
+    background: var(--gradient-brand);
+    border-color: transparent;
+  }
+
+  .m-pagination__btn:disabled {
+    cursor: not-allowed;
+    opacity: 0.32;
+  }
+
+  /* Neutralize per-variant line-height (bodyS: 1.5, eyebrow: 1.4) so the
+     glyph's own font metrics — not extra leading — drive vertical centering. */
+  .m-pagination__btn .a-text.-bodyS,
+  .m-pagination__btn .a-text.-eyebrow {
+    line-height: 1;
+  }
+}

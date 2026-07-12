@@ -1,0 +1,40 @@
+@layer components {
+  .m-author {
+    display: grid;
+    grid-template-columns: 64px 1fr;
+    gap: 24px;
+    align-items: start;
+    padding-block-start: 32px;
+    border-block-start: var(--border-1);
+  }
+
+  .m-author__avatar {
+    display: grid;
+    overflow: hidden;
+    color: var(--color-white);
+    background: var(--gradient-brand);
+    border-radius: 50%;
+    place-items: center;
+    inline-size: 64px;
+    block-size: 64px;
+  }
+
+  .m-author__name {
+    margin-block-end: 8px;
+    color: var(--fg-2);
+  }
+
+  .m-author__body {
+    margin-block-end: 16px;
+    color: var(--fg-3);
+  }
+
+  .m-author__body .a-text {
+    max-inline-size: 60ch;
+  }
+
+  .m-author__links {
+    display: flex;
+    gap: 16px;
+  }
+}

@@ -1,0 +1,50 @@
+@layer components {
+  .m-mediaCover {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 0;
+  }
+
+  .m-mediaCover__frame {
+    display: block;
+    overflow: hidden;
+    inline-size: 100%;
+    border: var(--border-1);
+    border-radius: var(--radius-md);
+  }
+
+  .m-mediaCover__frame.-ratio16x9 {
+    aspect-ratio: 16 / 9;
+  }
+
+  .m-mediaCover__frame.-ratio4x3 {
+    aspect-ratio: 4 / 3;
+  }
+
+  .m-mediaCover__frame.-ratio1x1 {
+    aspect-ratio: 1 / 1;
+  }
+
+  .m-mediaCover__frame.-ratioPortrait {
+    aspect-ratio: 3 / 4;
+  }
+
+  .m-mediaCover.-poster .m-mediaCover__frame {
+    block-size: clamp(260px, 34vw, 460px);
+    border-radius: var(--radius-lg);
+  }
+
+  .m-mediaCover__img {
+    display: block;
+    inline-size: 100%;
+    block-size: 100%;
+    object-fit: cover;
+  }
+
+  .m-mediaCover__cap {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+}
