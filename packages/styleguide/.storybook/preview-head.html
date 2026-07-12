@@ -1,3 +1,11 @@
 <script>
-  window.global = window;
+    window.global = window;
 </script>
+<style>
+    /* Docs pages are pinned dark (see preview.ts docs.theme). Force the dark
+     color-scheme on the docs wrapper so light-dark() tokens used inside doc
+     blocks resolve to their dark value too. */
+    .sbdocs {
+        color-scheme: dark;
+    }
+</style>

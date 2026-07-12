@@ -1,0 +1,201 @@
+/* =============================================================
+   tokens.css — design tokens (single source of truth)
+   No cascade layer wrapper: consumers place the import in their
+   own layer (see app.css). Values verbatim from the design source.
+   ============================================================= */
+
+:root {
+  /* ============================================================
+     1. BRAND
+     ============================================================ */
+  --color-jungle-green: #30bf75;
+  --color-elm: #1e9782;
+  --color-shadow: #30bf8c;
+  --gradient-brand: linear-gradient(109.14deg, #30bf75 -1.67%, #1e9782 115.85%);
+  /* prettier-ignore */
+  --gradient-brand-reverse: linear-gradient(109.14deg, #1e9782 -1.67%, #30bf75 115.85%);
+
+  /* ============================================================
+     2. FUNCTIONAL
+     ============================================================ */
+  --color-info: #1dbf6a;
+  --color-warning: #f2660c;
+  --color-error: #bf2d1d;
+  /* Design-source functional blue for the Tag -info variant — distinct
+     from --color-info (green), which the DS preview does not use here. */
+  --color-info-tag: #1db6f4;
+
+  /* ============================================================
+     3. NEUTRALS
+     ============================================================ */
+  --color-woodsmoke: #111315;
+  --color-shark: #313335;
+  --color-shuttle-gray: #616365;
+  --color-iron: #d9dcdf;
+  --color-athens-gray: #f2f5f7;
+  --color-white: #ffffff;
+
+  /* ============================================================
+     4. TYPOGRAPHY
+     ============================================================ */
+  --font-display: 'Montserrat', system-ui, sans-serif;
+  --font-body: 'Noto Sans', system-ui, sans-serif;
+
+  --fw-regular: 400;
+  --fw-medium: 500;
+  --fw-semibold: 600;
+
+  --lh-heading: 1.2;
+  --lh-body: 1.5;
+
+  /* Fluid infra — mobile (375px) to desktop (1440px) */
+  --fluid-vw-min: 375;
+  --fluid-vw-max: 1440;
+  --fluid-range: calc(var(--fluid-vw-max) - var(--fluid-vw-min));
+
+  --fs-h1-min: 32;
+  --fs-h1-max: 48;
+  --fs-h1: clamp(
+    calc(var(--fs-h1-min) * 1px),
+    calc(
+      var(--fs-h1-min) * 1px + (var(--fs-h1-max) - var(--fs-h1-min)) *
+        (100vw - var(--fluid-vw-min) * 1px) / var(--fluid-range)
+    ),
+    calc(var(--fs-h1-max) * 1px)
+  );
+
+  --fs-h2-min: 28;
+  --fs-h2-max: 36;
+  --fs-h2: clamp(
+    calc(var(--fs-h2-min) * 1px),
+    calc(
+      var(--fs-h2-min) * 1px + (var(--fs-h2-max) - var(--fs-h2-min)) *
+        (100vw - var(--fluid-vw-min) * 1px) / var(--fluid-range)
+    ),
+    calc(var(--fs-h2-max) * 1px)
+  );
+
+  --fs-h3-min: 24;
+  --fs-h3-max: 28;
+  --fs-h3: clamp(
+    calc(var(--fs-h3-min) * 1px),
+    calc(
+      var(--fs-h3-min) * 1px + (var(--fs-h3-max) - var(--fs-h3-min)) *
+        (100vw - var(--fluid-vw-min) * 1px) / var(--fluid-range)
+    ),
+    calc(var(--fs-h3-max) * 1px)
+  );
+
+  --fs-h4-min: 20;
+  --fs-h4-max: 24;
+  --fs-h4: clamp(
+    calc(var(--fs-h4-min) * 1px),
+    calc(
+      var(--fs-h4-min) * 1px + (var(--fs-h4-max) - var(--fs-h4-min)) *
+        (100vw - var(--fluid-vw-min) * 1px) / var(--fluid-range)
+    ),
+    calc(var(--fs-h4-max) * 1px)
+  );
+
+  --fs-h5-min: 16;
+  --fs-h5-max: 20;
+  --fs-h5: clamp(
+    calc(var(--fs-h5-min) * 1px),
+    calc(
+      var(--fs-h5-min) * 1px + (var(--fs-h5-max) - var(--fs-h5-min)) *
+        (100vw - var(--fluid-vw-min) * 1px) / var(--fluid-range)
+    ),
+    calc(var(--fs-h5-max) * 1px)
+  );
+
+  --fs-body: 16px;
+  --fs-lede: 20px;
+  --fs-caption: 12px;
+  --fs-eyebrow: 12px;
+  --fs-tag: 11px;
+
+  --ls-tag: 0.14em;
+
+  /* ============================================================
+     5. SPACING — 8px base scale
+     ============================================================ */
+  --space-0: 0;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 16px;
+  --space-4: 24px;
+  --space-5: 32px;
+  --space-6: 40px;
+  --space-7: 48px;
+  --space-8: 64px;
+  --space-9: 80px;
+  --space-10: 120px;
+
+  /* Content container max inline size */
+  --container-max: 1440px;
+
+  /* ============================================================
+     6. RADII / BORDERS
+     ============================================================ */
+  --radius-sm: 2px;
+  --radius-md: 4px;
+  --radius-lg: 8px;
+  --border-1: 1px solid var(--border);
+
+  /* ============================================================
+     7. BREAKPOINTS (informational, use px in @media queries)
+     ============================================================ */
+  --bp-tablet: 768px;
+  --bp-desktop: 1280px;
+  --bp-large: 1600px;
+
+  /* ============================================================
+     8. MOTION
+     ============================================================ */
+  --ease-standard: ease-in-out;
+  --duration-fast: 150ms;
+  --duration-base: 300ms;
+
+  /* ============================================================
+     9. Z-INDEX
+     ============================================================ */
+  --z-base: 0;
+  --z-content: 2;
+  --z-footer: 30;
+  --z-header: 40;
+  --z-noise: 50;
+
+  /* ============================================================
+     10. SEMANTIC COLOR TOKENS — light-dark(), never raw hex
+     ============================================================ */
+  --bg-page: light-dark(var(--color-athens-gray), var(--color-woodsmoke));
+  --bg-surface: light-dark(var(--color-white), var(--color-shark));
+  --bg-surface-alt: light-dark(
+    var(--color-athens-gray),
+    var(--color-woodsmoke)
+  );
+
+  --fg-1: light-dark(var(--color-woodsmoke), var(--color-athens-gray));
+  --fg-2: light-dark(var(--color-shark), var(--color-white));
+  --fg-3: light-dark(var(--color-shuttle-gray), var(--color-iron));
+
+  --border: light-dark(var(--color-iron), var(--color-shark));
+  --logo-fg: light-dark(var(--color-woodsmoke), var(--color-athens-gray));
+
+  --link: light-dark(var(--color-elm), var(--color-jungle-green));
+  --link-hover: light-dark(var(--color-jungle-green), var(--color-elm));
+
+  /* Resolve light-dark() against the OS preference by default;
+     data-theme overrides below pin it explicitly (tri-state). */
+  color-scheme: light dark;
+}
+
+/* Manual theme overrides only ever reassign color-scheme — every
+   semantic token above already resolves through light-dark(). */
+[data-theme='light'] {
+  color-scheme: light;
+}
+
+[data-theme='dark'] {
+  color-scheme: dark;
+}

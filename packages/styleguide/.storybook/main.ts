@@ -1,16 +1,18 @@
 import path from 'path';
 import { fileURLToPath } from 'url';
 
+import vue from '@vitejs/plugin-vue';
 import type { StorybookConfig } from '@storybook/vue3-vite';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const config: StorybookConfig = {
-  stories: ['../src/**/*.stories.@(js|jsx|ts|tsx)'],
+  stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|ts|tsx)'],
   addons: [
     '@storybook/addon-links',
     '@storybook/addon-a11y',
     '@storybook/addon-docs',
+    '@storybook/addon-themes',
   ],
 
   framework: {
@@ -24,18 +26,8 @@ const config: StorybookConfig = {
       ...config.resolve.alias,
       '@': path.resolve(__dirname, '../src'),
     };
-    config.css = {
-      preprocessorOptions: {
-        scss: {
-          quietDeps: true,
-          additionalData: `
-            @use 'sass:math';
-            @use "@/assets/scss/index.scss" as *;
-          `,
-        },
-      },
-    };
-
+    config.plugins = config.plugins || [];
+    config.plugins.push(vue());
     return config;
   },
 };

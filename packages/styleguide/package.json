@@ -7,10 +7,19 @@
   "type": "module",
   "module": "src/index.ts",
   "types": "types/index.d.ts",
+  "exports": {
+    ".": "./src/index.ts",
+    "./tokens.css": "./src/assets/css/tokens.css",
+    "./base.css": "./src/assets/css/base.css",
+    "./utilities.css": "./src/assets/css/utilities.css",
+    "./app.css": "./src/assets/css/app.css",
+    "./src/*": "./src/*"
+  },
   "scripts": {
     "dev": "storybook dev -p 6006",
+    "generate:icons": "node bin/sprite.mjs",
     "lint": "npx eslint .",
-    "lint:style": "stylelint src/**/*.{css,scss}",
+    "lint:style": "stylelint src/**/*.css",
     "lint:markup": "vue-tsc --noEmit",
     "build": "pnpm lint:markup && storybook build -o ../../dist/styleguide",
     "test": "vitest run",
@@ -18,23 +27,26 @@
     "test:coverage": "vitest run --coverage"
   },
   "devDependencies": {
-    "@storybook/addon-a11y": "10.2.8",
-    "@storybook/addon-docs": "10.2.8",
-    "@storybook/addon-links": "10.2.8",
-    "@storybook/vue3": "10.2.8",
-    "@storybook/vue3-vite": "10.2.8",
-    "@vitejs/plugin-vue": "6.0.4",
-    "@vitest/coverage-v8": "4.0.18",
-    "@vue/test-utils": "2.4.6",
-    "eslint-plugin-storybook": "10.2.8",
-    "jsdom": "28.1.0",
-    "storybook": "10.2.8",
-    "vite": "7.3.1",
-    "vitest": "4.0.18",
+    "@storybook/addon-a11y": "10.5.0",
+    "@storybook/addon-docs": "10.5.0",
+    "@storybook/addon-links": "10.5.0",
+    "@storybook/addon-themes": "10.5.0",
+    "@storybook/vue3": "10.5.0",
+    "@storybook/vue3-vite": "10.5.0",
+    "@vitejs/plugin-vue": "6.0.7",
+    "@vitest/coverage-v8": "4.1.10",
+    "@vue/test-utils": "2.4.11",
+    "eslint-plugin-storybook": "10.5.0",
+    "glob": "13.0.6",
+    "jsdom": "29.1.1",
+    "storybook": "10.5.0",
+    "svg-sprite": "2.0.4",
+    "vite": "8.1.4",
+    "vitest": "4.1.10",
     "vue-docgen-api": "4.79.2",
-    "vue-tsc": "3.2.4"
+    "vue-tsc": "3.3.7"
   },
   "peerDependencies": {
-    "vue": "3.5.28"
+    "vue": "3.5.39"
   }
 }

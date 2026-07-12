@@ -49,6 +49,13 @@ packages/website/nuxt.config.d.ts
 # Claude
 .claude/
 CLAUDE.md
+CONVENTIONS.md
+INTERVIEW.md
+STATE.md
+
+# Internal docs
+docs/
+tasks/
 
 # Test coverage
 coverage/
@@ -56,4 +63,3 @@ coverage/
 # Misc
 node_modules
 *.local
-

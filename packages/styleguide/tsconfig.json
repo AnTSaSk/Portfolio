@@ -13,10 +13,9 @@
     "esModuleInterop": true,
     "lib": ["ESNext", "DOM"],
     "skipLibCheck": true,
-    "baseUrl": ".",
     "paths": {
-      "@/*": ["src/*"],
-      "react": ["types/react/index.d.ts"]
+      "@/*": ["./src/*"],
+      "react": ["./types/react/index.d.ts"]
     },
     "types": ["vite/client"]
   },

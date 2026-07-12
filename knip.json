@@ -1,0 +1,54 @@
+{
+  "$schema": "https://unpkg.com/knip@5/schema.json",
+  "workspaces": {
+    "packages/website": {
+      "entry": [
+        "nuxt.config.ts",
+        "content.config.ts",
+        "src/app.vue",
+        "src/error.vue",
+        "src/pages/**/*.vue",
+        "src/layouts/**/*.vue",
+        "src/middleware/**/*.ts",
+        "src/plugins/**/*.ts",
+        "src/composables/**/*.ts",
+        "src/server/**/*.ts",
+        "server/**/*.ts",
+        "i18n.config.ts"
+      ],
+      "paths": {
+        "@/*": ["src/*"],
+        "~/*": ["src/*"],
+        "#imports": [".nuxt/imports.d.ts"],
+        "#app": [".nuxt/nuxt.d.ts"]
+      },
+      "ignore": [".nuxt/**", ".output/**", ".eslintrc.cjs", ".stylelintrc.mjs"],
+      "ignoreDependencies": [
+        "@nuxt/content",
+        "@nuxtjs/i18n",
+        "@nuxtjs/seo",
+        "better-sqlite3",
+        "jsdom",
+        "eslint",
+        "stylelint"
+      ],
+      "ignoreExports": [
+        "src/composables/useLocaleContent.ts",
+        "src/composables/useScrollY.ts",
+        "src/composables/useTheme.ts",
+        "src/composables/useTocTracking.ts",
+        "src/composables/useSeo.ts",
+        "src/constants/**",
+        "src/utils/**"
+      ]
+    },
+    "packages/styleguide": {
+      "entry": ["src/index.ts", "src/**/*.stories.ts", ".storybook/**/*.ts"],
+      "ignore": ["storybook-static/**", "types/**"],
+      "ignoreExports": ["src/components/**"]
+    },
+    "packages/cv": {
+      "entry": ["src/main.ts", "vite.config.ts", "vitest.config.ts"]
+    }
+  }
+}

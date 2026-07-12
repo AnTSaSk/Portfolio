@@ -1,0 +1,202 @@
+/* =============================================================
+   base.css — fonts, reset and bare-tag base styles
+   Consumed as a whole under layer(base) by app.css; internal
+   @layer statements group font-faces and reset separately.
+   ============================================================= */
+
+@layer fonts {
+  @font-face {
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url('/fonts/Montserrat/Montserrat-Regular.woff2') format('woff2');
+  }
+
+  @font-face {
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 500;
+    font-display: swap;
+    src: url('/fonts/Montserrat/Montserrat-Medium.woff2') format('woff2');
+  }
+
+  @font-face {
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 600;
+    font-display: swap;
+    src: url('/fonts/Montserrat/Montserrat-SemiBold.woff2') format('woff2');
+  }
+
+  @font-face {
+    font-family: 'Noto Sans';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url('/fonts/NotoSans/NotoSans-Regular.woff2') format('woff2');
+  }
+
+  @font-face {
+    font-family: 'Noto Sans';
+    font-style: normal;
+    font-weight: 500;
+    font-display: swap;
+    src: url('/fonts/NotoSans/NotoSans-Medium.woff2') format('woff2');
+  }
+
+  @font-face {
+    font-family: 'Noto Sans';
+    font-style: normal;
+    font-weight: 600;
+    font-display: swap;
+    src: url('/fonts/NotoSans/NotoSans-SemiBold.woff2') format('woff2');
+  }
+}
+
+@layer reset {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    margin: 0;
+  }
+
+  button {
+    padding: 0;
+    color: inherit;
+    font: inherit;
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+
+  img {
+    display: block;
+    max-inline-size: 100%;
+    block-size: auto;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  p,
+  figure,
+  dl,
+  dd,
+  ul,
+  ol {
+    margin: 0;
+  }
+}
+
+@layer base {
+  html,
+  body {
+    color: var(--fg-1);
+    font-family: var(--font-body);
+    font-size: var(--fs-body);
+    line-height: var(--lh-body);
+    background-color: var(--bg-page);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  h1 {
+    margin: 0;
+    color: var(--fg-2);
+    font-family: var(--font-display);
+    font-size: var(--fs-h1);
+    font-weight: var(--fw-regular);
+    line-height: var(--lh-heading);
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+  }
+
+  h2 {
+    margin: 0;
+    color: var(--fg-2);
+    font-family: var(--font-display);
+    font-size: var(--fs-h2);
+    font-weight: var(--fw-regular);
+    line-height: var(--lh-heading);
+  }
+
+  h3 {
+    margin: 0;
+    color: var(--fg-2);
+    font-family: var(--font-display);
+    font-size: var(--fs-h3);
+    font-weight: var(--fw-medium);
+    line-height: var(--lh-heading);
+  }
+
+  h4 {
+    margin: 0;
+    color: var(--fg-2);
+    font-family: var(--font-display);
+    font-size: var(--fs-h4);
+    font-weight: var(--fw-semibold);
+    line-height: var(--lh-heading);
+  }
+
+  h5 {
+    margin: 0;
+    color: var(--fg-2);
+    font-family: var(--font-display);
+    font-size: var(--fs-h5);
+    font-weight: var(--fw-semibold);
+    line-height: var(--lh-heading);
+  }
+
+  p {
+    margin: 0;
+    font-size: var(--fs-body);
+    line-height: var(--lh-body);
+  }
+
+  /* stylelint-disable-next-line selector-class-pattern -- base-layer WYSIWYG role, not a component */
+  .overline {
+    color: var(--fg-3);
+    font-family: var(--font-display);
+    font-size: var(--fs-eyebrow);
+    font-weight: var(--fw-semibold);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+
+  /* stylelint-disable selector-class-pattern -- base-layer WYSIWYG role, not a component */
+  a,
+  .link {
+    color: var(--link);
+    text-decoration: none;
+    transition: color var(--duration-base) var(--ease-standard);
+  }
+
+  a:hover,
+  .link:hover {
+    color: var(--link-hover);
+  }
+  /* stylelint-enable selector-class-pattern */
+
+  code,
+  pre,
+  kbd,
+  samp {
+    font-family:
+      ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono',
+      monospace;
+    font-size: 0.92em;
+  }
+}

@@ -5,8 +5,18 @@ export default {
   plugins: [stylelintOrder],
   overrides: [
     {
-      files: ['*.scss', '**/*.scss'],
+      files: ['packages/cv/**/*.scss'],
       customSyntax: postcssScss,
+      rules: {
+        // cv ABEM allows hyphenated __elements and chained .-modifiers
+        'selector-class-pattern': [
+          '^(a|m|o|t)-[a-z][a-z0-9]*(?:__[a-z][a-z0-9]*(?:-[a-z0-9]+)*)*(?:\\.-[a-z][a-z0-9]*(?:-[a-z0-9]+)*)*$|^-[a-z][a-z0-9]*(?:-[a-z0-9]+)*$|^-sr-only(?:-focusable)?$',
+          {
+            message:
+              'Class must follow ABEM (cv): .{a,m,o,t}-name, .-modifier, or &__element (selector-class-pattern)',
+          },
+        ],
+      },
     },
   ],
   rules: {
@@ -18,10 +28,10 @@ export default {
       },
     ],
     'selector-class-pattern': [
-      '^(a|m|o|t)-[a-z][a-z0-9]*(?:__[a-z][a-z0-9]*(?:-[a-z0-9]+)*)*(?:\\.-[a-z][a-z0-9]*(?:-[a-z0-9]+)*)*$|^-[a-z][a-z0-9]*(?:-[a-z0-9]+)*$|^-sr-only(?:-focusable)?$',
+      '^(a|m|o|l|u|t)-[a-z][a-zA-Z0-9]*(__[a-z][a-zA-Z0-9]*)?$|^-[a-zA-Z][a-zA-Z0-9]*$',
       {
         message:
-          'Class must follow ABEM: .{a,m,o,t}-name, .-modifier, or &__element (selector-class-pattern)',
+          'Class must follow ABEM: .{a,m,o,t,l,u}-name, .-modifier, or &__element (selector-class-pattern)',
       },
     ],
     'order/order': [
