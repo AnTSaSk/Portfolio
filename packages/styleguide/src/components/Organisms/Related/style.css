@@ -1,0 +1,61 @@
+@layer components {
+  @media (max-width: 900px) {
+    .o-related__grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 600px) {
+    .o-related__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .o-related {
+    padding-block-start: 56px;
+    border-block-start: var(--border-1);
+  }
+
+  .o-related__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 32px;
+    margin-block-start: 32px;
+  }
+
+  /* Position 2 (3n+2): article cards rotate their cover placeholder
+     glow to the top-right corner. */
+  .o-related__grid .m-cardArticle:nth-child(3n + 2) .u-placeholder {
+    background:
+      radial-gradient(
+        120% 140% at 100% 0%,
+        color-mix(in oklab, var(--color-jungle-green) 16%, transparent),
+        transparent 58%
+      ),
+      var(--bg-surface-alt);
+  }
+
+  /* Position 3 (3n+3): article cards rotate their cover placeholder
+     glow to bottom-center, distinct from positions 1 and 2. */
+  .o-related__grid .m-cardArticle:nth-child(3n + 3) .u-placeholder {
+    background:
+      radial-gradient(
+        130% 150% at 50% 120%,
+        color-mix(in oklab, var(--color-jungle-green) 14%, transparent),
+        transparent 60%
+      ),
+      var(--bg-surface-alt);
+  }
+
+  /* Project cards only rotate 2 positions: position 3 falls back to the
+     base placeholder gradient (same as position 1), no bottom variant. */
+  .o-related__grid .m-cardProject:nth-child(3n + 2) .u-placeholder {
+    background:
+      radial-gradient(
+        120% 140% at 100% 0%,
+        color-mix(in oklab, var(--color-jungle-green) 16%, transparent),
+        transparent 58%
+      ),
+      var(--bg-surface-alt);
+  }
+}

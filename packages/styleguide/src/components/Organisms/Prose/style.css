@@ -1,0 +1,115 @@
+@layer components {
+  .o-prose {
+    max-inline-size: 65ch;
+    color: var(--fg-1);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.7;
+  }
+
+  .o-prose > * + * {
+    margin-block-start: 1.4em;
+  }
+
+  .o-prose h2 {
+    margin-block-start: 1.6em;
+    color: var(--fg-2);
+    font-family: var(--font-display);
+    font-size: 26px;
+    font-weight: var(--fw-regular);
+    letter-spacing: 0.01em;
+    text-transform: uppercase;
+  }
+
+  .o-prose h3 {
+    margin-block-start: 1.4em;
+    color: var(--fg-2);
+    font-family: var(--font-display);
+    font-size: 20px;
+    font-weight: var(--fw-medium);
+  }
+
+  .o-prose p {
+    text-wrap: pretty;
+  }
+
+  .o-prose blockquote {
+    margin-block: 1.6em;
+    padding-inline-start: 24px;
+    border-inline-start: 2px solid var(--color-jungle-green);
+    color: var(--fg-2);
+    font-family: var(--font-display);
+    font-size: 22px;
+    font-weight: var(--fw-regular);
+    line-height: 1.3;
+    letter-spacing: 0.01em;
+    text-transform: uppercase;
+  }
+
+  .o-prose ul {
+    padding-inline-start: 24px;
+  }
+
+  .o-prose li {
+    margin-block-end: 0.4em;
+  }
+
+  .o-prose li::marker {
+    color: var(--color-jungle-green);
+  }
+
+  .o-prose code {
+    color: var(--color-elm);
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 0.92em;
+  }
+
+  .o-prose a {
+    color: transparent;
+    text-decoration: none;
+    background-image: var(--gradient-brand), var(--gradient-brand);
+    background-repeat: no-repeat, no-repeat;
+    background-position:
+      0 100%,
+      0 0;
+    background-size:
+      0 1px,
+      100% 100%;
+    -webkit-background-clip: padding-box, text;
+    background-clip: padding-box, text;
+    -webkit-text-fill-color: transparent;
+    transition:
+      background-size 200ms ease-out,
+      background-image 200ms ease-out;
+  }
+
+  .o-prose a:hover,
+  .o-prose a:focus-visible {
+    background-image:
+      var(--gradient-brand-reverse), var(--gradient-brand-reverse);
+    background-size:
+      100% 1px,
+      100% 100%;
+  }
+
+  .o-prose a:focus-visible {
+    border-radius: 1px;
+    outline: 2px solid var(--color-jungle-green);
+    outline-offset: 3px;
+  }
+
+  .o-prose pre code {
+    display: block;
+    margin-block: 1.6em;
+    padding: 24px 28px;
+    overflow-x: auto;
+    color: var(--fg-2);
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 13px;
+    line-height: 1.7;
+    white-space: pre;
+    background: var(--bg-surface-alt);
+    border: var(--border-1);
+    border-radius: var(--radius-lg);
+  }
+}

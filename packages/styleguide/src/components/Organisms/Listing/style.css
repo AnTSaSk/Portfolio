@@ -1,0 +1,52 @@
+@layer components {
+  .o-listing {
+    position: relative;
+  }
+
+  .o-listing__inner {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .o-listing__filter {
+    margin-block-start: 36px;
+  }
+
+  .o-listing__preGrid {
+    margin-block-start: 36px;
+  }
+
+  .o-listing__grid {
+    display: grid;
+    margin-block-start: 36px;
+  }
+
+  .o-listing__pagination {
+    margin-block-start: 56px;
+  }
+
+  .o-listing__grid.-autoFill {
+    grid-template-columns: 1fr;
+    gap: 40px 32px;
+
+    @media (min-width: 521px) {
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+    }
+  }
+
+  .o-listing__grid.-twoUp {
+    grid-template-columns: 1fr;
+    gap: 48px 32px;
+    margin-block-start: 48px;
+
+    @media (min-width: 721px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  /* no head organism precedes o-listing anymore: the first visible
+     element (filter, pre-grid or grid) owns no leading offset */
+  .o-listing__inner > :first-child {
+    margin-block-start: 0;
+  }
+}

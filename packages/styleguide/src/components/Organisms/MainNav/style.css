@@ -1,0 +1,37 @@
+@layer components {
+  .o-mainNav {
+    position: sticky;
+    inset-block-end: 0;
+    padding-block: var(--space-3);
+    background-color: var(--bg-page);
+    border-block-start: var(--border-1);
+    transition: padding 200ms;
+    z-index: var(--z-footer);
+  }
+
+  .o-mainNav.-min {
+    padding-block: 10px;
+  }
+
+  .o-mainNav__inner {
+    display: flex;
+  }
+
+  .o-mainNav__nav {
+    inline-size: 100%;
+  }
+
+  .o-mainNav__list {
+    display: flex;
+    inline-size: 100%;
+    gap: var(--space-4);
+    justify-content: space-between;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  .o-mainNav__item {
+    display: flex;
+  }
+}

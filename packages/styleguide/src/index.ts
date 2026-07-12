@@ -1,42 +1,106 @@
 import type { App } from 'vue';
 
-/*****************************/
-/**** START - DO NO TOUCH ****/
-/*****************************/
-
 // imports components
-import CTA from './components/Atoms/CTA';
+import Button from './components/Atoms/Button';
 import Heading from './components/Atoms/Heading';
-import Paragraph from './components/Atoms/Paragraph';
+import Icon from './components/Atoms/Icon';
+import Image from './components/Atoms/Image';
+import LangSwitcher from './components/Atoms/LangSwitcher';
+import Link from './components/Atoms/Link';
+import Logo from './components/Atoms/Logo';
+import Tag from './components/Atoms/Tag';
+import Text from './components/Atoms/Text';
+import ThemeSwitcher from './components/Atoms/ThemeSwitcher';
+import Watermark from './components/Atoms/Watermark';
+import Author from './components/Molecules/Author';
+import CardArticle from './components/Molecules/CardArticle';
+import CardProject from './components/Molecules/CardProject';
+import Filter from './components/Molecules/Filter';
+import Gallery from './components/Molecules/Gallery';
+import MediaCover from './components/Molecules/MediaCover';
+import MetaList from './components/Molecules/MetaList';
+import Pagination from './components/Molecules/Pagination';
+import TOC from './components/Molecules/TOC';
+import Feature from './components/Organisms/Feature';
+import Head from './components/Organisms/Head';
+import Header from './components/Organisms/Header';
+import Hero from './components/Organisms/Hero';
+import Listing from './components/Organisms/Listing';
+import MainNav from './components/Organisms/MainNav';
+import Prose from './components/Organisms/Prose';
+import Related from './components/Organisms/Related';
 
-const components = [CTA, Heading, Paragraph];
+const components = [
+  Button,
+  Heading,
+  Icon,
+  Image,
+  LangSwitcher,
+  Link,
+  Logo,
+  Tag,
+  Text,
+  ThemeSwitcher,
+  Watermark,
+  Author,
+  CardArticle,
+  CardProject,
+  Filter,
+  Gallery,
+  MediaCover,
+  MetaList,
+  Pagination,
+  TOC,
+  Feature,
+  Head,
+  Header,
+  Hero,
+  Listing,
+  MainNav,
+  Prose,
+  Related,
+];
 // end imports components
 
-/***************************/
-/**** END - DO NO TOUCH ****/
-/***************************/
-
-/**
- * Install components
- *
- * @param {App} Vue
- */
-const install = (Vue: App) => {
+const install = (app: App): void => {
   for (const component of components) {
-    Vue.component(component.name!, component);
+    if (component.name) {
+      app.component(component.name, component);
+    }
   }
 };
 
 export default { install };
 
-/*****************************/
-/**** START - DO NO TOUCH ****/
-/*****************************/
-
 // export components
-export { CTA, Heading, Paragraph };
+export {
+  Button,
+  Heading,
+  Icon,
+  Image,
+  LangSwitcher,
+  Link,
+  Logo,
+  Tag,
+  Text,
+  ThemeSwitcher,
+  Watermark,
+  Author,
+  CardArticle,
+  CardProject,
+  Filter,
+  Gallery,
+  MediaCover,
+  MetaList,
+  Pagination,
+  TOC,
+  Feature,
+  Head,
+  Header,
+  Hero,
+  Listing,
+  MainNav,
+  Prose,
+  Related,
+};
 // end export components
-
-/***************************/
-/**** END - DO NO TOUCH ****/
-/***************************/

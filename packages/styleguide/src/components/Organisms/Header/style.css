@@ -1,0 +1,49 @@
+@layer components {
+  .o-header {
+    position: sticky;
+    background: transparent;
+    transition:
+      background 240ms,
+      backdrop-filter 240ms,
+      border-color 240ms,
+      padding 200ms;
+    z-index: var(--z-header);
+    inset-block-start: 0;
+    inline-size: 100%;
+    border-block-end: 1px solid transparent;
+    padding-block: var(--space-4);
+
+    @media (max-width: 767px) {
+      padding-block: 14px;
+    }
+  }
+
+  .o-header.-scrolled {
+    background-color: light-dark(
+      rgba(242, 245, 247, 0.82),
+      rgba(17, 19, 21, 0.82)
+    );
+    -webkit-backdrop-filter: blur(14px) saturate(160%);
+    backdrop-filter: blur(14px) saturate(160%);
+    border-block-end-color: var(--border);
+    padding-block: 12px;
+  }
+
+  .o-header__inner {
+    display: flex;
+    gap: var(--space-4);
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .o-header__logo {
+    inline-size: 36px;
+    block-size: 33px;
+  }
+
+  .o-header__tools {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+  }
+}
