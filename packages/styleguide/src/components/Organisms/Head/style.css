@@ -7,9 +7,6 @@
     margin-block-end: 36px;
   }
 
-  /* Organism exception: back label letter-spacing diverges from the Text
-     -eyebrow atom scale (0.18em) — sanctioned contextual override, no
-     matching token exists, hence the literal value. */
   .o-head__backLabel.a-text {
     letter-spacing: 0.22em;
   }
@@ -31,9 +28,6 @@
     margin-block-end: 24px;
   }
 
-  /* Organism exception: title reuses Heading for h1 semantics but requires
-     maquette-specific display sizing beyond the atom's -h1 scale (sanctioned,
-     same pattern as the Hero greeting/name/role override). */
   .o-head.-listing .o-head__title.a-heading {
     font-size: clamp(56px, 8vw, 120px);
     line-height: 0.95;
@@ -45,9 +39,6 @@
     line-height: 1;
   }
 
-  /* Organism exception (AC-HEAD-4): the article lede diverges from the
-     Text -lede atom scale (source mockup uses its own size/line-height) —
-     sanctioned override, same pattern as the Hero greeting/name/role. */
   .o-head.-article .o-head__lede.a-text {
     margin-block-end: 28px;
     font-size: clamp(17px, 1.4vw, 20px);

@@ -5,13 +5,12 @@ import { fileURLToPath } from 'node:url';
 import { mount, type VueWrapper } from '@vue/test-utils';
 import { describe, expect, it } from 'vitest';
 
-import Button from '@/components/Atoms/Button/index.vue';
-import Heading from '@/components/Atoms/Heading/index.vue';
-import Link from '@/components/Atoms/Link/index.vue';
-import Tag from '@/components/Atoms/Tag/index.vue';
-import Text from '@/components/Atoms/Text/index.vue';
-import Watermark from '@/components/Atoms/Watermark/index.vue';
-
+import Button from '../../../Atoms/Button/index.vue';
+import Heading from '../../../Atoms/Heading/index.vue';
+import Link from '../../../Atoms/Link/index.vue';
+import Tag from '../../../Atoms/Tag/index.vue';
+import Text from '../../../Atoms/Text/index.vue';
+import Watermark from '../../../Atoms/Watermark/index.vue';
 import Hero from '../index.vue';
 
 const dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -24,13 +23,14 @@ const baseProps = {
   body: ['Paragraphe un.', 'Paragraphe deux.', 'Paragraphe trois.'],
   tags: ['Vue.js', 'Nuxt', 'TypeScript'],
   watermarkText: 'ALEXIS BESSON',
-  contactHref: '#contact',
-  projectsHref: '#projects',
-  contactLabel: 'Me contacter',
-  projectsLabel: 'Voir les projets',
+  primaryHref: '#projects',
+  primaryLabel: 'Voir les projets',
+  secondaryHref: 'https://www.linkedin.com/in/example/',
+  secondaryLabel: 'LinkedIn',
+  secondaryExternal: true,
 };
 
-describe('Hero (AC-COMP-1 — structure)', () => {
+describe('Hero (structure)', () => {
   it('mounts .o-hero containing .o-hero__inner', () => {
     const wrapper = mount(Hero, { props: baseProps });
 
@@ -87,7 +87,7 @@ describe('Hero (AC-COMP-1 — structure)', () => {
     );
   });
 
-  it('composes one Tag atom with the brand variant per tag entry', () => {
+  it('composes one Tag atom with the strong variant per tag entry', () => {
     const wrapper = mount(Hero, { props: baseProps });
     const items = wrapper.findAll('.o-hero__tagItem');
     const tagAtoms = wrapper.find('.o-hero__tags').findAllComponents(Tag);
@@ -96,40 +96,42 @@ describe('Hero (AC-COMP-1 — structure)', () => {
     expect(tagAtoms).toHaveLength(baseProps.tags.length);
     tagAtoms.forEach(
       (tag: VueWrapper<InstanceType<typeof Tag>>, index: number) => {
-        expect(tag.props('variant')).toBe('brand');
+        expect(tag.props('variant')).toBe('strong');
         expect(tag.text()).toBe(baseProps.tags[index]);
       },
     );
   });
 
-  it('renders the .u-radial decorative glow element', () => {
+  // The radial glow is owned by the page (outside .o-hero) so it can bleed
+  // past the hero's overflow:hidden, which clips the marquee.
+  it('does not render the .u-radial glow (the page owns it)', () => {
     const wrapper = mount(Hero, { props: baseProps });
-    const radial = wrapper.find('.u-radial');
 
-    expect(radial.exists()).toBe(true);
-    expect(radial.attributes('aria-hidden')).toBe('true');
+    expect(wrapper.find('.u-radial').exists()).toBe(false);
   });
 });
 
-describe('Hero (ADR-0018 — actions compose Button/Link)', () => {
-  it('composes the contact action via the Button atom with the primary variant', () => {
+describe('Hero (actions compose Button/Link)', () => {
+  it('composes the primary action via the Button atom with the primary variant', () => {
     const wrapper = mount(Hero, { props: baseProps });
     const button = wrapper.find('.o-hero__actions').findComponent(Button);
 
     expect(button.exists()).toBe(true);
     expect(button.props('variant')).toBe('primary');
-    expect(button.text()).toContain(baseProps.contactLabel);
+    expect(button.props('href')).toBe(baseProps.primaryHref);
+    expect(button.text()).toContain(baseProps.primaryLabel);
   });
 
-  it('composes the projects action via the Link atom with the arrow variant, without a reinvented <a> or a hardcoded arrow glyph', () => {
+  it('composes the secondary action via the Link atom with the arrow variant, forwarding external, without a reinvented <a> or a hardcoded arrow glyph', () => {
     const wrapper = mount(Hero, { props: baseProps });
     const actions = wrapper.find('.o-hero__actions');
     const link = actions.findComponent(Link);
 
     expect(link.exists()).toBe(true);
     expect(link.props('variant')).toBe('arrow');
-    expect(link.props('href')).toBe(baseProps.projectsHref);
-    expect(link.text()).toContain(baseProps.projectsLabel);
+    expect(link.props('href')).toBe(baseProps.secondaryHref);
+    expect(link.props('external')).toBe(true);
+    expect(link.text()).toContain(baseProps.secondaryLabel);
 
     // Only the Link atom may render an <a>; Hero must not add its own.
     expect(actions.findAll('a')).toHaveLength(1);
@@ -140,7 +142,7 @@ describe('Hero (ADR-0018 — actions compose Button/Link)', () => {
   });
 });
 
-describe('Hero (AC-INV-3 — Watermark placement owned by the organism)', () => {
+describe('Hero (Watermark placement owned by the organism)', () => {
   it('composes the Watermark atom, carrying its own placement class', () => {
     const wrapper = mount(Hero, { props: baseProps });
     const watermark = wrapper.findComponent(Watermark);
@@ -150,16 +152,18 @@ describe('Hero (AC-INV-3 — Watermark placement owned by the organism)', () => 
     expect(watermark.classes()).toContain('o-hero__watermark');
   });
 
-  it('declares the full-bleed placement (inline-size 100vw) on .o-hero__watermark in the organism style sheet', () => {
+  it('declares the full-bleed placement (centered max-content box) on .o-hero__watermark in the organism style sheet', () => {
     const css = readFileSync(STYLE_CSS_PATH, 'utf-8');
     const watermarkRule =
       css.match(/\.o-hero__watermark\s*\{[^}]*\}/)?.[0] ?? '';
 
-    expect(watermarkRule).toMatch(/inline-size:\s*100vw/);
+    expect(watermarkRule).toMatch(/inline-size:\s*max-content/);
+    expect(watermarkRule).not.toMatch(/text-align:\s*center/);
+    expect(watermarkRule).not.toMatch(/max-inline-size:\s*100vw/);
   });
 });
 
-describe('Hero (AC-LAYER-3 — internal geometry only, no page-level sizing)', () => {
+describe('Hero (internal geometry only, no page-level sizing)', () => {
   it('fills its parent height via min-block-size: 100% instead of page-viewport units', () => {
     const css = readFileSync(STYLE_CSS_PATH, 'utf-8');
     const heroRule = css.match(/\.o-hero\s*\{[^}]*\}/)?.[0] ?? '';
@@ -171,7 +175,7 @@ describe('Hero (AC-LAYER-3 — internal geometry only, no page-level sizing)', (
     expect(heroRule).not.toMatch(/margin/);
   });
 
-  it('does not declare the content-container band on .o-hero__inner (owned by l-container)', () => {
+  it('does not declare the content-container band on .o-hero__inner', () => {
     const css = readFileSync(STYLE_CSS_PATH, 'utf-8');
     const innerRule = css.match(/\.o-hero__inner\s*\{[^}]*\}/)?.[0] ?? '';
 
@@ -179,16 +183,9 @@ describe('Hero (AC-LAYER-3 — internal geometry only, no page-level sizing)', (
     expect(innerRule).not.toMatch(/margin-inline\s*:/);
     expect(innerRule).not.toMatch(/padding-inline\s*:/);
   });
-
-  it('composes the l-container layout class on .o-hero__inner', () => {
-    const wrapper = mount(Hero, { props: baseProps });
-    const inner = wrapper.find('.o-hero__inner');
-
-    expect(inner.classes()).toContain('l-container');
-  });
 });
 
-describe('Hero (AC-ATOM-2 — typography owned by Heading/Text/Tag only)', () => {
+describe('Hero (typography owned by Heading/Text/Tag only)', () => {
   it('declares no absolute font-size on the __body/__tags blocks', () => {
     const css = readFileSync(STYLE_CSS_PATH, 'utf-8');
     const textBlockSuffixes = ['__body', '__tags'];

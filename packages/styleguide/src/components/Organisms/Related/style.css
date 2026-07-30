@@ -16,6 +16,12 @@
     border-block-start: var(--border-1);
   }
 
+  .o-related__inner {
+    margin: 0 auto;
+    width: 100%;
+    max-width: var(--bp-desktop);
+  }
+
   .o-related__grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);

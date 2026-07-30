@@ -1,11 +1,10 @@
 import { mount, type VueWrapper } from '@vue/test-utils';
 import { describe, expect, it } from 'vitest';
 
-import Heading from '@/components/Atoms/Heading/index.vue';
-import Link from '@/components/Atoms/Link/index.vue';
-import Tag from '@/components/Atoms/Tag/index.vue';
-import Text from '@/components/Atoms/Text/index.vue';
-
+import Heading from '../../../Atoms/Heading/index.vue';
+import Link from '../../../Atoms/Link/index.vue';
+import Tag from '../../../Atoms/Tag/index.vue';
+import Text from '../../../Atoms/Text/index.vue';
 import Head from '../index.vue';
 
 const listingProps = {
@@ -26,7 +25,7 @@ const articleProps = {
   metaDuration: '9 min de lecture',
 };
 
-describe('Head (AC-HEAD-1 — variant prop / root structure)', () => {
+describe('Head (variant prop / root structure)', () => {
   it('mounts .o-head with the .-listing modifier for variant="listing"', () => {
     const wrapper = mount(Head, { props: listingProps });
 
@@ -42,7 +41,7 @@ describe('Head (AC-HEAD-1 — variant prop / root structure)', () => {
   });
 });
 
-describe('Head (AC-HEAD-2 — listing variant structure)', () => {
+describe('Head (listing variant structure)', () => {
   it('composes the eyebrow via the Text atom (-eyebrow, accent tone)', () => {
     const wrapper = mount(Head, { props: listingProps });
     const eyebrow = wrapper
@@ -88,7 +87,7 @@ describe('Head (AC-HEAD-2 — listing variant structure)', () => {
   });
 });
 
-describe('Head (AC-HEAD-3 — article variant structure)', () => {
+describe('Head (article variant structure)', () => {
   it('composes the back link via the Link atom (variant="arrow", arrowPosition="before")', () => {
     const wrapper = mount(Head, { props: articleProps });
     const link = wrapper.findComponent(Link);
@@ -144,16 +143,17 @@ describe('Head (AC-HEAD-3 — article variant structure)', () => {
     expect(lede?.text()).toBe(articleProps.lede);
   });
 
-  it('composes the meta (date · duration) via the Text atom (-tag variant) when provided', () => {
+  it('composes the meta as two separate -tag Text spans (date, duration) with no separator', () => {
     const wrapper = mount(Head, { props: articleProps });
     const metaBlock = wrapper.find('.o-head__meta');
-    const metaText = metaBlock.findComponent(Text);
+    const metaTexts = metaBlock.findAllComponents(Text);
 
     expect(metaBlock.exists()).toBe(true);
-    expect(metaText.props('variant')).toBe('tag');
-    expect(metaText.text()).toBe(
-      `${articleProps.metaDate} · ${articleProps.metaDuration}`,
-    );
+    expect(metaTexts).toHaveLength(2);
+    expect(metaTexts[0].props('variant')).toBe('tag');
+    expect(metaTexts[1].props('variant')).toBe('tag');
+    expect(metaTexts[0].text()).toBe(articleProps.metaDate);
+    expect(metaTexts[1].text()).toBe(articleProps.metaDuration);
   });
 
   it('omits the meta block when metaDate/metaDuration are not provided', () => {
@@ -181,7 +181,7 @@ describe('Head (AC-HEAD-3 — article variant structure)', () => {
   });
 });
 
-describe('Head (AC-HEAD-4 — organism exception: lede override stays Text-composed)', () => {
+describe('Head (organism exception: lede override stays Text-composed)', () => {
   it('keeps the article lede composed via the Text atom despite the organism size/line-height override', () => {
     const wrapper = mount(Head, { props: articleProps });
     const lede = wrapper
@@ -195,17 +195,7 @@ describe('Head (AC-HEAD-4 — organism exception: lede override stays Text-compo
   });
 });
 
-describe('Head (AC-HEAD-5 — layout: __inner composes l-container)', () => {
-  it('composes the l-container layout class on .o-head__inner', () => {
-    const wrapper = mount(Head, { props: listingProps });
-    const inner = wrapper.find('.o-head__inner');
-
-    expect(inner.exists()).toBe(true);
-    expect(inner.classes()).toContain('l-container');
-  });
-});
-
-describe('Head (AC-HEAD-6 — a11y)', () => {
+describe('Head (a11y)', () => {
   it('renders the title in a semantic h1 heading', () => {
     const wrapper = mount(Head, { props: articleProps });
     const headings = wrapper.findAllComponents(Heading);

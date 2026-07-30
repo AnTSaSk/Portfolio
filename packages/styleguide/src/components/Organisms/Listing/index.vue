@@ -1,6 +1,6 @@
 <template>
   <section class="o-listing">
-    <div class="o-listing__inner l-container">
+    <div class="o-listing__inner">
       <div v-if="$slots.filter" class="o-listing__filter">
         <slot name="filter" />
       </div>

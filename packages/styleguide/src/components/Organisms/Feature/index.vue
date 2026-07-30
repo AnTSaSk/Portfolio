@@ -1,27 +1,40 @@
 <template>
   <a class="o-feature" :href="href">
     <div class="o-feature__body">
-      <Text tag="p" variant="eyebrow" class="o-feature__label">{{
-        label
-      }}</Text>
+      <Text tag="p" variant="eyebrow" class="o-feature__label">
+        {{ label }}
+      </Text>
       <Text tag="p" variant="tag" class="o-feature__meta">{{ meta }}</Text>
-      <Heading level="h2" uppercase class="o-feature__title">{{
-        title
-      }}</Heading>
+      <Heading level="h2" uppercase class="o-feature__title">
+        {{ title }}
+      </Heading>
       <Text tag="p" variant="lede" class="o-feature__lead">{{ lead }}</Text>
       <ul class="o-feature__stack">
         <li v-for="entry in stack" :key="entry">
           <Tag class="-strong">{{ entry }}</Tag>
         </li>
       </ul>
-      <span class="o-feature__cta">
-        <Text tag="span" variant="cta">{{ ctaLabel }}</Text>
-        <span aria-hidden="true">→</span>
-      </span>
+      <Link variant="arrow" tag="span" class="o-feature__cta">
+        {{ ctaLabel }}
+      </Link>
     </div>
     <div class="o-feature__cover">
-      <Image v-if="image" :src="image.src" :alt="image.alt" />
-      <div v-else class="u-placeholder -big">
+      <Image
+        v-if="image"
+        reveal
+        :image-component="imageComponent"
+        :src="image.src"
+        :alt="image.alt"
+        densities="x1 x2"
+        format="avif,webp"
+      >
+        <template #placeholder>
+          <div class="u-placeholder -big" aria-hidden="true">
+            <span>{{ title }}</span>
+          </div>
+        </template>
+      </Image>
+      <div v-else class="u-placeholder -big" aria-hidden="true">
         <span>{{ title }}</span>
       </div>
     </div>
@@ -29,10 +42,13 @@
 </template>
 
 <script setup lang="ts">
-  import Heading from '@/components/Atoms/Heading/index.vue';
-  import Image from '@/components/Atoms/Image/index.vue';
-  import Tag from '@/components/Atoms/Tag/index.vue';
-  import Text from '@/components/Atoms/Text/index.vue';
+  import { type Component } from 'vue';
+
+  import Heading from '../../Atoms/Heading/index.vue';
+  import Image from '../../Atoms/Image/index.vue';
+  import Link from '../../Atoms/Link/index.vue';
+  import Tag from '../../Atoms/Tag/index.vue';
+  import Text from '../../Atoms/Text/index.vue';
 
   export interface FeatureImage {
     src: string;
@@ -48,6 +64,7 @@
     stack: string[];
     ctaLabel: string;
     image?: FeatureImage;
+    imageComponent?: Component;
   }
 
   defineOptions({ name: 'OrganismFeature' });
@@ -61,6 +78,7 @@
     stack,
     ctaLabel,
     image = undefined,
+    imageComponent = undefined,
   } = defineProps<Props>();
 </script>
 

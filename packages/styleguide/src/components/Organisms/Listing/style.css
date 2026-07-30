@@ -44,8 +44,6 @@
     }
   }
 
-  /* no head organism precedes o-listing anymore: the first visible
-     element (filter, pre-grid or grid) owns no leading offset */
   .o-listing__inner > :first-child {
     margin-block-start: 0;
   }

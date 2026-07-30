@@ -23,15 +23,31 @@ const meta: Meta<typeof Header> = {
     scrolled: { control: 'boolean' },
     theme: { control: 'select', options: ['light', 'dark'] },
     locale: { control: 'select', options: ['en', 'fr'] },
+    logoHref: { control: 'text' },
     logoLabel: { control: 'text' },
     logoTitle: { control: 'text' },
+    socialLinks: { control: 'object' },
   },
   args: {
     scrolled: false,
     theme: 'light',
     locale: 'en',
+    logoHref: '/',
     logoLabel: 'AnTSaSk',
     logoTitle: 'AnTSaSk',
+    socialLinks: [
+      {
+        icon: 'github',
+        href: 'https://github.com/AnTSaSk',
+        label: 'GitHub profile',
+      },
+      {
+        icon: 'linkedin',
+        href: 'https://www.linkedin.com/in/alexis-besson-lead-front/',
+        label: 'LinkedIn profile',
+      },
+      { icon: 'x', href: 'https://x.com/AlexisBessonWeb', label: 'X profile' },
+    ],
   },
 };
 

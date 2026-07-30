@@ -1,6 +1,6 @@
 <template>
   <footer class="o-mainNav" :class="{ '-min': min }">
-    <div class="o-mainNav__inner l-container">
+    <div class="o-mainNav__inner">
       <nav class="o-mainNav__nav" :aria-label="ariaLabel">
         <ul class="o-mainNav__list">
           <li v-for="link in links" :key="link.href" class="o-mainNav__item">
@@ -20,7 +20,7 @@
 </template>
 
 <script setup lang="ts">
-  import Link from '@/components/Atoms/Link/index.vue';
+  import Link from '../../Atoms/Link/index.vue';
 
   export interface MainNavLink {
     label: string;

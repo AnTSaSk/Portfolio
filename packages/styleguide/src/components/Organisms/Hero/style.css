@@ -2,7 +2,7 @@
   .o-hero {
     position: relative;
     display: flex;
-    flex: 1;
+    flex: 1 0 auto;
     align-items: center;
     overflow: hidden;
     min-block-size: 100%;
@@ -11,6 +11,9 @@
 
   .o-hero__inner {
     position: relative;
+    margin: 0 auto;
+    width: 100%;
+    max-width: var(--bp-desktop);
     z-index: var(--z-content);
   }
 
@@ -21,9 +24,6 @@
     margin-block-end: clamp(20px, 3.5vh, 40px);
   }
 
-  /* Sanctioned hero-display exception (user-granted, organism-level override of
-     AC-ATOM-2): greeting/name/role reuse Heading for tag/uppercase semantics but
-     need maquette-specific display sizing beyond the atom's fixed h1-h5 scale. */
   .o-hero__inner .o-hero__greeting.a-heading {
     color: var(--fg-2);
     font-size: clamp(18px, 1.7vw, 28px);
@@ -86,11 +86,10 @@
 
   .o-hero__watermark {
     position: absolute;
+    bottom: 0;
     transform: translateX(-50%);
     z-index: var(--z-base);
     inset-inline-start: 50%;
-    inset-block-end: clamp(28px, 9vh, 96px);
-    inline-size: 100vw;
-    max-inline-size: 100vw;
+    inline-size: max-content;
   }
 }

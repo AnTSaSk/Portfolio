@@ -8,10 +8,9 @@ import { h, type VNode } from 'vue';
 
 import CardArticle, {
   type CardArticleProps,
-} from '@/components/Molecules/CardArticle/index';
-import Filter from '@/components/Molecules/Filter/index.vue';
-import Pagination from '@/components/Molecules/Pagination/index.vue';
-
+} from '../../../Molecules/CardArticle/index';
+import Filter from '../../../Molecules/Filter/index.vue';
+import Pagination from '../../../Molecules/Pagination/index.vue';
 import Listing from '../index.vue';
 
 const dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -46,14 +45,13 @@ const paginationProps = {
 };
 
 describe('Listing (structure)', () => {
-  it('mounts .o-listing containing .o-listing__inner composing l-container', () => {
+  it('mounts .o-listing containing .o-listing__inner', () => {
     const wrapper = mount(Listing, { slots: { default: twoCardsSlot } });
 
     expect(wrapper.classes()).toContain('o-listing');
     const inner = wrapper.find('.o-listing__inner');
 
     expect(inner.exists()).toBe(true);
-    expect(inner.classes()).toContain('l-container');
   });
 
   it('renders the default slot cards as direct children of a .o-listing__grid div (no ul/li wrapper)', () => {
@@ -71,7 +69,7 @@ describe('Listing (structure)', () => {
       expect(card.element.parentElement).toBe(grid.element);
     });
 
-    // Cards themselves may render internal <li> (e.g. tag lists) — the
+    // Cards themselves may render internal <li> (e.g. tag lists) : the
     // invariant under test is no <li> wrapper as a DIRECT child of the grid.
     const directChildTagNames = Array.from(grid.element.children).map(
       (child) => child.tagName,
@@ -100,7 +98,7 @@ describe('Listing (gridVariant prop)', () => {
   });
 });
 
-describe('Listing (filter — optional)', () => {
+describe('Listing (filter : optional)', () => {
   it('does not render a filter when none is provided', () => {
     const wrapper = mount(Listing, { slots: { default: oneCardSlot } });
 
@@ -126,7 +124,7 @@ describe('Listing (filter — optional)', () => {
   });
 });
 
-describe('Listing (pre-grid slot — optional)', () => {
+describe('Listing (pre-grid slot : optional)', () => {
   it('renders no pre-grid content by default', () => {
     const wrapper = mount(Listing, { slots: { default: oneCardSlot } });
 
@@ -152,7 +150,7 @@ describe('Listing (pre-grid slot — optional)', () => {
   });
 });
 
-describe('Listing (pagination — optional)', () => {
+describe('Listing (pagination : optional)', () => {
   it('does not render pagination when none is provided (projects has none)', () => {
     const wrapper = mount(Listing, { slots: { default: oneCardSlot } });
 
@@ -178,7 +176,7 @@ describe('Listing (pagination — optional)', () => {
   });
 });
 
-describe('Listing (invariant — no external sizing on root)', () => {
+describe('Listing (invariant : no external sizing on root)', () => {
   it('declares no margin/width on .o-listing (sizing/position owned by the parent layout)', () => {
     const css = readFileSync(STYLE_CSS_PATH, 'utf-8');
     const rootRule = css.match(/\.o-listing\s*\{[^}]*\}/)?.[0] ?? '';

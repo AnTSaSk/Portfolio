@@ -1,12 +1,12 @@
 import { mount } from '@vue/test-utils';
 import { describe, expect, it } from 'vitest';
+import { defineComponent, h, markRaw } from 'vue';
 
-import Button from '@/components/Atoms/Button/index.vue';
-import Heading from '@/components/Atoms/Heading/index.vue';
-import Image from '@/components/Atoms/Image/index.vue';
-import Tag from '@/components/Atoms/Tag/index.vue';
-import Text from '@/components/Atoms/Text/index.vue';
-
+import Heading from '../../../Atoms/Heading/index.vue';
+import Image from '../../../Atoms/Image/index.vue';
+import Link from '../../../Atoms/Link/index.vue';
+import Tag from '../../../Atoms/Tag/index.vue';
+import Text from '../../../Atoms/Text/index.vue';
 import Feature from '../index.vue';
 
 const baseProps = {
@@ -19,7 +19,7 @@ const baseProps = {
   ctaLabel: 'Voir le projet',
 };
 
-describe('Feature (structure §1 — root link, body/cover split)', () => {
+describe('Feature (structure, root link, body/cover split)', () => {
   it('renders a root <a> with the o-feature class and the href prop', () => {
     const wrapper = mount(Feature, { props: baseProps });
 
@@ -55,7 +55,7 @@ describe('Feature (structure §1 — root link, body/cover split)', () => {
   });
 });
 
-describe('Feature (structure §1 — atom composition)', () => {
+describe('Feature (structure, atom composition)', () => {
   it('composes the label via a Text atom with the eyebrow variant', () => {
     const wrapper = mount(Feature, { props: baseProps });
     const label = wrapper.find('.o-feature__label').findComponent(Text);
@@ -112,21 +112,18 @@ describe('Feature (structure §1 — atom composition)', () => {
     });
   });
 
-  it('renders the cta as a decorative span (not a Button), composing a Text -cta label plus an aria-hidden arrow glyph', () => {
+  it('composes the cta as a non-anchor Link -arrow (tag span) inside the card link, not a reinvented span', () => {
     const wrapper = mount(Feature, { props: baseProps });
-    const cta = wrapper.find('.o-feature__cta');
+    const cta = wrapper.findComponent(Link);
 
     expect(cta.exists()).toBe(true);
+    expect(cta.classes()).toContain('o-feature__cta');
+    expect(cta.props('variant')).toBe('arrow');
+    expect(cta.props('tag')).toBe('span');
     expect(cta.element.tagName).toBe('SPAN');
-    expect(cta.findComponent(Button).exists()).toBe(false);
+    expect(cta.text()).toContain(baseProps.ctaLabel);
 
-    const ctaText = cta.findComponent(Text);
-
-    expect(ctaText.exists()).toBe(true);
-    expect(ctaText.props('variant')).toBe('cta');
-    expect(ctaText.text()).toBe(baseProps.ctaLabel);
-
-    const arrow = cta.find('span[aria-hidden="true"]');
+    const arrow = cta.find('.a-link__arrow');
 
     expect(arrow.exists()).toBe(true);
     expect(arrow.text()).toBe('→');
@@ -134,7 +131,7 @@ describe('Feature (structure §1 — atom composition)', () => {
   });
 });
 
-describe('Feature (structure §1/§4 — cover: Image vs u-placeholder)', () => {
+describe('Feature (structure, cover: Image vs u-placeholder)', () => {
   it('composes an Image atom in the cover when the image prop is supplied', () => {
     const wrapper = mount(Feature, {
       props: {
@@ -148,7 +145,7 @@ describe('Feature (structure §1/§4 — cover: Image vs u-placeholder)', () => 
     expect(img.exists()).toBe(true);
     expect(img.props('src')).toBe('/cover.jpg');
     expect(img.props('alt')).toBe('Aurora Design System cover');
-    expect(cover.find('.u-placeholder').exists()).toBe(false);
+    expect(cover.find('.a-image__frame .u-placeholder').exists()).toBe(true);
   });
 
   it('falls back to a u-placeholder -big carrying the title when no image prop is supplied', () => {
@@ -161,9 +158,32 @@ describe('Feature (structure §1/§4 — cover: Image vs u-placeholder)', () => 
     expect(cover.findComponent(Image).exists()).toBe(false);
     expect(placeholder.text()).toBe(baseProps.title);
   });
+
+  it('keeps the u-placeholder -big backdrop (with title) shown through a failed image', async () => {
+    const wrapper = mount(Feature, {
+      props: {
+        ...baseProps,
+        image: { src: '/broken.jpg', alt: 'Broken cover' },
+      },
+    });
+    const cover = wrapper.find('.o-feature__cover');
+
+    expect(cover.findComponent(Image).exists()).toBe(true);
+
+    await cover.find('img.a-image').trigger('error');
+
+    expect(cover.find('img.a-image').exists()).toBe(true);
+    expect(cover.find('.a-image__frame').classes()).not.toContain('-revealed');
+
+    const placeholder = cover.find('.a-image__frame .u-placeholder');
+
+    expect(placeholder.exists()).toBe(true);
+    expect(placeholder.classes()).toContain('-big');
+    expect(placeholder.text()).toBe(baseProps.title);
+  });
 });
 
-describe('Feature (a11y — single accessible link, no nested interactive elements)', () => {
+describe('Feature (a11y, single accessible link, no nested interactive elements)', () => {
   it('exposes exactly one <a> element (the root link) with no nested anchor', () => {
     const wrapper = mount(Feature, { props: baseProps });
 
@@ -176,5 +196,24 @@ describe('Feature (a11y — single accessible link, no nested interactive elemen
 
     expect(accessibleName).toContain(baseProps.title);
     expect(accessibleName).toContain(baseProps.ctaLabel);
+  });
+
+  it('relays the injected image component to AtomImage', () => {
+    const ImgStub = markRaw(
+      defineComponent({
+        name: 'ImgStub',
+        props: { src: { type: String, required: true } },
+        setup: (props) => () => h('img', { src: props.src }),
+      }),
+    );
+    const wrapper = mount(Feature, {
+      props: {
+        ...baseProps,
+        image: { src: '/a.webp', alt: 'A' },
+        imageComponent: ImgStub,
+      },
+    });
+
+    expect(wrapper.findComponent(Image).props('imageComponent')).toBe(ImgStub);
   });
 });

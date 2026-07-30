@@ -20,10 +20,11 @@ const meta: Meta<typeof Hero> = {
     ],
     tags: ['Vue.js', 'Nuxt', 'TypeScript'],
     watermarkText: 'ALEXIS BESSON',
-    contactHref: '#contact',
-    projectsHref: '#projects',
-    contactLabel: 'Me contacter',
-    projectsLabel: 'Voir les projets',
+    primaryHref: '#projects',
+    primaryLabel: 'Voir les projets',
+    secondaryHref: 'https://www.linkedin.com/in/example/',
+    secondaryLabel: 'LinkedIn',
+    secondaryExternal: true,
   },
 };
 

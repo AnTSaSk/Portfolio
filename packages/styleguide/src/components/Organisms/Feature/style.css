@@ -59,20 +59,9 @@
     list-style: none;
   }
 
-  .o-feature__cta {
-    display: inline-flex;
-    gap: 10px;
-    align-items: center;
+  .o-feature__cta.a-link {
     margin-block-start: auto;
     color: var(--fg-2);
-    transition:
-      gap 240ms,
-      color 240ms;
-  }
-
-  .o-feature:hover .o-feature__cta {
-    gap: 16px;
-    color: var(--color-jungle-green);
   }
 
   .o-feature__cover {
@@ -88,8 +77,6 @@
     }
   }
 
-  /* Placeholder headline is bespoke markup (not the Heading/Text atoms), so
-     its typography is owned here, not duplicated from an atom scale. */
   .o-feature__cover .u-placeholder span {
     display: -webkit-box;
     overflow: hidden;
@@ -102,6 +89,7 @@
     text-transform: uppercase;
     text-wrap: balance;
     -webkit-line-clamp: 3;
+    line-clamp: 3;
     -webkit-box-orient: vertical;
   }
 }

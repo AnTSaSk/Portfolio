@@ -6,10 +6,9 @@ import { mount } from '@vue/test-utils';
 import { describe, expect, it } from 'vitest';
 import { h } from 'vue';
 
-import Text from '@/components/Atoms/Text/index.vue';
-import CardArticle from '@/components/Molecules/CardArticle/index.vue';
-import CardProject from '@/components/Molecules/CardProject/index.vue';
-
+import Text from '../../../Atoms/Text/index.vue';
+import CardArticle from '../../../Molecules/CardArticle/index.vue';
+import CardProject from '../../../Molecules/CardProject/index.vue';
 import Related from '../index.vue';
 
 const dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -35,17 +34,6 @@ describe('Related (structure)', () => {
     expect(wrapper.classes()).toContain('o-related');
     expect(wrapper.element.tagName).toBe('SECTION');
     expect(wrapper.attributes('aria-label')).toBe(baseProps.ariaLabel);
-  });
-
-  it('composes the l-container layout class on .o-related__inner', () => {
-    const wrapper = mount(Related, {
-      props: baseProps,
-      slots: { default: stubCardsHtml },
-    });
-    const inner = wrapper.find('.o-related__inner');
-
-    expect(inner.exists()).toBe(true);
-    expect(inner.classes()).toContain('l-container');
   });
 
   it('renders .o-related__grid as a plain div (not a list) holding the grid', () => {
@@ -163,7 +151,7 @@ describe('Related (default slot exposes card composition, no reinvented card)', 
   });
 });
 
-describe('Related (invariant — no external sizing on root)', () => {
+describe('Related (invariant : no external sizing on root)', () => {
   it('declares no margin/width on .o-related (sizing/position owned by the parent layout)', () => {
     const css = readFileSync(STYLE_CSS_PATH, 'utf-8');
     const rootRule = css.match(/\.o-related\s*\{[^}]*\}/)?.[0] ?? '';

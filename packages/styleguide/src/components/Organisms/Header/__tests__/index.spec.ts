@@ -5,10 +5,9 @@ import { fileURLToPath } from 'node:url';
 import { mount } from '@vue/test-utils';
 import { describe, expect, it } from 'vitest';
 
-import LangSwitcher from '@/components/Atoms/LangSwitcher/index.vue';
-import Logo from '@/components/Atoms/Logo/index.vue';
-import ThemeSwitcher from '@/components/Atoms/ThemeSwitcher/index.vue';
-
+import LangSwitcher from '../../../Atoms/LangSwitcher/index.vue';
+import Logo from '../../../Atoms/Logo/index.vue';
+import ThemeSwitcher from '../../../Atoms/ThemeSwitcher/index.vue';
 import Header from '../index.vue';
 
 const dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -19,7 +18,7 @@ const baseProps = {
   locale: 'en' as const,
 };
 
-describe('Header (AC-COMP-1)', () => {
+describe('Header (root structure)', () => {
   it('mounts .o-header > .o-header__inner > .o-header__tools', () => {
     const wrapper = mount(Header, { props: baseProps });
 
@@ -34,6 +33,33 @@ describe('Header (AC-COMP-1)', () => {
     const wrapper = mount(Header, { props: baseProps });
 
     expect(wrapper.findComponent(Logo).exists()).toBe(true);
+  });
+
+  it('wraps the Logo in a home link, defaulting href to "/"', () => {
+    const wrapper = mount(Header, { props: baseProps });
+    const link = wrapper.find('a.o-header__logoLink');
+
+    expect(link.exists()).toBe(true);
+    expect(link.attributes('href')).toBe('/');
+    expect(link.findComponent(Logo).exists()).toBe(true);
+  });
+
+  it('uses the provided logoHref as the home link target', () => {
+    const wrapper = mount(Header, {
+      props: { ...baseProps, logoHref: '/fr' },
+    });
+
+    expect(wrapper.find('a.o-header__logoLink').attributes('href')).toBe('/fr');
+  });
+
+  it('exposes logoLabel as the home link accessible name', () => {
+    const wrapper = mount(Header, {
+      props: { ...baseProps, logoLabel: 'AnTSaSk home' },
+    });
+
+    expect(wrapper.find('a.o-header__logoLink').attributes('aria-label')).toBe(
+      'AnTSaSk home',
+    );
   });
 
   it('composes the LangSwitcher atom inside .o-header__tools instead of a reinvented lang control', () => {
@@ -59,6 +85,92 @@ describe('Header (AC-COMP-1)', () => {
 
     expect(wrapper.findComponent(ThemeSwitcher).props('theme')).toBe('dark');
     expect(wrapper.findComponent(LangSwitcher).props('locale')).toBe('fr');
+  });
+});
+
+describe('Header (no legal link)', () => {
+  it('never renders a legal link (moved to the About page)', () => {
+    const wrapper = mount(Header, { props: baseProps });
+
+    expect(wrapper.find('.o-header__legal').exists()).toBe(false);
+  });
+});
+
+describe('Header (right column compartments)', () => {
+  it('splits the tools row into a Liens group then an Actions group', () => {
+    const wrapper = mount(Header, { props: baseProps });
+    const tools = wrapper.find('.o-header__tools');
+    const html = tools.html();
+
+    expect(tools.find('.o-header__group.-links').exists()).toBe(true);
+    expect(tools.find('.o-header__group.-actions').exists()).toBe(true);
+    expect(html.indexOf('-links')).toBeLessThan(html.indexOf('-actions'));
+  });
+
+  it('places LangSwitcher and ThemeSwitcher inside the Actions group', () => {
+    const wrapper = mount(Header, { props: baseProps });
+    const actions = wrapper.find('.o-header__group.-actions');
+
+    expect(actions.findComponent(LangSwitcher).exists()).toBe(true);
+    expect(actions.findComponent(ThemeSwitcher).exists()).toBe(true);
+  });
+});
+
+describe('Header (social links)', () => {
+  const socialProps = {
+    ...baseProps,
+    socialLinks: [
+      { icon: 'github', href: 'https://github.com/x', label: 'GitHub' },
+      {
+        icon: 'linkedin',
+        href: 'https://linkedin.com/in/x',
+        label: 'LinkedIn',
+      },
+      { icon: 'x', href: 'https://x.com/x', label: 'X' },
+    ],
+  };
+
+  it('renders no social icon link when socialLinks is absent', () => {
+    const wrapper = mount(Header, { props: baseProps });
+
+    expect(wrapper.find('.o-header__social').exists()).toBe(false);
+  });
+
+  it('renders one social icon link per entry inside the Liens group', () => {
+    const wrapper = mount(Header, { props: socialProps });
+    const links = wrapper.findAll('.o-header__group.-links .o-header__social');
+
+    expect(links).toHaveLength(3);
+  });
+
+  it('renders the social links in order', () => {
+    const wrapper = mount(Header, { props: socialProps });
+    const socialLabels = wrapper
+      .find('.o-header__group.-links')
+      .findAll('.o-header__social')
+      .map((l) => l.attributes('aria-label'));
+
+    expect(socialLabels).toEqual(['GitHub', 'LinkedIn', 'X']);
+  });
+
+  it('wires each social link href, external target and accessible label', () => {
+    const wrapper = mount(Header, { props: socialProps });
+    const github = wrapper
+      .findAll('.o-header__social')
+      .find((l) => l.attributes('aria-label') === 'GitHub');
+
+    expect(github?.attributes('href')).toBe('https://github.com/x');
+    expect(github?.attributes('target')).toBe('_blank');
+    expect(github?.attributes('rel')).toBe('noopener noreferrer');
+  });
+
+  it('renders an empty Liens group when socialLinks is empty', () => {
+    const wrapper = mount(Header, {
+      props: { ...socialProps, socialLinks: [] },
+    });
+
+    expect(wrapper.find('.o-header__group.-links').exists()).toBe(true);
+    expect(wrapper.find('.o-header__social').exists()).toBe(false);
   });
 });
 
@@ -94,7 +206,7 @@ describe('Header (event relay)', () => {
   });
 });
 
-describe('Header (AC-LAYER-3 — internal geometry only)', () => {
+describe('Header (internal geometry only)', () => {
   it('declares no external margin, width or max-inline-size rule on the .o-header root (inline-size: 100% is allowed; the .o-header__inner content-container band is an internal section concern)', () => {
     const css = readFileSync(STYLE_CSS_PATH, 'utf-8');
     const rootBlockMatch = css.match(/\.o-header\s*\{[^}]*\}/);
@@ -109,22 +221,5 @@ describe('Header (AC-LAYER-3 — internal geometry only)', () => {
     expect(rootBlock).not.toMatch(/\bmargin(?:-\w+)?\s*:/);
     expect(rootBlock).not.toMatch(/(?<!-)\bwidth\s*:/);
     expect(rootBlock).not.toMatch(/max-inline-size\s*:/);
-  });
-
-  it('does not declare the content-container band on .o-header__inner (owned by l-container)', () => {
-    const css = readFileSync(STYLE_CSS_PATH, 'utf-8');
-    const innerBlocks = css.match(/\.o-header__inner[^{]*\{[^}]*\}/g) ?? [];
-    const innerCss = innerBlocks.join('\n');
-
-    expect(innerCss).not.toMatch(/max-inline-size\s*:/);
-    expect(innerCss).not.toMatch(/margin-inline\s*:/);
-    expect(innerCss).not.toMatch(/padding-inline\s*:/);
-  });
-
-  it('composes the l-container layout class on .o-header__inner', () => {
-    const wrapper = mount(Header, { props: baseProps });
-    const inner = wrapper.find('.o-header__inner');
-
-    expect(inner.classes()).toContain('l-container');
   });
 });

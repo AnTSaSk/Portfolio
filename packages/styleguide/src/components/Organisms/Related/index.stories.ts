@@ -1,9 +1,8 @@
 import { type Meta, type StoryObj } from '@storybook/vue3-vite';
 
-import CardArticle from '@/components/Molecules/CardArticle/index.vue';
-import CardProject from '@/components/Molecules/CardProject/index.vue';
-
 import Related from './index.vue';
+import CardArticle from '../../Molecules/CardArticle/index.vue';
+import CardProject from '../../Molecules/CardProject/index.vue';
 
 const meta: Meta<typeof Related> = {
   title: 'Design System/Organisms/Related',

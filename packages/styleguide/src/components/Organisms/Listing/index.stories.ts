@@ -1,11 +1,10 @@
 import { type Meta, type StoryObj } from '@storybook/vue3-vite';
 
-import CardArticle from '@/components/Molecules/CardArticle/index.vue';
-import CardProject from '@/components/Molecules/CardProject/index.vue';
-import Filter from '@/components/Molecules/Filter/index.vue';
-import Pagination from '@/components/Molecules/Pagination/index.vue';
-
 import Listing from './index.vue';
+import CardArticle from '../../Molecules/CardArticle/index.vue';
+import CardProject from '../../Molecules/CardProject/index.vue';
+import Filter from '../../Molecules/Filter/index.vue';
+import Pagination from '../../Molecules/Pagination/index.vue';
 
 const meta: Meta<typeof Listing> = {
   title: 'Design System/Organisms/Listing',

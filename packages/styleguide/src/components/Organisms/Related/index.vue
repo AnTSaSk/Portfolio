@@ -1,6 +1,6 @@
 <template>
   <section class="o-related" :aria-label="ariaLabel">
-    <div class="o-related__inner l-container">
+    <div class="o-related__inner">
       <Text variant="eyebrow" tone="accent">{{ eyebrow }}</Text>
       <div class="o-related__grid">
         <slot />
@@ -10,16 +10,16 @@
 </template>
 
 <script setup lang="ts">
-  import Text from '@/components/Atoms/Text/index.vue';
+  import Text from '../../Atoms/Text/index.vue';
 
   export interface Props {
     eyebrow: string;
-    ariaLabel: string;
+    ariaLabel?: string;
   }
 
   defineOptions({ name: 'OrganismRelated' });
 
-  const { eyebrow, ariaLabel } = defineProps<Props>();
+  const { eyebrow, ariaLabel = 'Related content' } = defineProps<Props>();
 </script>
 
 <style src="./style.css" />
