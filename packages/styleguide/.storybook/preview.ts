@@ -1,11 +1,19 @@
 import '../src/assets/css/app.css';
 
 import { withThemeByDataAttribute } from '@storybook/addon-themes';
+import { setup } from '@storybook/vue3';
 import type { Preview } from '@storybook/vue3';
 import { themes } from 'storybook/theming';
 
 // Inline the SVG icon sprite once so <use href="#name"> resolves in every story.
 import spriteRaw from '../src/assets/sprite.svg?raw';
+import StubNuxtImg from './StubNuxtImg';
+
+// Global stand-in for Nuxt's auto-imported <NuxtImg>, so stories that inject an
+// image component resolve without Nuxt.
+setup((app) => {
+  app.component('StubNuxtImg', StubNuxtImg);
+});
 
 if (
   typeof document !== 'undefined' &&

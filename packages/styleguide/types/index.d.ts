@@ -1,3 +1,36 @@
+import type { App } from 'vue';
+import Button from './components/Atoms/Button';
+import Heading from './components/Atoms/Heading';
+import Icon from './components/Atoms/Icon';
+import Image from './components/Atoms/Image';
+import LangSwitcher from './components/Atoms/LangSwitcher';
+import Link from './components/Atoms/Link';
+import Logo from './components/Atoms/Logo';
+import Prose from './components/Atoms/Prose';
+import Tag from './components/Atoms/Tag';
+import Text from './components/Atoms/Text';
+import ThemeSwitcher from './components/Atoms/ThemeSwitcher';
+import Watermark from './components/Atoms/Watermark';
+import Author from './components/Molecules/Author';
+import CardArticle from './components/Molecules/CardArticle';
+import CardProject from './components/Molecules/CardProject';
+import Filter from './components/Molecules/Filter';
+import Gallery from './components/Molecules/Gallery';
+import MediaCover from './components/Molecules/MediaCover';
+import MetaList from './components/Molecules/MetaList';
+import Pagination from './components/Molecules/Pagination';
+import TOC from './components/Molecules/TOC';
+import Feature from './components/Organisms/Feature';
+import Head from './components/Organisms/Head';
+import Header from './components/Organisms/Header';
+import Hero from './components/Organisms/Hero';
+import Listing from './components/Organisms/Listing';
+import MainNav from './components/Organisms/MainNav';
+import Related from './components/Organisms/Related';
+declare const _default: {
+  install: (app: App) => void;
+};
+export default _default;
 export {
   Button,
   Heading,
@@ -6,6 +39,7 @@ export {
   LangSwitcher,
   Link,
   Logo,
+  Prose,
   Tag,
   Text,
   ThemeSwitcher,
@@ -25,34 +59,5 @@ export {
   Hero,
   Listing,
   MainNav,
-  Prose,
   Related,
-} from '../src/index';
-
-export type { Props as ButtonProps } from '../src/components/Atoms/Button/index.vue';
-export type { Props as HeadingProps } from '../src/components/Atoms/Heading/index.vue';
-export type { Props as IconProps } from '../src/components/Atoms/Icon/index.vue';
-export type { Props as ImageProps } from '../src/components/Atoms/Image/index.vue';
-export type { Props as LangSwitcherProps } from '../src/components/Atoms/LangSwitcher/index.vue';
-export type { Props as LinkProps } from '../src/components/Atoms/Link/index.vue';
-export type { Props as LogoProps } from '../src/components/Atoms/Logo/index.vue';
-export type { Props as TagProps } from '../src/components/Atoms/Tag/index.vue';
-export type { Props as TextProps } from '../src/components/Atoms/Text/index.vue';
-export type { Props as ThemeSwitcherProps } from '../src/components/Atoms/ThemeSwitcher/index.vue';
-export type { Props as WatermarkProps } from '../src/components/Atoms/Watermark/index.vue';
-export type { Props as AuthorProps } from '../src/components/Molecules/Author/index.vue';
-export type { Props as CardArticleProps } from '../src/components/Molecules/CardArticle/index.vue';
-export type { Props as CardProjectProps } from '../src/components/Molecules/CardProject/index.vue';
-export type { Props as FilterProps } from '../src/components/Molecules/Filter/index.vue';
-export type { Props as GalleryProps } from '../src/components/Molecules/Gallery/index.vue';
-export type { Props as MediaCoverProps } from '../src/components/Molecules/MediaCover/index.vue';
-export type { Props as MetaListProps } from '../src/components/Molecules/MetaList/index.vue';
-export type { Props as PaginationProps } from '../src/components/Molecules/Pagination/index.vue';
-export type { Props as TOCProps } from '../src/components/Molecules/TOC/index.vue';
-export type { Props as FeatureProps } from '../src/components/Organisms/Feature/index.vue';
-export type { Props as HeadProps } from '../src/components/Organisms/Head/index.vue';
-export type { Props as HeaderProps } from '../src/components/Organisms/Header/index.vue';
-export type { Props as HeroProps } from '../src/components/Organisms/Hero/index.vue';
-export type { Props as ListingProps } from '../src/components/Organisms/Listing/index.vue';
-export type { Props as MainNavProps } from '../src/components/Organisms/MainNav/index.vue';
-export type { Props as RelatedProps } from '../src/components/Organisms/Related/index.vue';
+};

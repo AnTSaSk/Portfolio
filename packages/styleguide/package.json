@@ -2,13 +2,17 @@
   "name": "@antsask/styleguide",
   "version": "0.1.0",
   "repository": "git@github.com:AnTSaSk/Portfolio.git",
-  "author": "Alexis Besson <alexis.bessonweb@gmail.com>",
+  "author": "Alexis Besson <me@alexisbesson.fr>",
+  "license": "MIT",
   "private": true,
   "type": "module",
   "module": "src/index.ts",
   "types": "types/index.d.ts",
   "exports": {
-    ".": "./src/index.ts",
+    ".": {
+      "types": "./types/index.d.ts",
+      "import": "./src/index.ts"
+    },
     "./tokens.css": "./src/assets/css/tokens.css",
     "./base.css": "./src/assets/css/base.css",
     "./utilities.css": "./src/assets/css/utilities.css",
@@ -21,7 +25,8 @@
     "lint": "npx eslint .",
     "lint:style": "stylelint src/**/*.css",
     "lint:markup": "vue-tsc --noEmit",
-    "build": "pnpm lint:markup && storybook build -o ../../dist/styleguide",
+    "build:types": "vue-tsc --emitDeclarationOnly -p tsconfig.build.json && tsc-alias -p tsconfig.build.json",
+    "build": "pnpm lint:markup && pnpm build:types && storybook build -o ../../dist/styleguide",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage"
@@ -41,6 +46,7 @@
     "jsdom": "catalog:",
     "storybook": "10.5.0",
     "svg-sprite": "2.0.4",
+    "tsc-alias": "1.9.1",
     "vite": "catalog:",
     "vitest": "catalog:",
     "vue-docgen-api": "4.79.2",

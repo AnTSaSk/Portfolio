@@ -108,7 +108,7 @@
     calc(var(--fs-h5-max) * 1px)
   );
 
-  --fs-body: 16px;
+  --fs-body: 14px;
   --fs-lede: 20px;
   --fs-caption: 12px;
   --fs-eyebrow: 12px;
@@ -117,7 +117,7 @@
   --ls-tag: 0.14em;
 
   /* ============================================================
-     5. SPACING — 8px base scale
+     5. SPACING — 4px base scale
      ============================================================ */
   --space-0: 0;
   --space-1: 4px;
@@ -125,14 +125,21 @@
   --space-3: 16px;
   --space-4: 24px;
   --space-5: 32px;
-  --space-6: 40px;
-  --space-7: 48px;
-  --space-8: 64px;
-  --space-9: 80px;
-  --space-10: 120px;
-
-  /* Content container max inline size */
-  --container-max: 1440px;
+  --space-6: 36px;
+  --space-7: 40px;
+  --space-8: 48px;
+  --space-9: 60px;
+  --space-10: 64px;
+  --space-11: 72px;
+  --space-12: 80px;
+  --space-13: 88px;
+  --space-14: 96px;
+  --space-15: 104px;
+  --space-16: 112px;
+  --space-17: 120px;
+  --space-18: 124px;
+  --space-19: 132px;
+  --space-20: 140px;
 
   /* ============================================================
      6. RADII / BORDERS
@@ -146,8 +153,9 @@
      7. BREAKPOINTS (informational, use px in @media queries)
      ============================================================ */
   --bp-tablet: 768px;
+  --bp-desktop-small: 1024px;
   --bp-desktop: 1280px;
-  --bp-large: 1600px;
+  --bp-large: 1440px;
 
   /* ============================================================
      8. MOTION

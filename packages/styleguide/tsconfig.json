@@ -15,7 +15,7 @@
     "skipLibCheck": true,
     "paths": {
       "@/*": ["./src/*"],
-      "react": ["./types/react/index.d.ts"]
+      "react": ["./shims/react/index.d.ts"]
     },
     "types": ["vite/client"]
   },

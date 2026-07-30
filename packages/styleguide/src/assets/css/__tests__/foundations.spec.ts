@@ -21,13 +21,12 @@ function readCss(fileName: string): string {
 const tokensCss = readCss('tokens.css');
 const appCss = readCss('app.css');
 const baseCss = readCss('base.css');
-const layoutCss = readCss('layout.css');
 const utilitiesCss = readCss('utilities.css');
 const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf-8')) as {
   exports?: Record<string, string>;
 };
 
-describe('tokens.css — generic tokens', () => {
+describe('tokens.css : generic tokens', () => {
   it('declares :root without any @layer wrapper', () => {
     expect(tokensCss).not.toMatch(/@layer/);
     expect(tokensCss).toMatch(/:root\s*{/);
@@ -83,13 +82,13 @@ describe('tokens.css — generic tokens', () => {
   });
 
   it('defines 3 fixed body-role type tokens (--fs-body/--fs-caption/--fs-eyebrow), no --fs-bN', () => {
-    expect(tokensCss).toContain('--fs-body: 16px;');
+    expect(tokensCss).toContain('--fs-body: 14px;');
     expect(tokensCss).toContain('--fs-caption: 12px;');
     expect(tokensCss).toContain('--fs-eyebrow: 12px;');
     expect(tokensCss).not.toMatch(/--fs-b[123]:/);
   });
 
-  it('defines the full 8px spacing scale (--space-0..--space-10)', () => {
+  it('defines the full 4px spacing scale (--space-0..--space-17)', () => {
     const expected = [
       '--space-0: 0;',
       '--space-1: 4px;',
@@ -97,11 +96,18 @@ describe('tokens.css — generic tokens', () => {
       '--space-3: 16px;',
       '--space-4: 24px;',
       '--space-5: 32px;',
-      '--space-6: 40px;',
-      '--space-7: 48px;',
-      '--space-8: 64px;',
-      '--space-9: 80px;',
-      '--space-10: 120px;',
+      '--space-6: 36px;',
+      '--space-7: 40px;',
+      '--space-8: 48px;',
+      '--space-9: 60px;',
+      '--space-10: 64px;',
+      '--space-11: 72px;',
+      '--space-12: 80px;',
+      '--space-13: 88px;',
+      '--space-14: 96px;',
+      '--space-15: 104px;',
+      '--space-16: 112px;',
+      '--space-17: 120px;',
     ];
 
     for (const token of expected) {
@@ -115,11 +121,11 @@ describe('tokens.css — generic tokens', () => {
     expect(tokensCss).toContain('--radius-lg: 8px;');
     expect(tokensCss).toContain('--bp-tablet: 768px;');
     expect(tokensCss).toContain('--bp-desktop: 1280px;');
-    expect(tokensCss).toContain('--bp-large: 1600px;');
+    expect(tokensCss).toContain('--bp-large: 1440px;');
   });
 });
 
-describe('tokens.css — theming', () => {
+describe('tokens.css : theming', () => {
   it(':root declares color-scheme: light dark', () => {
     expect(tokensCss).toMatch(/:root\s*{[^}]*color-scheme:\s*light dark;/s);
   });
@@ -160,43 +166,23 @@ describe('tokens.css — theming', () => {
   });
 });
 
-describe('app.css — cascade layers', () => {
-  it('declares the full layer order including fonts and layout', () => {
+describe('app.css : cascade layers', () => {
+  it('declares the full layer order including fonts', () => {
     expect(appCss).toMatch(
-      /@layer reset, tokens, fonts, base, components, layout, utilities;/,
+      /@layer reset, tokens, fonts, base, components, utilities;/,
     );
   });
 
   it('assigns each import to its declared layer', () => {
     expect(appCss).toMatch(/@import ['"]\.\/tokens\.css['"] layer\(tokens\);/);
     expect(appCss).toMatch(/@import ['"]\.\/base\.css['"] layer\(base\);/);
-    expect(appCss).toMatch(/@import ['"]\.\/layout\.css['"] layer\(layout\);/);
     expect(appCss).toMatch(
       /@import ['"]\.\/utilities\.css['"] layer\(utilities\);/,
     );
   });
 });
 
-describe('layout.css — l-container', () => {
-  it('declares the centered content-container band (max-inline-size, margin-inline, mobile-only padding-inline)', () => {
-    const containerMatch = layoutCss.match(/\.l-container\s*{([^}]*)}/s);
-
-    expect(containerMatch).not.toBeNull();
-    const body = containerMatch?.[1] ?? '';
-
-    expect(body).toMatch(/max-inline-size:\s*var\(--container-max\)/);
-    expect(body).toMatch(/margin-inline:\s*auto/);
-    expect(body).toMatch(/padding-inline:\s*var\(--space-4\)/);
-  });
-
-  it('drops padding-inline to 0 at the 1488px breakpoint so the desktop zone is a full 1440', () => {
-    expect(layoutCss).toMatch(
-      /@media \(min-width:\s*1488px\)\s*{\s*\.l-container\s*{[^}]*padding-inline:\s*0;/s,
-    );
-  });
-});
-
-describe('base.css — fonts and base element styles', () => {
+describe('base.css : fonts and base element styles', () => {
   it('declares @font-face for Montserrat and Noto Sans with font-display: swap', () => {
     const fontFaceBlocks = baseCss.match(/@font-face\s*{[^}]*}/gs) ?? [];
 
@@ -256,7 +242,7 @@ describe('base.css — fonts and base element styles', () => {
   });
 });
 
-describe('utilities.css — u-noise (verbatim from atom-noise-overlay.html)', () => {
+describe('utilities.css : u-noise (verbatim from atom-noise-overlay.html)', () => {
   it('u-noise base declares the decorative overlay geometry', () => {
     const noiseMatch = utilitiesCss.match(/\.u-noise\s*{([^}]*)}/s);
 
@@ -295,7 +281,7 @@ describe('utilities.css — u-noise (verbatim from atom-noise-overlay.html)', ()
   });
 });
 
-describe('tokens.css — z-index scale', () => {
+describe('tokens.css : z-index scale', () => {
   it('defines the 5 z-index tokens verbatim', () => {
     expect(tokensCss).toContain('--z-base: 0;');
     expect(tokensCss).toContain('--z-content: 2;');
@@ -305,7 +291,7 @@ describe('tokens.css — z-index scale', () => {
   });
 });
 
-describe('package.json — exports', () => {
+describe('package.json : exports', () => {
   it('exposes tokens.css, app.css, base.css and utilities.css', () => {
     expect(packageJson.exports?.['./tokens.css']).toBe(
       './src/assets/css/tokens.css',

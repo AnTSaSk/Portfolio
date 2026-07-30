@@ -4,6 +4,18 @@
    from the design source (atom-noise-overlay.html).
    ============================================================= */
 
+.u-srOnly {
+  position: absolute;
+  padding: 0;
+  margin: -1px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  white-space: nowrap;
+  border: 0;
+  clip-path: inset(50%);
+}
+
 .u-noise {
   position: absolute;
   inset: 0;
@@ -85,16 +97,16 @@
    override below), matching the u-noise blend-mode precedent. */
 .u-radial {
   position: absolute;
-  inset-block-start: 0;
-  inset-inline-end: 20%;
-  inline-size: 720px;
-  block-size: 720px;
+  inset-block-start: -20%;
+  inset-inline-end: 10%;
+  inline-size: 1100px;
+  block-size: 1100px;
   background: radial-gradient(
     circle at center,
-    color-mix(in oklab, var(--color-jungle-green) 14%, transparent) 0%,
-    transparent 60%
+    color-mix(in oklab, var(--color-jungle-green) 11%, transparent) 0%,
+    transparent 72%
   );
-  filter: blur(20px);
+  filter: blur(44px);
   pointer-events: none;
   z-index: var(--z-base);
 }
@@ -102,7 +114,7 @@
 [data-theme='light'] .u-radial {
   background: radial-gradient(
     circle at center,
-    color-mix(in oklab, var(--color-jungle-green) 8%, transparent) 0%,
-    transparent 55%
+    color-mix(in oklab, var(--color-jungle-green) 7%, transparent) 0%,
+    transparent 68%
   );
 }
