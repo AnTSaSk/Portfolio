@@ -6,7 +6,22 @@ allowBuilds:
     '@sentry/cli': true
     better-sqlite3: true
     esbuild: true
+    sharp: true
+    unrs-resolver: true
     vue-demi: false
+
+# Cross-platform sharp binaries for @nuxt/image IPX: build host (macOS) + Docker target (node:alpine = linux/musl)
+supportedArchitectures:
+    os:
+        - current
+        - linux
+    cpu:
+        - current
+        - x64
+        - arm64
+    libc:
+        - current
+        - musl
 
 catalog:
     '@types/node': 24.13.3
@@ -16,6 +31,9 @@ catalog:
     vitest: 4.1.10
     vue: 3.5.39
     vue-tsc: 3.3.7
+
+minimumReleaseAgeExclude:
+    - tsc-alias@1.9.1
 
 overrides:
     '@vue/language-core': 3.3.7

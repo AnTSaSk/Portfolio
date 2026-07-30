@@ -2,7 +2,7 @@ import js from '@eslint/js';
 import stylistic from '@stylistic/eslint-plugin';
 import tsPlugin from '@typescript-eslint/eslint-plugin';
 import tsParser from '@typescript-eslint/parser';
-import importPlugin from 'eslint-plugin-import';
+import importXPlugin from 'eslint-plugin-import-x';
 import prettierConfig from 'eslint-config-prettier';
 import prettierPlugin from 'eslint-plugin-prettier';
 import vuePlugin from 'eslint-plugin-vue';
@@ -129,7 +129,7 @@ const bestPracticesRules = {
 };
 
 const importOrderRule = {
-  'import/order': [
+  'import-x/order': [
     'error',
     {
       'newlines-between': 'always',
@@ -171,6 +171,7 @@ export default [
       '**/.output/**',
       '**/storybook-static/**',
       '**/.storybook/**',
+      'packages/styleguide/types/**',
       '**/*.vue.d.ts',
       '**/*.vue.js',
       'packages/website/nuxt.config.d.ts',
@@ -217,7 +218,7 @@ export default [
     plugins: {
       '@stylistic': stylistic,
       '@typescript-eslint': tsPlugin,
-      import: importPlugin,
+      'import-x': importXPlugin,
       prettier: prettierPlugin,
       'vuejs-accessibility': vueA11yPlugin,
     },
@@ -286,6 +287,7 @@ export default [
         useFetch: 'readonly',
         useHead: 'readonly',
         useI18n: 'readonly',
+        useImage: 'readonly',
         useLocaleHead: 'readonly',
         useNuxtApp: 'readonly',
         useRoute: 'readonly',
@@ -294,6 +296,10 @@ export default [
         useSchemaOrg: 'readonly',
         useSeo: 'readonly',
         useSeoMeta: 'readonly',
+        useSiteConfig: 'readonly',
+        useSwitchLocalePath: 'readonly',
+        useLocalePath: 'readonly',
+        useCookie: 'readonly',
       },
     },
   },
@@ -321,7 +327,7 @@ export default [
     },
     plugins: {
       '@typescript-eslint': tsPlugin,
-      import: importPlugin,
+      'import-x': importXPlugin,
     },
     rules: {
       ...tsPlugin.configs.recommended.rules,

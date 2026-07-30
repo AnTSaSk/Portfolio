@@ -1,8 +1,11 @@
+# Claude factory work artifacts (extractions, phase contracts, barrier verdicts) — never committed
+scratchpad/
+**/scratchpad/
+
 # Editor directories and files
 .vscode/*
 !.vscode/extensions.json
 .idea
-.DS_Store
 *.suo
 *.ntvs*
 *.njsproj
@@ -25,10 +28,13 @@ pnpm-debug.log*
 yarn.lock
 
 # Build
-/dist/*
+dist/
 !/dist/.htaccess
 dist-ssr
 *.tsbuildinfo
+.preview/
+.data/
+storybook-static/
 
 # vue-tsc generated
 packages/website/src/**/*.vue.d.ts
@@ -59,6 +65,9 @@ tasks/
 
 # Test coverage
 coverage/
+
+# Local archives (table rase backups, never tracked)
+_archive*/
 
 # Misc
 node_modules
