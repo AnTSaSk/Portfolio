@@ -1,7 +1,7 @@
 import { mount } from '@vue/test-utils';
 import { describe, expect, it } from 'vitest';
 
-import Text from '@/components/Atoms/Text/index.vue';
+import Text from '../index.vue';
 
 const VARIANT_CLASSES = [
   '-lede',

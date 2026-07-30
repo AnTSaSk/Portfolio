@@ -1,6 +1,7 @@
 import { type Meta, type StoryObj } from '@storybook/vue3-vite';
 
 import Link from './index.vue';
+import Icon from '../Icon/index.vue';
 
 const meta: Meta<typeof Link> = {
   title: 'Design System/Atoms/Link',
@@ -15,7 +16,11 @@ const meta: Meta<typeof Link> = {
     current: { control: 'boolean' },
     variant: {
       control: 'select',
-      options: ['inline', 'arrow', 'quiet', 'nav'],
+      options: ['inline', 'arrow', 'quiet', 'nav', 'icon'],
+    },
+    tag: {
+      control: 'select',
+      options: ['a', 'span'],
     },
   },
   args: {
@@ -116,5 +121,53 @@ export const VariantsDark: Story = {
     components: { Link },
     setup: () => ({ args }),
     template: variantsTemplate,
+  }),
+};
+
+const iconTemplate = `
+  <div style="display: flex; gap: 16px; align-items: center;">
+    <Link href="https://github.com" variant="icon" external label="GitHub">
+      <Icon name="github" size="sm" />
+    </Link>
+    <Link href="https://linkedin.com" variant="icon" external label="LinkedIn">
+      <Icon name="linkedin" size="sm" />
+    </Link>
+    <Link href="https://x.com" variant="icon" external label="X">
+      <Icon name="x" size="sm" />
+    </Link>
+  </div>
+`;
+
+export const IconLight: Story = {
+  globals: {
+    theme: 'light',
+  },
+  render: (args) => ({
+    components: { Link, Icon },
+    setup: () => ({ args }),
+    template: iconTemplate,
+  }),
+};
+
+export const IconDark: Story = {
+  globals: {
+    theme: 'dark',
+  },
+  render: (args) => ({
+    components: { Link, Icon },
+    setup: () => ({ args }),
+    template: iconTemplate,
+  }),
+};
+
+export const TagSpanInCardLink: Story = {
+  render: () => ({
+    components: { Link },
+    template: `
+      <a href="/project" style="display: block; max-width: 32ch; padding: 16px; text-decoration: none; border: 1px solid currentColor;">
+        <span style="display: block;">Card-wide clickable link</span>
+        <Link variant="arrow" tag="span">Voir le projet</Link>
+      </a>
+    `,
   }),
 };

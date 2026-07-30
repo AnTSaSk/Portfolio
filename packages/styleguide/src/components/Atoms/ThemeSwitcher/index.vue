@@ -25,7 +25,7 @@
 <script setup lang="ts">
   import { computed } from 'vue';
 
-  import Icon from '@/components/Atoms/Icon/index.vue';
+  import Icon from '../Icon/index.vue';
 
   export type ThemeSwitcherTheme = 'light' | 'dark';
   export type ThemeSwitcherShape = 'square' | 'circle';

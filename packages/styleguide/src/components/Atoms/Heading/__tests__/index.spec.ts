@@ -1,7 +1,7 @@
 import { mount } from '@vue/test-utils';
 import { describe, expect, it } from 'vitest';
 
-import Heading from '@/components/Atoms/Heading/index.vue';
+import Heading from '../index.vue';
 
 describe('Heading', () => {
   it('renders the default h2 tag with the -h2 level class', () => {

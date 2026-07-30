@@ -1,7 +1,8 @@
 import { mount } from '@vue/test-utils';
 import { describe, expect, it } from 'vitest';
+import { defineComponent, h } from 'vue';
 
-import Logo from '@/components/Atoms/Logo/index.vue';
+import Logo from '../index.vue';
 
 describe('Logo', () => {
   it('renders an svg.a-logo root element with viewBox 0 0 155 143', () => {
@@ -39,9 +40,14 @@ describe('Logo', () => {
     expect(svg.attributes('aria-hidden')).toBeUndefined();
   });
 
-  it('generates gradient ids that differ between two separately mounted instances', () => {
-    const first = mount(Logo);
-    const second = mount(Logo);
+  it('generates gradient ids that differ between two Logo instances rendered in the same tree', () => {
+    // Two Logo siblings in one component tree (e.g. header + footer of the
+    // same page): useId() must not collide, unlike two isolated app roots.
+    const TwoLogos = defineComponent({
+      render: () => h('div', [h(Logo), h(Logo)]),
+    });
+    const wrapper = mount(TwoLogos);
+    const [first, second] = wrapper.findAllComponents(Logo);
 
     const firstIds = first
       .findAll('linearGradient')

@@ -8,7 +8,8 @@
   import { computed } from 'vue';
 
   export type HeadingLevel = 'h1' | 'h2' | 'h3' | 'h4' | 'h5';
-  export type HeadingTag = 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p' | 'a';
+  export type HeadingTag =
+    'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | 'p' | 'a' | 'span';
   export type HeadingTone = 'default' | 'muted' | 'accent';
 
   export interface Props {

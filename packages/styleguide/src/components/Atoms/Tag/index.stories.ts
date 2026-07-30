@@ -16,7 +16,7 @@ const meta = {
     },
     variant: {
       control: 'select',
-      options: [undefined, 'brand', 'info', 'warning', 'error'],
+      options: [undefined, 'brand', 'info', 'warning', 'error', 'strong'],
     },
     pressed: { control: 'boolean' },
     disabled: { control: 'boolean' },
@@ -126,12 +126,10 @@ export const StatesDark: Story = {
   }),
 };
 
-// -strong is a class fallthrough modifier (no dedicated prop): apply it
-// directly on the component tag, e.g. `<Tag class="-strong">`.
 const strongTemplate = `
   <div style="display: flex; gap: 12px;">
     <Tag>Default</Tag>
-    <Tag class="-strong">Strong</Tag>
+    <Tag variant="strong">Strong</Tag>
   </div>
 `;
 

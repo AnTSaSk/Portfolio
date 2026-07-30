@@ -5,17 +5,17 @@
     :aria-label="ariaLabel"
     @click="emit('change', targetLocale)"
   >
-    <span class="a-langSwitcher__flag" aria-hidden="true">{{
-      targetFlag
-    }}</span>
-    <Text tag="span" variant="eyebrow">{{ targetCode }}</Text>
+    <span class="a-langSwitcher__flag" aria-hidden="true">
+      {{ currentFlag }}
+    </span>
+    <Text tag="span" variant="eyebrow">{{ currentCode }}</Text>
   </button>
 </template>
 
 <script setup lang="ts">
   import { computed } from 'vue';
 
-  import Text from '@/components/Atoms/Text/index.vue';
+  import Text from '../Text/index.vue';
 
   export type LangSwitcherLocale = 'en' | 'fr';
 
@@ -34,10 +34,8 @@
   const targetLocale = computed<LangSwitcherLocale>(() =>
     props.locale === 'en' ? 'fr' : 'en',
   );
-  const targetFlag = computed(() =>
-    targetLocale.value === 'fr' ? '🇫🇷' : '🇬🇧',
-  );
-  const targetCode = computed(() => targetLocale.value.toUpperCase());
+  const currentFlag = computed(() => (props.locale === 'fr' ? '🇫🇷' : '🇬🇧'));
+  const currentCode = computed(() => props.locale.toUpperCase());
   const ariaLabel = computed(() =>
     targetLocale.value === 'fr' ? 'Switch to French' : 'Switch to English',
   );

@@ -17,9 +17,9 @@
     </Text>
     <span v-if="showTrail" class="a-tag__trail trail">
       <slot name="trail">
-        <span v-if="count !== undefined" class="a-tag__count count">{{
-          count
-        }}</span>
+        <span v-if="count !== undefined" class="a-tag__count count">
+          {{ count }}
+        </span>
       </slot>
     </span>
   </component>
@@ -28,10 +28,10 @@
 <script setup lang="ts">
   import { computed, useSlots } from 'vue';
 
-  import Text from '@/components/Atoms/Text/index.vue';
+  import Text from '../Text/index.vue';
 
   export type TagAs = 'span' | 'button';
-  export type TagVariant = 'brand' | 'info' | 'warning' | 'error';
+  export type TagVariant = 'brand' | 'info' | 'warning' | 'error' | 'strong';
 
   export interface Props {
     as?: TagAs;

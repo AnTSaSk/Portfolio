@@ -1,7 +1,7 @@
 import { mount } from '@vue/test-utils';
 import { describe, expect, it } from 'vitest';
 
-import Tag from '@/components/Atoms/Tag/index.vue';
+import Tag from '../index.vue';
 
 describe('Tag', () => {
   it('renders a span with the a-tag base class by default', () => {
@@ -81,9 +81,12 @@ describe('Tag', () => {
     ['info', '-info'],
     ['warning', '-warning'],
     ['error', '-error'],
+    ['strong', '-strong'],
   ])('applies the -%s modifier for variant=%s', (variant, expectedClass) => {
     const wrapper = mount(Tag, {
-      props: { variant: variant as 'brand' | 'info' | 'warning' | 'error' },
+      props: {
+        variant: variant as 'brand' | 'info' | 'warning' | 'error' | 'strong',
+      },
       slots: { default: 'Label' },
     });
 

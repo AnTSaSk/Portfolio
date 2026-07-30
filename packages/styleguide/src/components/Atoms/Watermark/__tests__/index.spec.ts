@@ -1,61 +1,72 @@
+import { readFileSync } from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+
 import { mount } from '@vue/test-utils';
 import { describe, expect, it } from 'vitest';
 
-import Watermark from '@/components/Atoms/Watermark/index.vue';
+import Watermark from '../index.vue';
+
+const styleCss = readFileSync(
+  path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../style.css'),
+  'utf-8',
+);
 
 describe('Watermark', () => {
-  it('renders an svg.a-watermark root element with viewBox 0 0 1085 90', () => {
+  it('renders a div.a-watermark root element', () => {
     const wrapper = mount(Watermark, {
       props: { text: 'antsask/alexis besson' },
     });
-    const svg = wrapper.find('svg.a-watermark');
+    const root = wrapper.find('div.a-watermark');
 
-    expect(svg.exists()).toBe(true);
-    expect(svg.attributes('viewBox')).toBe('0 0 1085 90');
+    expect(root.exists()).toBe(true);
   });
 
   it('is always aria-hidden regardless of the text prop', () => {
     const wrapper = mount(Watermark, {
       props: { text: 'antsask/alexis besson' },
     });
-    const svg = wrapper.find('svg.a-watermark');
+    const root = wrapper.find('div.a-watermark');
 
-    expect(svg.attributes('aria-hidden')).toBe('true');
+    expect(root.attributes('aria-hidden')).toBe('true');
   });
 
-  it('sets preserveAspectRatio to xMidYMid meet', () => {
+  it('renders its text content equal to the text prop', () => {
     const wrapper = mount(Watermark, {
       props: { text: 'antsask/alexis besson' },
     });
-    const svg = wrapper.find('svg.a-watermark');
+    const root = wrapper.find('div.a-watermark');
 
-    expect(svg.attributes('preserveAspectRatio')).toBe('xMidYMid meet');
+    expect(root.text()).toBe('antsask/alexis besson');
   });
 
-  it('renders a text element whose content equals the text prop', () => {
-    const wrapper = mount(Watermark, {
-      props: { text: 'antsask/alexis besson' },
-    });
-    const text = wrapper.find('text');
-
-    expect(text.exists()).toBe(true);
-    expect(text.text()).toBe('antsask/alexis besson');
-  });
-
-  it('centers the text with text-anchor middle', () => {
-    const wrapper = mount(Watermark, {
-      props: { text: 'antsask/alexis besson' },
-    });
-    const text = wrapper.find('text');
-
-    expect(text.attributes('text-anchor')).toBe('middle');
-  });
-
-  it('renders an empty text element when the text prop is not provided (default)', () => {
+  it('renders no text content when the text prop is not provided (default)', () => {
     const wrapper = mount(Watermark);
-    const text = wrapper.find('text');
+    const root = wrapper.find('div.a-watermark');
 
-    expect(text.exists()).toBe(true);
-    expect(text.text()).toBe('');
+    expect(root.text()).toBe('');
+  });
+
+  it('exposes the text length as the --wm-chars CSS variable', () => {
+    const wrapper = mount(Watermark, {
+      props: { text: 'antsask/alexis besson' },
+    });
+    const root = wrapper.find('div.a-watermark');
+
+    expect(root.attributes('style')).toContain(
+      `--wm-chars: ${'antsask/alexis besson'.length}`,
+    );
+  });
+
+  // The build minifier drops the inner parens of `/ ((N) * 0.62)`, turning it
+  // into `/ (N) * 0.62` which CSS evaluates as `(vw / N) * 0.62` — a smaller,
+  // wrong glyph. The font-size divisor must be written as sequential divisions
+  // (`/ N / 0.62`), which has no removable parens.
+  it('sizes the glyph with a minification-robust calc (sequential division)', () => {
+    const fontSize = styleCss.match(/font-size:\s*calc\([^;]*\);/)?.[0] ?? '';
+
+    expect(fontSize).not.toBe('');
+    expect(fontSize).not.toMatch(/\*\s*0?\.62\s*\)/);
+    expect(fontSize).toMatch(/\/\s*0?\.62\s*\)/);
   });
 });

@@ -1,6 +1,4 @@
 @layer components {
-  /* Typography atom: owns size / weight / line-height only. Color comes
-     from context (inherits) or a tone modifier — never coupled to level. */
   .a-heading {
     margin: 0;
     color: inherit;

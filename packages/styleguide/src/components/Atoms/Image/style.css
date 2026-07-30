@@ -1,5 +1,10 @@
 @layer components {
-  /* Fills its zone; the parent decides ratio/crop. */
+  @media (prefers-reduced-motion: reduce) {
+    .a-image.-reveal {
+      transition: none;
+    }
+  }
+
   .a-image {
     display: block;
     width: 100%;
@@ -13,5 +18,36 @@
 
   .a-image.-none {
     object-fit: none;
+  }
+
+  .a-image__frame {
+    display: grid;
+    width: 100%;
+    height: 100%;
+  }
+
+  .a-image__frame > .a-image__ph,
+  .a-image__frame > .a-image.-reveal {
+    grid-area: 1 / 1;
+    width: 100%;
+    height: 100%;
+  }
+
+  .a-image__ph {
+    z-index: 1;
+  }
+
+  .a-image.-reveal {
+    opacity: 0;
+    transition: opacity 320ms var(--ease-standard);
+    z-index: 2;
+  }
+
+  .a-image__frame.-revealed .a-image.-reveal {
+    opacity: 1;
+  }
+
+  .a-image__frame.-revealed .a-image__ph {
+    visibility: hidden;
   }
 }

@@ -118,3 +118,23 @@ export const WithSources: Story = {
     `,
   }),
 };
+
+export const Reveal: Story = {
+  args: {
+    reveal: true,
+    loading: 'eager',
+  },
+  render: (args) => ({
+    components: { Image },
+    setup: () => ({ args }),
+    template: `
+      <div style="width:480px;aspect-ratio:16/9;">
+        <Image v-bind="args">
+          <template #placeholder>
+            <div class="u-placeholder -bottom"></div>
+          </template>
+        </Image>
+      </div>
+    `,
+  }),
+};

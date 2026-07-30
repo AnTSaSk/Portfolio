@@ -6,7 +6,7 @@
     :role="label ? 'img' : undefined"
     :aria-label="label"
   >
-    <use :href="`#${name}`" />
+    <use :href.attr="`#${name}`" />
   </svg>
 </template>
 

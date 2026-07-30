@@ -1,6 +1,4 @@
 @layer components {
-  /* Typography atom: owns size / weight / line-height only. Color comes
-     from context (inherits) or a tone modifier — never coupled to variant. */
   .a-text {
     margin: 0;
     color: inherit;
@@ -70,5 +68,6 @@
     overflow: hidden;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: var(--truncate-lines);
+    line-clamp: var(--truncate-lines);
   }
 }

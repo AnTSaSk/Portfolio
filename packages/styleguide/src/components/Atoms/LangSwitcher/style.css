@@ -1,27 +1,32 @@
 @layer components {
   .a-langSwitcher {
     display: inline-flex;
-    gap: var(--space-1);
+    gap: 10px;
     align-items: center;
-    padding: 4px 8px;
-    color: inherit;
+    color: var(--fg-2);
     background: transparent;
     border: none;
-    border-radius: var(--radius-sm);
     cursor: pointer;
-    opacity: 0.5;
-    transition:
-      color 180ms,
-      opacity 180ms;
+    transition: color var(--duration-base) var(--ease-standard);
   }
 
   .a-langSwitcher:hover {
-    opacity: 0.85;
+    color: var(--color-jungle-green);
   }
 
   .a-langSwitcher:focus-visible {
     outline: 2px solid var(--color-jungle-green);
     outline-offset: 2px;
-    opacity: 1;
+  }
+
+  .a-langSwitcher__flag {
+    font-size: 18px;
+    line-height: 1;
+  }
+
+  .a-langSwitcher .a-text.-eyebrow {
+    font-size: 15px;
+    font-weight: var(--fw-medium);
+    letter-spacing: 0.04em;
   }
 }

@@ -43,14 +43,9 @@
 </template>
 
 <script lang="ts">
-  // True module scope (runs once at import time): shared across every
-  // separately mounted app instance, unlike useId() which restarts per app.
-  let instanceCounter = 0;
-
-  export function nextLogoInstanceId(): number {
-    instanceCounter += 1;
-    return instanceCounter;
-  }
+  export default {
+    name: 'AtomLogo',
+  };
 </script>
 
 <script setup lang="ts">
@@ -61,8 +56,6 @@
     title?: string;
   }
 
-  defineOptions({ name: 'AtomLogo' });
-
   defineProps<Props>();
 
   const PATH_1 = 'M63.0546 27H81L17.8225 143H0L63.0546 27Z';
@@ -71,9 +64,9 @@
   const PATH_3 =
     'M123.344 102.996H84.2636L93.8199 85.4499H118.554L110.296 55.1978L123.971 30.0895L155 133H131.535L123.344 102.996Z';
 
-  const instanceId = nextLogoInstanceId();
-  const gradientId1 = `logo-grad1-${useId()}-${instanceId}`;
-  const gradientId2 = `logo-grad2-${useId()}-${instanceId}`;
+  // useId() is SSR-stable: deterministic per component instance, matches on hydration.
+  const gradientId1 = `logo-grad1-${useId()}`;
+  const gradientId2 = `logo-grad2-${useId()}`;
 </script>
 
 <style src="./style.css" />

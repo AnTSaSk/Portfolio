@@ -1,9 +1,9 @@
 <template>
   <component
-    :is="tag"
+    :is="resolvedTag"
     class="a-button"
     :class="`-${variant}`"
-    :type="isLink ? undefined : type"
+    :type="isButtonElement ? type : undefined"
     :href="linkHref"
     :aria-disabled="isDisabledLink ? 'true' : undefined"
     :disabled="isDisabledButton ? true : undefined"
@@ -19,12 +19,13 @@
 <script setup lang="ts">
   import { computed } from 'vue';
 
-  import Icon from '@/components/Atoms/Icon/index.vue';
-  import Text from '@/components/Atoms/Text/index.vue';
+  import Icon from '../Icon/index.vue';
+  import Text from '../Text/index.vue';
 
   export type ButtonVariant = 'primary' | 'ghost';
   export type ButtonType = 'button' | 'submit' | 'link';
   export type ButtonIconPosition = 'before' | 'after';
+  export type ButtonTag = 'a' | 'button' | 'span';
 
   export interface Props {
     variant?: ButtonVariant;
@@ -33,6 +34,7 @@
     disabled?: boolean;
     icon?: string;
     iconPosition?: ButtonIconPosition;
+    tag?: ButtonTag;
   }
 
   defineOptions({ name: 'AtomButton' });
@@ -44,14 +46,17 @@
     disabled = false,
     icon = undefined,
     iconPosition = 'after',
+    tag = undefined,
   } = defineProps<Props>();
 
   const isLink = computed(() => type === 'link');
-  const isDisabledLink = computed(() => isLink.value && disabled);
-  const isDisabledButton = computed(() => !isLink.value && disabled);
-  const tag = computed(() => (isLink.value ? 'a' : 'button'));
+  const resolvedTag = computed(() => tag ?? (isLink.value ? 'a' : 'button'));
+  const isAnchor = computed(() => resolvedTag.value === 'a');
+  const isButtonElement = computed(() => resolvedTag.value === 'button');
+  const isDisabledLink = computed(() => isAnchor.value && disabled);
+  const isDisabledButton = computed(() => isButtonElement.value && disabled);
   const linkHref = computed(() =>
-    isLink.value && !disabled ? href : undefined,
+    isAnchor.value && !disabled ? href : undefined,
   );
 </script>
 

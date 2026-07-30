@@ -1,12 +1,11 @@
 <template>
-  <svg
+  <div
     class="a-watermark"
-    viewBox="0 0 1085 90"
-    preserveAspectRatio="xMidYMid meet"
+    :style="{ '--wm-chars': text.length }"
     aria-hidden="true"
   >
-    <text x="542.5" y="78" text-anchor="middle">{{ text }}</text>
-  </svg>
+    {{ text }}
+  </div>
 </template>
 
 <script lang="ts">

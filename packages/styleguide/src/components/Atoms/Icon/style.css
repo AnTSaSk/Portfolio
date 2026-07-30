@@ -1,6 +1,4 @@
 @layer components {
-  /* Solid-fill glyphs (DS preview authority): sprite paths carry no own
-     fill/stroke, currentColor is inherited from this class. */
   .a-icon {
     display: inline-block;
     color: currentcolor;
@@ -33,7 +31,6 @@
     height: 32px;
   }
 
-  /* Higher specificity than .a-icon (2 classes vs 1) wins the fill/stroke reset. */
   .a-icon.-stroke {
     fill: none;
     stroke: currentcolor;

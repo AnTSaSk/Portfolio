@@ -35,6 +35,10 @@ const meta = {
       control: 'inline-radio',
       options: ['before', 'after'],
     },
+    tag: {
+      control: 'inline-radio',
+      options: [undefined, 'a', 'button', 'span'],
+    },
   },
   args: {
     variant: 'primary',
@@ -86,6 +90,15 @@ export const Disabled: Story = {
     components: { Button },
     setup: () => ({ args }),
     template: `<Button v-bind="args">Send message</Button>`,
+  }),
+};
+
+export const AsStatic: Story = {
+  args: { tag: 'span' },
+  render: (args) => ({
+    components: { Button },
+    setup: () => ({ args }),
+    template: `<Button v-bind="args">Static (span)</Button>`,
   }),
 };
 

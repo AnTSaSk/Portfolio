@@ -1,7 +1,7 @@
 import { mount } from '@vue/test-utils';
 import { describe, expect, it } from 'vitest';
 
-import ThemeSwitcher from '@/components/Atoms/ThemeSwitcher/index.vue';
+import ThemeSwitcher from '../index.vue';
 
 describe('ThemeSwitcher', () => {
   it('renders a button element with type="button" and the base class', () => {
@@ -40,7 +40,6 @@ describe('ThemeSwitcher', () => {
     expect(wrapper.attributes('aria-label')).toBe('Switch to light');
   });
 
-  // AC-COMP-1: ThemeSwitcher composes the Icon atom instead of an inline hand-rolled svg.
   it('composes an Icon atom and renders no bespoke inline svg', () => {
     const wrapper = mount(ThemeSwitcher, { props: { theme: 'light' } });
 
@@ -48,7 +47,6 @@ describe('ThemeSwitcher', () => {
     expect(wrapper.find('svg:not(.a-icon)').exists()).toBe(false);
   });
 
-  // AC-ATOM-3: P04 semantics — light scheme affords switching to dark via the moon glyph.
   it('passes the moon icon name in stroke mode when theme is light', () => {
     const wrapper = mount(ThemeSwitcher, { props: { theme: 'light' } });
     const icon = wrapper.findComponent({ name: 'AtomIcon' });
@@ -57,7 +55,6 @@ describe('ThemeSwitcher', () => {
     expect(icon.props('stroke')).toBe(true);
   });
 
-  // AC-ATOM-3: dark scheme affords switching to light via the sun glyph.
   it('passes the sun icon name in stroke mode when theme is dark', () => {
     const wrapper = mount(ThemeSwitcher, { props: { theme: 'dark' } });
     const icon = wrapper.findComponent({ name: 'AtomIcon' });

@@ -1,6 +1,4 @@
 @layer components {
-  /* Mark fills its parent's box (no intrinsic width/height); color comes
-     from --logo-fg cascading to currentColor on the third (solid) path. */
   .a-logo {
     display: block;
     width: 100%;

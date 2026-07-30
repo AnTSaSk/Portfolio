@@ -114,4 +114,18 @@
   .a-link.-nav[aria-current='page'] {
     color: var(--color-jungle-green);
   }
+
+  .a-link.-icon {
+    display: inline-flex;
+    align-items: center;
+    color: var(--fg-3);
+    background-image: none;
+    -webkit-text-fill-color: currentcolor;
+    transition: color var(--duration-base) var(--ease-standard);
+  }
+
+  .a-link.-icon:hover,
+  .a-link.-icon:focus-visible {
+    color: var(--color-jungle-green);
+  }
 }

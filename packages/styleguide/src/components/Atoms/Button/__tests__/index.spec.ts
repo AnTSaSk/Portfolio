@@ -1,7 +1,7 @@
 import { mount } from '@vue/test-utils';
 import { describe, expect, it } from 'vitest';
 
-import Button from '@/components/Atoms/Button/index.vue';
+import Button from '../index.vue';
 
 describe('Button', () => {
   it('renders a button element with type="button" by default', () => {
@@ -119,5 +119,41 @@ describe('Button', () => {
 
     expect(nodes[0].classList.contains('a-icon')).toBe(true);
     expect(nodes[1].classList.contains('a-text')).toBe(true);
+  });
+
+  it('resolves to a button element when tag is unset and type is button (retro-compat)', () => {
+    const wrapper = mount(Button, { slots: { default: 'Submit' } });
+
+    expect(wrapper.element.tagName).toBe('BUTTON');
+  });
+
+  it('resolves to an anchor element when tag is unset and type is link (retro-compat)', () => {
+    const wrapper = mount(Button, {
+      props: { type: 'link', href: '/contact' },
+      slots: { default: 'Contact' },
+    });
+
+    expect(wrapper.element.tagName).toBe('A');
+  });
+
+  it('renders the given tag when tag is provided, overriding the type-based default', () => {
+    const wrapper = mount(Button, {
+      props: { tag: 'a', type: 'button' },
+      slots: { default: 'Link-like' },
+    });
+
+    expect(wrapper.element.tagName).toBe('A');
+  });
+
+  it('renders a span with no type, href or disabled attribute when tag is span', () => {
+    const wrapper = mount(Button, {
+      props: { tag: 'span', href: '/contact', disabled: true },
+      slots: { default: 'Static CTA' },
+    });
+
+    expect(wrapper.element.tagName).toBe('SPAN');
+    expect(wrapper.attributes('type')).toBeUndefined();
+    expect(wrapper.attributes('href')).toBeUndefined();
+    expect(wrapper.attributes('disabled')).toBeUndefined();
   });
 });

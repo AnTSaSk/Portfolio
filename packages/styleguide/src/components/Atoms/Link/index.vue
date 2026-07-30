@@ -1,10 +1,12 @@
 <template>
-  <a
+  <component
+    :is="tag"
     :class="classes"
-    :href="href"
-    :target="isExternal ? '_blank' : undefined"
-    :rel="isExternal ? 'noopener noreferrer' : undefined"
-    :aria-current="current ? 'page' : undefined"
+    :href="isAnchor ? href : undefined"
+    :target="isAnchor && isExternal ? '_blank' : undefined"
+    :rel="isAnchor && isExternal ? 'noopener noreferrer' : undefined"
+    :aria-current="isAnchor && current ? 'page' : undefined"
+    :aria-label="variant === 'icon' ? label : undefined"
   >
     <Text v-if="hasEyebrowLabel" tag="span" variant="eyebrow"><slot /></Text>
     <template v-else>
@@ -22,47 +24,54 @@
         >→</span
       >
     </template>
-  </a>
+  </component>
 </template>
 
 <script setup lang="ts">
   import { computed } from 'vue';
 
-  import Text from '@/components/Atoms/Text/index.vue';
+  import Text from '../Text/index.vue';
 
-  export type LinkVariant = 'inline' | 'arrow' | 'quiet' | 'nav';
+  export type LinkVariant = 'inline' | 'arrow' | 'quiet' | 'nav' | 'icon';
   export type LinkArrowPosition = 'before' | 'after';
+  export type LinkTag = 'a' | 'span';
 
   export interface Props {
-    href: string;
+    href?: string;
     external?: boolean;
     current?: boolean;
     variant?: LinkVariant;
     arrowPosition?: LinkArrowPosition;
+    tag?: LinkTag;
+    // Accessible name for the icon-only variant (the icon itself is decorative).
+    label?: string;
   }
 
   defineOptions({ name: 'AtomLink' });
 
   const {
-    href,
+    href = undefined,
     external = undefined,
     current = false,
     variant = 'inline',
     arrowPosition = 'after',
+    tag = 'a',
+    label = undefined,
   } = defineProps<Props>();
 
   const showArrow = computed(() => variant === 'arrow');
 
+  const isAnchor = computed(() => tag === 'a');
+
   // Styleguide is isolated from routing: renders a plain <a>. The website
   // wires internal hrefs through NuxtLink at the call site.
-  const isExternal = computed(() => external ?? /^https?:/.test(href));
+  const isExternal = computed(() => external ?? /^https?:/.test(href ?? ''));
 
   const classes = computed(() => [
     'a-link',
     variant !== 'inline' && `-${variant}`,
   ]);
 
-  // Quiet/nav labels are composed via Text -eyebrow (typography owned by Text, AC-ATOM-2).
   const hasEyebrowLabel = computed(
     () => variant === 'quiet' || variant === 'nav',
   );

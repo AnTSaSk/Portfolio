@@ -1,7 +1,7 @@
 import { mount } from '@vue/test-utils';
 import { describe, expect, it } from 'vitest';
 
-import Icon from '@/components/Atoms/Icon/index.vue';
+import Icon from '../index.vue';
 
 describe('Icon', () => {
   it('renders an svg.a-icon root element', () => {
@@ -54,7 +54,6 @@ describe('Icon', () => {
     expect(wrapper.text()).toBe('');
   });
 
-  // AC-ATOM-3: moon/sun glyphs are stroke-based additions to the sprite (ADR-0018 D1).
   it('renders a use element referencing the moon sprite symbol id', () => {
     const wrapper = mount(Icon, { props: { name: 'moon' } });
 
@@ -67,7 +66,7 @@ describe('Icon', () => {
     expect(wrapper.find('use').attributes('href')).toBe('#sun');
   });
 
-  // AC-ATOM-3: Icon exposes a stroke variant (fill:none/stroke rendering is CSS, not assertable in JSDOM).
+  // fill:none/stroke rendering is CSS, not assertable in JSDOM.
   it('applies the -stroke modifier class when the stroke prop is true', () => {
     const wrapper = mount(Icon, { props: { name: 'moon', stroke: true } });
 
