@@ -1,7 +1,7 @@
 import { mount } from '@vue/test-utils';
 import { describe, expect, it } from 'vitest';
 
-import Pagination from '@/components/Molecules/Pagination/index.vue';
+import Pagination from '../index.vue';
 
 const baseProps = {
   pages: 5,

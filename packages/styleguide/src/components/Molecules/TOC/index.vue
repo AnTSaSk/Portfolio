@@ -24,7 +24,7 @@
 </template>
 
 <script setup lang="ts">
-  import Text from '@/components/Atoms/Text/index.vue';
+  import Text from '../../Atoms/Text/index.vue';
 
   export interface TOCItem {
     id: string;

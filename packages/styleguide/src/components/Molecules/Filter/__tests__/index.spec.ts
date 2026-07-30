@@ -1,7 +1,7 @@
 import { mount } from '@vue/test-utils';
 import { describe, expect, it } from 'vitest';
 
-import Filter from '@/components/Molecules/Filter/index.vue';
+import Filter from '../index.vue';
 
 const baseProps = {
   items: [
@@ -105,5 +105,28 @@ describe('Filter', () => {
     const wrapper = mount(Filter, { props: { items: [] } });
 
     expect(wrapper.findAll('.a-tag')).toHaveLength(0);
+  });
+
+  it('renders the count on a chip that carries one', () => {
+    const wrapper = mount(Filter, {
+      props: {
+        items: [{ id: 'vue', label: 'Vue', pressed: false, count: 4 }],
+      },
+    });
+
+    const count = wrapper.find('.a-tag__count');
+
+    expect(count.exists()).toBe(true);
+    expect(count.text()).toBe('4');
+  });
+
+  it('renders no count node on a chip without a count', () => {
+    const wrapper = mount(Filter, {
+      props: {
+        items: [{ id: 'all', label: 'Tous', pressed: true }],
+      },
+    });
+
+    expect(wrapper.find('.a-tag__count').exists()).toBe(false);
   });
 });

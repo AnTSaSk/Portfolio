@@ -6,7 +6,7 @@
 
     <div class="m-author__content">
       <div class="m-author__name">
-        <Heading tag="p" level="h5" uppercase>{{ name }}</Heading>
+        <Text tag="p" variant="bodyS">{{ name }}</Text>
       </div>
 
       <div class="m-author__body">
@@ -29,9 +29,8 @@
 </template>
 
 <script setup lang="ts">
-  import Heading from '@/components/Atoms/Heading/index.vue';
-  import Link from '@/components/Atoms/Link/index.vue';
-  import Text from '@/components/Atoms/Text/index.vue';
+  import Link from '../../Atoms/Link/index.vue';
+  import Text from '../../Atoms/Text/index.vue';
 
   export interface AuthorLink {
     label: string;

@@ -1,17 +1,56 @@
 <template>
   <a class="m-cardArticle" :href="href">
     <div class="m-cardArticle__cover">
-      <Image v-if="image" :src="image.src" :alt="image.alt" />
-      <div v-else class="u-placeholder" :class="placeholderVariant" />
+      <Image
+        v-if="image"
+        reveal
+        :image-component="imageComponent"
+        :src="image.src"
+        :alt="image.alt"
+        densities="x1 x2"
+        format="avif,webp"
+      >
+        <template #placeholder>
+          <div
+            class="u-placeholder"
+            :class="placeholderVariant"
+            aria-hidden="true"
+          >
+            <Heading
+              tag="span"
+              level="h4"
+              uppercase
+              class="m-cardArticle__coverTitle"
+            >
+              {{ title }}
+            </Heading>
+          </div>
+        </template>
+      </Image>
+      <div
+        v-else
+        class="u-placeholder"
+        :class="placeholderVariant"
+        aria-hidden="true"
+      >
+        <Heading
+          tag="span"
+          level="h4"
+          uppercase
+          class="m-cardArticle__coverTitle"
+        >
+          {{ title }}
+        </Heading>
+      </div>
     </div>
 
     <Text tag="p" variant="tag" class="m-cardArticle__date">{{ date }}</Text>
-    <Heading tag="h2" level="h5" class="m-cardArticle__title">{{
-      title
-    }}</Heading>
-    <Text tag="p" variant="bodyS" class="m-cardArticle__excerpt">{{
-      excerpt
-    }}</Text>
+    <Heading tag="h2" level="h5" class="m-cardArticle__title">
+      {{ title }}
+    </Heading>
+    <Text tag="p" variant="bodyS" class="m-cardArticle__excerpt">
+      {{ excerpt }}
+    </Text>
 
     <ul class="m-cardArticle__tags">
       <li v-for="tag in tags" :key="tag" class="m-cardArticle__tagItem">
@@ -22,10 +61,12 @@
 </template>
 
 <script setup lang="ts">
-  import Heading from '@/components/Atoms/Heading/index.vue';
-  import Image from '@/components/Atoms/Image/index.vue';
-  import Tag from '@/components/Atoms/Tag/index.vue';
-  import Text from '@/components/Atoms/Text/index.vue';
+  import { type Component } from 'vue';
+
+  import Heading from '../../Atoms/Heading/index.vue';
+  import Image from '../../Atoms/Image/index.vue';
+  import Tag from '../../Atoms/Tag/index.vue';
+  import Text from '../../Atoms/Text/index.vue';
 
   export type CardArticlePlaceholderVariant = '-topRight' | '-bottom';
 
@@ -41,6 +82,7 @@
     excerpt: string;
     tags: string[];
     image?: CardArticleImage;
+    imageComponent?: Component;
     placeholderVariant?: CardArticlePlaceholderVariant;
   }
 
@@ -53,6 +95,7 @@
     excerpt,
     tags,
     image = undefined,
+    imageComponent = undefined,
     placeholderVariant = undefined,
   } = defineProps<Props>();
 </script>

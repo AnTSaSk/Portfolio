@@ -76,6 +76,22 @@ export const Default: Story = {
   }),
 };
 
+export const WithCounts: Story = {
+  args: {
+    items: [
+      { id: 'all', label: 'Tous', pressed: true },
+      { id: 'TypeScript', label: 'TypeScript', pressed: false, count: 4 },
+      { id: 'Storybook', label: 'Storybook', pressed: false, count: 3 },
+      { id: 'Vue 3', label: 'Vue 3', pressed: false, count: 2 },
+    ],
+  },
+  render: (args) => ({
+    components: { Filter },
+    setup: () => ({ args, ...useFilterState(args.items) }),
+    template: `<Filter v-bind="args" :items="items" @toggle="toggle" />`,
+  }),
+};
+
 export const Light: Story = {
   globals: {
     theme: 'light',

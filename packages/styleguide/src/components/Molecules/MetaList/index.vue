@@ -6,9 +6,9 @@
           <Text tag="span" variant="tag">{{ item.term }}</Text>
         </dt>
         <dd class="m-metaList__value">
-          <Text v-if="item.value" tag="span" variant="bodyS">{{
-            item.value
-          }}</Text>
+          <Text v-if="item.value" tag="span" variant="bodyS">
+            {{ item.value }}
+          </Text>
           <ul v-if="item.tags" class="m-metaList__stack">
             <li
               v-for="tag in item.tags"
@@ -40,9 +40,9 @@
 </template>
 
 <script setup lang="ts">
-  import Link from '@/components/Atoms/Link/index.vue';
-  import Tag from '@/components/Atoms/Tag/index.vue';
-  import Text from '@/components/Atoms/Text/index.vue';
+  import Link from '../../Atoms/Link/index.vue';
+  import Tag from '../../Atoms/Tag/index.vue';
+  import Text from '../../Atoms/Text/index.vue';
 
   export interface MetaListItem {
     term: string;

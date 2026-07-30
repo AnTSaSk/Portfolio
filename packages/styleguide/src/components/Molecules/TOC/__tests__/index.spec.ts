@@ -1,7 +1,7 @@
 import { mount } from '@vue/test-utils';
 import { describe, expect, it } from 'vitest';
 
-import TOC from '@/components/Molecules/TOC/index.vue';
+import TOC from '../index.vue';
 
 const baseProps = {
   items: [
@@ -44,7 +44,7 @@ describe('TOC', () => {
     expect(items).toHaveLength(baseProps.items.length);
   });
 
-  it('does not use a-button for items (native li a11y, AC-COMP-3)', () => {
+  it('does not use a-button for items (native li a11y)', () => {
     const wrapper = mount(TOC, { props: baseProps });
 
     expect(wrapper.find('.a-button').exists()).toBe(false);

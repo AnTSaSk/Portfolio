@@ -18,9 +18,9 @@
       :aria-current="page === current ? 'page' : undefined"
       @click="emit('select', page)"
     >
-      <Text tag="span" variant="eyebrow">{{
-        String(page).padStart(2, '0')
-      }}</Text>
+      <Text tag="span" variant="eyebrow">
+        {{ String(page).padStart(2, '0') }}
+      </Text>
     </button>
 
     <button
@@ -38,7 +38,7 @@
 <script setup lang="ts">
   import { computed } from 'vue';
 
-  import Text from '@/components/Atoms/Text/index.vue';
+  import Text from '../../Atoms/Text/index.vue';
 
   export interface Props {
     pages: number;

@@ -6,6 +6,7 @@
       :key="item.id"
       as="button"
       :pressed="item.pressed"
+      :count="item.count"
       @click="emit('toggle', item.id)"
     >
       {{ item.label }}
@@ -14,13 +15,14 @@
 </template>
 
 <script setup lang="ts">
-  import Tag from '@/components/Atoms/Tag/index.vue';
-  import Text from '@/components/Atoms/Text/index.vue';
+  import Tag from '../../Atoms/Tag/index.vue';
+  import Text from '../../Atoms/Text/index.vue';
 
   export interface FilterItem {
     id: string;
     label: string;
     pressed: boolean;
+    count?: number;
   }
 
   export interface Props {

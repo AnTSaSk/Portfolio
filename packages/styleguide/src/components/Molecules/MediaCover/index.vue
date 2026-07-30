@@ -3,11 +3,34 @@
     <div class="m-mediaCover__frame" :class="frameClasses">
       <Image
         v-if="image"
-        class="m-mediaCover__img"
+        reveal
+        :image-component="imageComponent"
         :src="image.src"
         :alt="image.alt"
-      />
-      <div v-else class="u-placeholder" :class="placeholderClasses" />
+        :width="image.width"
+        :height="image.height"
+        :sizes="POSTER_SIZES"
+        :fetchpriority="fetchpriority"
+        :loading="loading"
+        format="avif,webp"
+      >
+        <template #placeholder>
+          <div class="u-placeholder" :class="placeholderClasses">
+            <figcaption v-if="category" class="m-mediaCover__cat">
+              <Text tag="span" variant="tag" class="m-mediaCover__catLabel">
+                {{ category }}
+              </Text>
+            </figcaption>
+          </div>
+        </template>
+      </Image>
+      <div v-else class="u-placeholder" :class="placeholderClasses">
+        <figcaption v-if="category" class="m-mediaCover__cat">
+          <Text tag="span" variant="tag" class="m-mediaCover__catLabel">
+            {{ category }}
+          </Text>
+        </figcaption>
+      </div>
     </div>
 
     <figcaption v-if="caption" class="m-mediaCover__cap">
@@ -18,10 +41,10 @@
 </template>
 
 <script setup lang="ts">
-  import { computed } from 'vue';
+  import { computed, type Component } from 'vue';
 
-  import Image from '@/components/Atoms/Image/index.vue';
-  import Text from '@/components/Atoms/Text/index.vue';
+  import Image from '../../Atoms/Image/index.vue';
+  import Text from '../../Atoms/Text/index.vue';
 
   export type MediaCoverVariant = 'cover' | 'poster';
   export type MediaCoverRatio = '16x9' | '4x3' | '1x1' | 'portrait';
@@ -30,15 +53,22 @@
   export interface MediaCoverImage {
     src: string;
     alt: string;
+    width?: number;
+    height?: number;
   }
 
   export interface Props {
     variant?: MediaCoverVariant;
     image?: MediaCoverImage;
+    imageComponent?: Component;
     placeholderVariant?: MediaCoverPlaceholderVariant;
+    placeholderHeading?: boolean;
     ratio?: MediaCoverRatio;
     caption?: string;
     eyebrow?: string;
+    category?: string;
+    fetchpriority?: 'high' | 'low' | 'auto';
+    loading?: 'lazy' | 'eager';
   }
 
   defineOptions({ name: 'MoleculeMediaCover' });
@@ -46,11 +76,19 @@
   const {
     variant = 'cover',
     image = undefined,
+    imageComponent = undefined,
     placeholderVariant = 'topLeft',
+    placeholderHeading = false,
     ratio = undefined,
     caption = undefined,
     eyebrow = undefined,
+    category = undefined,
+    fetchpriority = undefined,
+    loading = undefined,
   } = defineProps<Props>();
+
+  // @nuxt/image `sizes` syntax (breakpoint prefixes), not CSS media queries.
+  const POSTER_SIZES = '100vw xl:1280px';
 
   const ratioClasses: Record<MediaCoverRatio, string> = {
     '16x9': '-ratio16x9',
@@ -63,7 +101,7 @@
 
   const placeholderClasses = computed(() => [
     placeholderVariant === 'topLeft' ? undefined : `-${placeholderVariant}`,
-    variant === 'poster' ? '-big' : undefined,
+    placeholderHeading ? '-big' : undefined,
   ]);
 
   const frameClasses = computed(() =>

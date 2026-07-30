@@ -1,6 +1,9 @@
+import { markRaw } from 'vue';
+
 import type { Meta, StoryObj } from '@storybook/vue3-vite';
 
 import MediaCover from './index.vue';
+import StubNuxtImg from '../../../../.storybook/StubNuxtImg';
 
 const valley =
   'https://carfans.fr/wp-content/uploads/2024/12/JAGUAR_TYPE00_SIDEPROFILE_16x9_021224.webp';
@@ -114,5 +117,25 @@ export const Dark: Story = {
     components: { MediaCover },
     setup: () => ({ args }),
     template: coverTemplate,
+  }),
+};
+
+// Exercises the injected-image branch (AtomImage renders the injected
+// component) using the Storybook NuxtImg stub, without Nuxt.
+export const InjectedImage: Story = {
+  args: {
+    variant: 'poster',
+    image: {
+      src: valley,
+      alt: 'A valley seen from above',
+      width: 1200,
+      height: 675,
+    },
+    imageComponent: markRaw(StubNuxtImg),
+  },
+  render: (args) => ({
+    components: { MediaCover },
+    setup: () => ({ args }),
+    template: posterTemplate,
   }),
 };

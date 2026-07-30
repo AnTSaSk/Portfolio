@@ -32,9 +32,21 @@
     border-color: var(--fg-3);
   }
 
-  .m-cardArticle:hover .a-heading {
+  .m-cardArticle:hover > .a-heading {
     color: var(--color-jungle-green);
     transition: color 200ms;
+  }
+
+  .u-placeholder .m-cardArticle__coverTitle {
+    display: -webkit-box;
+    overflow: hidden;
+    color: var(--fg-2);
+    font-weight: var(--fw-regular);
+    line-height: 1.12;
+    letter-spacing: 0.01em;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 4;
+    line-clamp: 4;
   }
 
   .m-cardArticle__date {
@@ -42,9 +54,10 @@
     color: var(--fg-3);
   }
 
-  .m-cardArticle__title {
+  .m-cardArticle .m-cardArticle__title {
     margin-block-end: 10px;
     color: var(--fg-1);
+    font-weight: var(--fw-regular);
   }
 
   .m-cardArticle__excerpt {

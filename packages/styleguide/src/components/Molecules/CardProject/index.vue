@@ -1,8 +1,52 @@
 <template>
   <a class="m-cardProject" :href="href">
     <div class="m-cardProject__cover">
-      <Image v-if="image" :src="image.src" :alt="image.alt" />
-      <div v-else class="u-placeholder" :class="placeholderVariant" />
+      <Image
+        v-if="image"
+        reveal
+        :image-component="imageComponent"
+        :src="image.src"
+        :alt="image.alt"
+        :width="image.width"
+        :height="image.height"
+        :sizes="sizes"
+        :densities="sizes ? undefined : 'x1 x2'"
+        :fetchpriority="fetchpriority"
+        :loading="loading"
+        format="avif,webp"
+      >
+        <template #placeholder>
+          <div
+            class="u-placeholder"
+            :class="placeholderVariant"
+            aria-hidden="true"
+          >
+            <Heading
+              tag="span"
+              level="h4"
+              uppercase
+              class="m-cardProject__coverTitle"
+            >
+              {{ title }}
+            </Heading>
+          </div>
+        </template>
+      </Image>
+      <div
+        v-else
+        class="u-placeholder"
+        :class="placeholderVariant"
+        aria-hidden="true"
+      >
+        <Heading
+          tag="span"
+          level="h4"
+          uppercase
+          class="m-cardProject__coverTitle"
+        >
+          {{ title }}
+        </Heading>
+      </div>
     </div>
     <div class="m-cardProject__meta">
       <Text tag="span" variant="tag">{{ meta }}</Text>
@@ -22,16 +66,20 @@
 </template>
 
 <script setup lang="ts">
-  import Heading from '@/components/Atoms/Heading/index.vue';
-  import Image from '@/components/Atoms/Image/index.vue';
-  import Tag from '@/components/Atoms/Tag/index.vue';
-  import Text from '@/components/Atoms/Text/index.vue';
+  import { type Component } from 'vue';
+
+  import Heading from '../../Atoms/Heading/index.vue';
+  import Image from '../../Atoms/Image/index.vue';
+  import Tag from '../../Atoms/Tag/index.vue';
+  import Text from '../../Atoms/Text/index.vue';
 
   export type CardProjectPlaceholderVariant = '-topRight' | '-bottom';
 
   export interface CardProjectImage {
     src: string;
     alt: string;
+    width?: number;
+    height?: number;
   }
 
   export interface Props {
@@ -41,7 +89,11 @@
     stack: string[];
     desc?: string;
     image?: CardProjectImage;
+    imageComponent?: Component;
     placeholderVariant?: CardProjectPlaceholderVariant;
+    sizes?: string;
+    fetchpriority?: 'high' | 'low' | 'auto';
+    loading?: 'lazy' | 'eager';
   }
 
   defineOptions({ name: 'MoleculeCardProject' });
@@ -53,7 +105,11 @@
     stack,
     desc = undefined,
     image = undefined,
+    imageComponent = undefined,
     placeholderVariant = undefined,
+    sizes = undefined,
+    fetchpriority = undefined,
+    loading = undefined,
   } = defineProps<Props>();
 </script>
 

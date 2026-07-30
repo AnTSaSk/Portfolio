@@ -1,7 +1,7 @@
 import { mount } from '@vue/test-utils';
 import { describe, expect, it } from 'vitest';
 
-import MetaList from '@/components/Molecules/MetaList/index.vue';
+import MetaList from '../index.vue';
 
 const baseProps = {
   items: [
@@ -14,7 +14,7 @@ const baseProps = {
 describe('MetaList', () => {
   // Root is a div, not a dl: a <dl> may only contain dt/dd groups (or div
   // wrappers around them), so the optional __links block can't live inside
-  // it — fixes an invalid-HTML root introduced during the Link composition.
+  // Guards against an invalid-HTML root regression from the Link composition.
   it('renders a div root with the m-metaList class, wrapping a dl.m-metaList__list', () => {
     const wrapper = mount(MetaList, { props: baseProps });
 

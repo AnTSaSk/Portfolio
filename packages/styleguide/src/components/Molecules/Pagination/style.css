@@ -42,8 +42,6 @@
     opacity: 0.32;
   }
 
-  /* Neutralize per-variant line-height (bodyS: 1.5, eyebrow: 1.4) so the
-     glyph's own font metrics — not extra leading — drive vertical centering. */
   .m-pagination__btn .a-text.-bodyS,
   .m-pagination__btn .a-text.-eyebrow {
     line-height: 1;

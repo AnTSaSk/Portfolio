@@ -1,7 +1,7 @@
 import { mount } from '@vue/test-utils';
 import { describe, expect, it } from 'vitest';
 
-import Author from '@/components/Molecules/Author/index.vue';
+import Author from '../index.vue';
 
 const baseProps = {
   initials: 'AB',
@@ -39,10 +39,10 @@ describe('Author', () => {
     expect(initialsText.text()).toBe(baseProps.initials);
   });
 
-  it('renders the name through a Heading with the -h5 modifier', () => {
+  it('renders the name through a Text with the -bodyS variant', () => {
     const wrapper = mount(Author, { props: baseProps });
 
-    const name = wrapper.find('.m-author__name .a-heading.-h5');
+    const name = wrapper.find('.m-author__name .a-text.-bodyS');
 
     expect(name.exists()).toBe(true);
     expect(name.text()).toContain(baseProps.name);

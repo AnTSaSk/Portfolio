@@ -1,7 +1,16 @@
 import { mount } from '@vue/test-utils';
 import { describe, expect, it } from 'vitest';
+import { defineComponent, h, markRaw } from 'vue';
 
-import CardProject from '@/components/Molecules/CardProject/index.vue';
+import CardProject from '../index.vue';
+
+const ImgStub = markRaw(
+  defineComponent({
+    name: 'ImgStub',
+    props: { src: { type: String, required: true } },
+    setup: (props) => () => h('img', { src: props.src }),
+  }),
+);
 
 const baseProps = {
   href: '/projects/design-system',
@@ -11,7 +20,6 @@ const baseProps = {
 };
 
 describe('CardProject', () => {
-  // AC-COMP-1 / AC-FID: root is a link carrying the ABEM block class
   it('renders a root <a> with the m-cardProject class and the href prop', () => {
     const wrapper = mount(CardProject, { props: baseProps });
 
@@ -20,7 +28,6 @@ describe('CardProject', () => {
     expect(wrapper.attributes('href')).toBe(baseProps.href);
   });
 
-  // AC-COMP-1: cover composes the Image atom when an image prop is supplied
   it('renders an Image in the cover when the image prop is provided', () => {
     const wrapper = mount(CardProject, {
       props: {
@@ -36,7 +43,6 @@ describe('CardProject', () => {
     expect(img.attributes('alt')).toBe('Cover alt text');
   });
 
-  // AC-COMP-1: cover falls back to u-placeholder when no image prop is supplied
   it('renders a u-placeholder in the cover when no image prop is provided', () => {
     const wrapper = mount(CardProject, { props: baseProps });
 
@@ -48,7 +54,28 @@ describe('CardProject', () => {
     );
   });
 
-  // AC-COMP-1: placeholder variant modifier is forwarded onto u-placeholder
+  // Placeholder (with title) is a permanent backdrop; a failed image simply
+  // never reveals over it. The reveal/fallback state itself is owned by Image.
+  it('keeps the placeholder backdrop (with title) under the revealed image', () => {
+    const wrapper = mount(CardProject, {
+      props: {
+        ...baseProps,
+        image: { src: '/cover.jpg', alt: 'Project cover' },
+      },
+    });
+
+    expect(wrapper.find('.m-cardProject__cover img.a-image').exists()).toBe(
+      true,
+    );
+
+    const placeholder = wrapper.find(
+      '.m-cardProject__cover .a-image__frame .u-placeholder',
+    );
+
+    expect(placeholder.exists()).toBe(true);
+    expect(placeholder.text()).toContain(baseProps.title);
+  });
+
   it('applies the placeholderVariant modifier class to the placeholder', () => {
     const wrapper = mount(CardProject, {
       props: { ...baseProps, placeholderVariant: '-topRight' },
@@ -57,7 +84,6 @@ describe('CardProject', () => {
     expect(wrapper.find('.u-placeholder.-topRight').exists()).toBe(true);
   });
 
-  // AC-COMP-1: title composes Heading -h3 uppercase and renders the title text
   it('renders the title through a Heading -h3 uppercase composition', () => {
     const wrapper = mount(CardProject, { props: baseProps });
 
@@ -69,7 +95,6 @@ describe('CardProject', () => {
     expect(heading.text()).toContain(baseProps.title);
   });
 
-  // AC-COMP-1: meta composes Text -tag and renders the meta text
   it('renders the meta through a Text -tag composition', () => {
     const wrapper = mount(CardProject, { props: baseProps });
 
@@ -80,7 +105,6 @@ describe('CardProject', () => {
     expect(meta.text()).toContain(baseProps.meta);
   });
 
-  // AC-COMP-1: desc composes Text -bodyS and renders the desc text when supplied
   it('renders the desc through a Text -bodyS composition when desc is provided', () => {
     const wrapper = mount(CardProject, {
       props: { ...baseProps, desc: 'A short project description.' },
@@ -93,14 +117,12 @@ describe('CardProject', () => {
     expect(desc.text()).toContain('A short project description.');
   });
 
-  // AC-COMP-1 edge case: desc block is absent when desc prop is not supplied (related context)
   it('does not render the desc block when desc is not provided', () => {
     const wrapper = mount(CardProject, { props: baseProps });
 
     expect(wrapper.find('.m-cardProject__desc').exists()).toBe(false);
   });
 
-  // AC-COMP-1 / AC-FID: stack renders one a-tag per entry inside ul > li
   it('renders one a-tag per stack entry inside a m-cardProject__stack list', () => {
     const wrapper = mount(CardProject, { props: baseProps });
 
@@ -117,6 +139,86 @@ describe('CardProject', () => {
 
       expect(tag.exists()).toBe(true);
       expect(tag.text()).toContain(label);
+    });
+  });
+
+  it('relays the injected image component to AtomImage', () => {
+    const wrapper = mount(CardProject, {
+      props: {
+        ...baseProps,
+        image: { src: '/a.webp', alt: 'A' },
+        imageComponent: ImgStub,
+      },
+    });
+
+    expect(
+      wrapper.findComponent({ name: 'AtomImage' }).props('imageComponent'),
+    ).toBe(ImgStub);
+  });
+
+  // CardProject relays sizes + width/height so the srcset resolves a slot-sized variant.
+  describe('responsive passthrough', () => {
+    it('relays sizes to AtomImage when provided', () => {
+      const wrapper = mount(CardProject, {
+        props: {
+          ...baseProps,
+          image: { src: '/cover.jpg', alt: 'Cover alt text' },
+          sizes: '100vw md:632px',
+        },
+      });
+
+      expect(wrapper.findComponent({ name: 'AtomImage' }).props('sizes')).toBe(
+        '100vw md:632px',
+      );
+    });
+
+    it('relays width and height from the image prop to AtomImage', () => {
+      const wrapper = mount(CardProject, {
+        props: {
+          ...baseProps,
+          image: {
+            src: '/cover.jpg',
+            alt: 'Cover alt text',
+            width: 1600,
+            height: 1200,
+          },
+        },
+      });
+
+      const image = wrapper.findComponent({ name: 'AtomImage' });
+
+      expect(image.props('width')).toBe(1600);
+      expect(image.props('height')).toBe(1200);
+    });
+
+    it('does not pass densities to AtomImage when sizes is provided (mutual exclusivity)', () => {
+      const wrapper = mount(CardProject, {
+        props: {
+          ...baseProps,
+          image: { src: '/cover.jpg', alt: 'Cover alt text' },
+          sizes: '100vw md:632px',
+        },
+      });
+
+      expect(
+        wrapper.findComponent({ name: 'AtomImage' }).props('densities'),
+      ).toBeUndefined();
+    });
+
+    it('relays fetchpriority and loading to AtomImage when provided', () => {
+      const wrapper = mount(CardProject, {
+        props: {
+          ...baseProps,
+          image: { src: '/cover.jpg', alt: 'Cover alt text' },
+          fetchpriority: 'high',
+          loading: 'eager',
+        },
+      });
+
+      const image = wrapper.findComponent({ name: 'AtomImage' });
+
+      expect(image.props('fetchpriority')).toBe('high');
+      expect(image.props('loading')).toBe('eager');
     });
   });
 });

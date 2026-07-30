@@ -1,7 +1,16 @@
 import { mount } from '@vue/test-utils';
 import { describe, expect, it } from 'vitest';
+import { defineComponent, h, markRaw } from 'vue';
 
-import CardArticle from '@/components/Molecules/CardArticle/index.vue';
+import CardArticle from '../index.vue';
+
+const ImgStub = markRaw(
+  defineComponent({
+    name: 'ImgStub',
+    props: { src: { type: String, required: true } },
+    setup: (props) => () => h('img', { src: props.src }),
+  }),
+);
 
 const baseProps = {
   href: '/blog/some-article',
@@ -57,7 +66,18 @@ describe('CardArticle', () => {
     expect(img.exists()).toBe(true);
     expect(img.attributes('src')).toBe('/cover.jpg');
     expect(img.attributes('alt')).toBe('Cover alt text');
-    expect(wrapper.find('.u-placeholder').exists()).toBe(false);
+  });
+
+  it('keeps the placeholder as a permanent backdrop under the revealed image', () => {
+    const wrapper = mount(CardArticle, {
+      props: {
+        ...baseProps,
+        image: { src: '/cover.jpg', alt: 'Cover alt text' },
+      },
+    });
+
+    expect(wrapper.find('.a-image__frame .u-placeholder').exists()).toBe(true);
+    expect(wrapper.find('.a-image.-reveal').exists()).toBe(true);
   });
 
   it('renders the title through a Heading with the -h5 modifier', () => {
@@ -107,5 +127,19 @@ describe('CardArticle', () => {
     const wrapper = mount(CardArticle, { props: { ...baseProps, tags: [] } });
 
     expect(wrapper.findAll('ul.m-cardArticle__tags li')).toHaveLength(0);
+  });
+
+  it('relays the injected image component to AtomImage', () => {
+    const wrapper = mount(CardArticle, {
+      props: {
+        ...baseProps,
+        image: { src: '/a.webp', alt: 'A' },
+        imageComponent: ImgStub,
+      },
+    });
+
+    expect(
+      wrapper.findComponent({ name: 'AtomImage' }).props('imageComponent'),
+    ).toBe(ImgStub);
   });
 });

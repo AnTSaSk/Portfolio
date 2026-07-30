@@ -30,16 +30,29 @@
     aspect-ratio: 3 / 4;
   }
 
+  .m-mediaCover__frame {
+    position: relative;
+  }
+
   .m-mediaCover.-poster .m-mediaCover__frame {
-    block-size: clamp(260px, 34vw, 460px);
+    aspect-ratio: 16 / 9;
     border-radius: var(--radius-lg);
   }
 
-  .m-mediaCover__img {
-    display: block;
-    inline-size: 100%;
-    block-size: 100%;
-    object-fit: cover;
+  .m-mediaCover__cat {
+    position: absolute;
+    inset-block-end: 40px;
+    inset-inline-start: 40px;
+    color: var(--fg-3);
+    letter-spacing: 0.22em;
+  }
+
+  .m-mediaCover__frame.-big .m-mediaCover__catLabel {
+    color: var(--fg-1);
+    font-size: clamp(28px, 3vw, 44px);
+    font-weight: var(--fw-regular);
+    line-height: 1.04;
+    letter-spacing: normal;
   }
 
   .m-mediaCover__cap {

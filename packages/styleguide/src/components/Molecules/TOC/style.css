@@ -45,5 +45,6 @@
 
   .m-toc__item.-active .m-toc__link {
     color: var(--color-jungle-green);
+    font-weight: var(--fw-semibold);
   }
 }
