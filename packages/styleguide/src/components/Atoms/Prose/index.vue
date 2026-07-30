@@ -1,10 +1,10 @@
 <template>
-  <div class="o-prose"><slot /></div>
+  <div class="a-prose"><slot /></div>
 </template>
 
 <script lang="ts">
   export default {
-    name: 'OrganismProse',
+    name: 'AtomProse',
   };
 </script>
 

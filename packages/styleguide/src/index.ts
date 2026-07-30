@@ -8,6 +8,7 @@ import Image from './components/Atoms/Image';
 import LangSwitcher from './components/Atoms/LangSwitcher';
 import Link from './components/Atoms/Link';
 import Logo from './components/Atoms/Logo';
+import Prose from './components/Atoms/Prose';
 import Tag from './components/Atoms/Tag';
 import Text from './components/Atoms/Text';
 import ThemeSwitcher from './components/Atoms/ThemeSwitcher';
@@ -27,7 +28,6 @@ import Header from './components/Organisms/Header';
 import Hero from './components/Organisms/Hero';
 import Listing from './components/Organisms/Listing';
 import MainNav from './components/Organisms/MainNav';
-import Prose from './components/Organisms/Prose';
 import Related from './components/Organisms/Related';
 
 const components = [
@@ -38,6 +38,7 @@ const components = [
   LangSwitcher,
   Link,
   Logo,
+  Prose,
   Tag,
   Text,
   ThemeSwitcher,
@@ -57,7 +58,6 @@ const components = [
   Hero,
   Listing,
   MainNav,
-  Prose,
   Related,
 ];
 // end imports components
@@ -81,6 +81,7 @@ export {
   LangSwitcher,
   Link,
   Logo,
+  Prose,
   Tag,
   Text,
   ThemeSwitcher,
@@ -100,7 +101,6 @@ export {
   Hero,
   Listing,
   MainNav,
-  Prose,
   Related,
 };
 // end export components

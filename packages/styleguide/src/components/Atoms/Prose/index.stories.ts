@@ -3,7 +3,7 @@ import { type Meta, type StoryObj } from '@storybook/vue3-vite';
 import Prose from './index.vue';
 
 const meta: Meta<typeof Prose> = {
-  title: 'Design System/Organisms/Prose',
+  title: 'Design System/Atoms/Prose',
   component: Prose,
   tags: ['autodocs'],
   parameters: {

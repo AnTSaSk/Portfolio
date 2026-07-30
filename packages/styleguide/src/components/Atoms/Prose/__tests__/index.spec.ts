@@ -3,17 +3,17 @@ import { describe, expect, it } from 'vitest';
 
 import Prose from '../index.vue';
 
-describe('Prose (AC-PROSE-1 — root wrapper)', () => {
-  it('mounts .o-prose as its root class', () => {
+describe('Prose (root wrapper)', () => {
+  it('mounts .a-prose as its root class', () => {
     const wrapper = mount(Prose, {
       slots: { default: '<p>Body copy.</p>' },
     });
 
-    expect(wrapper.classes()).toContain('o-prose');
+    expect(wrapper.classes()).toContain('a-prose');
   });
 });
 
-describe('Prose (AC-PROSE-2 — renders slotted markdown verbatim, no class injection)', () => {
+describe('Prose (renders slotted markdown verbatim, no class injection)', () => {
   it('renders slotted h2/h3/p/ul/li/blockquote/a tags unchanged, without any class attribute added by the organism', () => {
     const slotHtml = [
       '<h2>Section title</h2>',
@@ -58,7 +58,7 @@ describe('Prose (AC-PROSE-2 — renders slotted markdown verbatim, no class inje
   });
 });
 
-describe('Prose (AC-TOK-2 — pre/code block is the only monospace surface)', () => {
+describe('Prose (pre/code block is the only monospace surface)', () => {
   it('renders a slotted <pre><code> block unchanged, without any class attribute added by the organism', () => {
     const wrapper = mount(Prose, {
       slots: {
@@ -77,7 +77,7 @@ describe('Prose (AC-TOK-2 — pre/code block is the only monospace surface)', ()
   });
 });
 
-describe('Prose (AC-LAYER — reading measure is internal, no external sizing)', () => {
+describe('Prose (reading measure is internal, no external sizing)', () => {
   it('does not set any external margin or inline-size constraint on the root element via inline style/attributes', () => {
     const wrapper = mount(Prose, {
       slots: { default: '<p>Body copy.</p>' },

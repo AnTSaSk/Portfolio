@@ -1,18 +1,18 @@
 @layer components {
-  .o-prose {
+  .a-prose {
     max-inline-size: 65ch;
     color: var(--fg-1);
     font-family: var(--font-body);
-    font-size: 16px;
+    font-size: var(--fs-body);
     line-height: 1.7;
   }
 
-  .o-prose > * + * {
-    margin-block-start: 1.4em;
+  .a-prose > * + * {
+    margin-block-start: 22px;
   }
 
-  .o-prose h2 {
-    margin-block-start: 1.6em;
+  .a-prose h2 {
+    margin-block-start: 40px;
     color: var(--fg-2);
     font-family: var(--font-display);
     font-size: 26px;
@@ -21,20 +21,24 @@
     text-transform: uppercase;
   }
 
-  .o-prose h3 {
-    margin-block-start: 1.4em;
+  .a-prose h3 {
+    margin-block-start: 30px;
     color: var(--fg-2);
     font-family: var(--font-display);
     font-size: 20px;
     font-weight: var(--fw-medium);
   }
 
-  .o-prose p {
+  .a-prose p {
     text-wrap: pretty;
   }
 
-  .o-prose blockquote {
-    margin-block: 1.6em;
+  .a-prose .-lede {
+    font-size: var(--fs-lede);
+  }
+
+  .a-prose blockquote {
+    margin-block: 30px;
     padding-inline-start: 24px;
     border-inline-start: 2px solid var(--color-jungle-green);
     color: var(--fg-2);
@@ -46,25 +50,25 @@
     text-transform: uppercase;
   }
 
-  .o-prose ul {
-    padding-inline-start: 24px;
+  .a-prose ul {
+    padding-inline-start: 30px;
   }
 
-  .o-prose li {
-    margin-block-end: 0.4em;
+  .a-prose li {
+    margin-block-end: 1px;
   }
 
-  .o-prose li::marker {
+  .a-prose li::marker {
     color: var(--color-jungle-green);
   }
 
-  .o-prose code {
+  .a-prose code {
     color: var(--color-elm);
     font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-    font-size: 0.92em;
+    font-size: 12px;
   }
 
-  .o-prose a {
+  .a-prose a {
     color: transparent;
     text-decoration: none;
     background-image: var(--gradient-brand), var(--gradient-brand);
@@ -83,8 +87,8 @@
       background-image 200ms ease-out;
   }
 
-  .o-prose a:hover,
-  .o-prose a:focus-visible {
+  .a-prose a:hover,
+  .a-prose a:focus-visible {
     background-image:
       var(--gradient-brand-reverse), var(--gradient-brand-reverse);
     background-size:
@@ -92,15 +96,23 @@
       100% 100%;
   }
 
-  .o-prose a:focus-visible {
+  .a-prose a:focus-visible {
     border-radius: 1px;
     outline: 2px solid var(--color-jungle-green);
     outline-offset: 3px;
   }
 
-  .o-prose pre code {
+  .a-prose :is(h2, h3, h4, h5, h6) a,
+  .a-prose :is(h2, h3, h4, h5, h6) a:hover,
+  .a-prose :is(h2, h3, h4, h5, h6) a:focus-visible {
+    color: inherit;
+    background-image: none;
+    -webkit-text-fill-color: currentColor;
+  }
+
+  .a-prose pre code {
     display: block;
-    margin-block: 1.6em;
+    margin-block: 20px;
     padding: 24px 28px;
     overflow-x: auto;
     color: var(--fg-2);
@@ -111,5 +123,9 @@
     background: var(--bg-surface-alt);
     border: var(--border-1);
     border-radius: var(--radius-lg);
+  }
+
+  .a-prose *:first-child {
+    margin-block-start: 0;
   }
 }
