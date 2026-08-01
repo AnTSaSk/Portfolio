@@ -1,0 +1,9 @@
+@layer base, components, layout, utilities;
+
+@import '@antsask/styleguide/tokens.css';
+
+@import '@antsask/styleguide/base.css' layer(base);
+@import '@antsask/styleguide/utilities.css' layer(utilities);
+
+@import './layout.css' layer(layout);
+@import './page.css' layer(layout);

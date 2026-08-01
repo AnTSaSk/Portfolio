@@ -1,105 +1,104 @@
 <template>
-  <Html :lang="head.htmlAttrs?.lang" :dir="head.htmlAttrs?.dir">
-    <Head>
-      <Title>{{ title }}</Title>
-      <template v-for="link in head.link" :key="link.id">
-        <Link
-          :id="link.id"
-          :rel="link.rel"
-          :href="link.href"
-          :hreflang="link.hreflang"
-        />
-      </template>
-      <template v-for="meta in head.meta" :key="meta.id">
-        <Meta :id="meta.id" :property="meta.property" :content="meta.content" />
-      </template>
-    </Head>
-    <Body>
-      <main class="t-page -landing">
-        <slot />
-      </main>
-    </Body>
-  </Html>
+  <div class="l-layoutLanding -locked">
+    <Header
+      :scrolled="isScrolled"
+      :theme="resolvedTheme"
+      :locale="currentLocale"
+      :logo-href="homeHref"
+      :logo-label="t('layouts.header.logoLabel')"
+      :social-links="socialLinks"
+      @toggle-theme="toggleTheme"
+      @change-lang="onChangeLang"
+    />
+    <main class="l-layoutLanding__main">
+      <slot />
+    </main>
+    <MainNav :links="links" :min="isFooterMin" />
+  </div>
 </template>
 
 <script setup lang="ts">
-  // Constants
+  import { computed } from 'vue';
+
+  import { useScrollY } from '@/composables/useScrollY';
+  import { useTheme } from '@/composables/useTheme';
+
   import {
     LINK_EXTERNAL_GITHUB,
     LINK_EXTERNAL_LINKEDIN,
     LINK_EXTERNAL_TWITTER,
   } from '@/constants/links';
-  import { ROUTE_LAYOUT_LANDING } from '@/constants/routes';
 
-  defineOptions({
-    name: ROUTE_LAYOUT_LANDING,
-  });
+  import { Header, MainNav } from '@antsask/styleguide';
 
-  const { t } = useI18n();
+  defineOptions({ name: 'LayoutLanding' });
+
+  interface NavLink {
+    label: string;
+    href: string;
+    current: boolean;
+  }
+
+  interface SocialLink {
+    icon: string;
+    href: string;
+    label: string;
+  }
+
   const route = useRoute();
+  const { locale, t } = useI18n();
+  // Template refs auto-unwrap once; re-wrap locale.value in a computed so
+  // both a real Composer ref and a plain-object stub unwrap consistently.
+  const currentLocale = computed(() => locale.value);
+  const switchLocalePath = useSwitchLocalePath();
+  const localePath = useLocalePath();
+  const { isScrolled, isFooterMin } = useScrollY();
+  const { resolvedTheme, toggleTheme } = useTheme();
 
-  const head = useLocaleHead({
-    dir: true,
-    seo: true,
-  });
+  const homeHref = computed(() => localePath('/'));
 
-  const title = computed((): string => t(route.meta.title as string));
-
-  const { baseUrl, applySeoMeta } = useSeo();
-  applySeoMeta(title);
-
-  useHead({ titleTemplate: '%s' });
-
-  useSchemaOrg([
-    definePerson({
-      name: 'Alexis Besson',
-      givenName: 'Alexis',
-      familyName: 'Besson',
-      url: baseUrl.value,
-      jobTitle: t('view.landing.subtitle'),
-      description: t('seo.meta.description.landing'),
-      knowsAbout: [
-        'JavaScript',
-        'TypeScript',
-        'Vue.js',
-        'Nuxt',
-        'Node.js',
-        'React',
-        'React Native',
-        'Front-end Architecture',
-        'Design Systems',
-        'Storybook',
-        'SCSS',
-        'CSS',
-        'CI/CD',
-        'GitHub Actions',
-        'E2E Testing',
-        'Unit Testing',
-        'Agile',
-        'Mentoring',
-      ],
-      knowsLanguage: ['en', 'fr'],
-      worksFor: {
-        '@type': 'Organization',
-        name: 'Arneo',
-      },
-      alumniOf: {
-        '@type': 'EducationalOrganization',
-        name: "Campus Fonderie de l'Image",
-      },
-      sameAs: [
-        LINK_EXTERNAL_GITHUB,
-        LINK_EXTERNAL_LINKEDIN,
-        LINK_EXTERNAL_TWITTER,
-      ],
-    }),
-    defineWebSite({
-      name: t('seo.meta.title.generic'),
-      description: t('seo.meta.description.landing'),
-      inLanguage: ['en-US', 'fr-FR'],
-    }),
-    defineWebPage(),
+  const socialLinks = computed<SocialLink[]>(() => [
+    {
+      icon: 'github',
+      href: LINK_EXTERNAL_GITHUB,
+      label: t('layouts.header.social.github'),
+    },
+    {
+      icon: 'linkedin',
+      href: LINK_EXTERNAL_LINKEDIN,
+      label: t('layouts.header.social.linkedin'),
+    },
+    {
+      icon: 'x',
+      href: LINK_EXTERNAL_TWITTER,
+      label: t('layouts.header.social.x'),
+    },
   ]);
-</script>
 
-<style lang="scss" src="./style.scss"></style>
+  const links = computed<NavLink[]>(() => [
+    {
+      label: t('layouts.nav.home'),
+      href: localePath('/'),
+      current: route.path === localePath('/'),
+    },
+    {
+      label: t('layouts.nav.blog'),
+      href: localePath('/blog'),
+      current: route.path === localePath('/blog'),
+    },
+    {
+      label: t('layouts.nav.projects'),
+      href: localePath('/projects'),
+      current: route.path === localePath('/projects'),
+    },
+    {
+      label: t('layouts.nav.about'),
+      href: localePath('/about'),
+      current: route.path === localePath('/about'),
+    },
+  ]);
+
+  const onChangeLang = (target: typeof locale.value): void => {
+    navigateTo(switchLocalePath(target));
+  };
+</script>

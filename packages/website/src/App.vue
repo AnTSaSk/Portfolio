@@ -1,31 +1,44 @@
 <template>
-  <NuxtLayout :name="getLayoutName">
+  <div
+    aria-hidden="true"
+    style="position: absolute; width: 0; height: 0; overflow: hidden"
+    v-html="sprite"
+  />
+  <NuxtLayout>
     <NuxtPage />
   </NuxtLayout>
 </template>
 
 <script setup lang="ts">
-  // Utils
-  import { logDecoration } from '@/utils/easteregg';
+  import sprite from '@antsask/styleguide/src/assets/sprite.svg?raw';
 
-  defineOptions({
-    name: 'App',
-  });
+  const { url, name } = useSiteConfig();
+  const { locale } = useI18n();
 
-  const runtimeConfig = useRuntimeConfig();
+  // i18n SEO tags (hreflang alternates, canonical, og:locale) for every route.
+  const localeHead = useLocaleHead();
+  useHead(localeHead);
 
-  const getLayoutName = computed((): 'landing' | 'default' => {
-    if (runtimeConfig.public.layout === 'landing') {
-      return 'landing';
-    }
-
-    return 'default';
-  });
-
-  /********************/
-  /**** LIFECYCLES ****/
-  /********************/
-  onMounted(() => {
-    logDecoration();
-  });
+  // Global Person: disambiguates the homonym-prone name across every page.
+  // WebSite: no potentialAction/SearchAction, no site search exists.
+  useSchemaOrg([
+    {
+      '@type': 'Person',
+      name: 'Alexis Besson',
+      jobTitle: 'Lead Front-end JS/TS, Vue 3 / Nuxt',
+      url,
+      email: 'mailto:me@alexisbesson.fr',
+      sameAs: [
+        'https://www.linkedin.com/in/alexis-besson-lead-front',
+        'https://github.com/AnTSaSk',
+        'https://x.com/AlexisBessonWeb',
+      ],
+    },
+    {
+      '@type': 'WebSite',
+      name,
+      url,
+      inLanguage: locale.value,
+    },
+  ]);
 </script>

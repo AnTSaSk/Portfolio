@@ -1,0 +1,228 @@
+.l-page.-home {
+  position: relative;
+  display: flex;
+  flex: 1 0 auto;
+  min-block-size: 100%;
+}
+
+.l-page.-about {
+  position: relative;
+  display: flex;
+  flex: 1 0 auto;
+  align-items: center;
+  justify-content: center;
+  min-block-size: 100%;
+}
+
+.l-page__note {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+  max-inline-size: 74ch;
+}
+
+.l-page__legal {
+  margin-block-start: var(--space-2);
+}
+
+.l-page.-about .a-watermark {
+  position: absolute;
+  bottom: 0;
+  line-height: 1;
+  transform: translateX(-50%);
+  z-index: var(--z-base);
+  inset-inline-start: 50%;
+  inline-size: max-content;
+}
+
+.l-page.-legal * + .a-prose {
+  margin-block-start: var(--space-5);
+}
+
+.l-page.-error {
+  position: relative;
+  display: flex;
+  flex: 1 0 auto;
+  align-items: center;
+  min-block-size: 100%;
+}
+
+.l-page.-error .l-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.l-page__error {
+  position: relative;
+  z-index: var(--z-content);
+  max-inline-size: 54ch;
+}
+
+.l-page__errorEyebrow {
+  display: inline-flex;
+  align-items: center;
+  margin-block-end: clamp(20px, 3.5vh, 40px);
+  color: var(--fg-2);
+  font-size: clamp(18px, 1.7vw, 28px);
+  font-weight: var(--fw-medium);
+  letter-spacing: 0.04em;
+}
+
+.l-page__errorCode {
+  color: var(--fg-1);
+  font-size: clamp(64px, 12vw, 140px);
+  font-weight: var(--fw-regular);
+  line-height: 0.96;
+  letter-spacing: -0.01em;
+  text-transform: uppercase;
+}
+
+.l-page__errorSub {
+  margin-block-start: var(--space-2);
+  color: var(--color-shuttle-gray);
+  font-family: var(--font-display);
+  font-size: clamp(18px, 2vw, 30px);
+  font-weight: var(--fw-medium);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.l-page__errorLead {
+  margin-block-start: clamp(24px, 4vh, 44px);
+  color: var(--fg-2);
+  font-size: clamp(15px, 1.1vw, 18px);
+  line-height: 1.55;
+  text-wrap: pretty;
+}
+
+.l-page__errorActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-3);
+  align-items: center;
+  margin-block-start: clamp(28px, 4vh, 40px);
+}
+
+.l-page.-error .a-watermark {
+  position: absolute;
+  bottom: 0;
+  line-height: 1;
+  transform: translateX(-50%);
+  z-index: var(--z-base);
+  inset-inline-start: 50%;
+  inline-size: max-content;
+}
+
+.l-page__state {
+  display: flex;
+  grid-column: 1 / -1;
+  align-items: center;
+  justify-content: center;
+  min-block-size: 40vh;
+  text-align: center;
+}
+
+.l-page.-article .o-articleLayout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 32px;
+  margin-block-start: 56px;
+  padding-block-start: 56px;
+  border-block-start: var(--border-1);
+}
+
+.l-page.-article .o-articleLayout__body {
+  grid-row: auto;
+  grid-column: auto;
+}
+
+.l-page.-article .o-articleLayout .m-toc {
+  position: static;
+  grid-row: auto;
+  grid-column: auto;
+}
+
+.l-page.-article .m-author {
+  margin-top: var(--space-10);
+}
+
+.l-page.-article .o-related {
+  margin: var(--space-12) 0;
+}
+
+@media (min-width: 1280px) {
+  .l-page.-article .o-articleLayout {
+    grid-template-columns: 1fr minmax(220px, 24%);
+    gap: 56px 64px;
+  }
+
+  .l-page.-article .o-articleLayout__body {
+    grid-row: 1;
+    grid-column: 1;
+  }
+
+  .l-page.-article .o-articleLayout .m-toc {
+    position: sticky;
+    grid-row: 1;
+    grid-column: 2;
+    inset-block-start: 110px;
+    align-self: start;
+  }
+
+  .l-page.-article .m-author {
+    margin-top: var(--space-12);
+  }
+
+  .l-page.-article .o-related {
+    margin: var(--space-16) 0;
+  }
+}
+
+.l-page.-project .o-caseLayout {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 32px;
+  margin-block-start: 56px;
+  padding-block-start: 56px;
+  border-block-start: var(--border-1);
+}
+
+.l-page.-project .o-caseLayout__body {
+  grid-row: auto;
+  grid-column: auto;
+}
+
+.l-page.-project .o-caseLayout .m-facts {
+  position: static;
+  grid-row: auto;
+  grid-column: auto;
+}
+
+.l-page.-project .m-gallery {
+  margin-block: 80px;
+}
+
+.l-page.-project .o-related {
+  margin-block-start: 112px;
+}
+
+@media (min-width: 1280px) {
+  .l-page.-project .o-caseLayout {
+    grid-template-columns: 1fr minmax(240px, 26%);
+    gap: 56px 64px;
+  }
+
+  .l-page.-project .o-caseLayout__body {
+    grid-row: 1;
+    grid-column: 1;
+  }
+
+  .l-page.-project .o-caseLayout .m-facts {
+    position: sticky;
+    grid-row: 1;
+    grid-column: 2;
+    inset-block-start: 110px;
+    align-self: start;
+  }
+}

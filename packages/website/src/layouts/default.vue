@@ -1,47 +1,104 @@
 <template>
-  <Html :lang="head.htmlAttrs?.lang" :dir="head.htmlAttrs?.dir">
-    <Head>
-      <Title>{{ title }}</Title>
-      <template v-for="link in head.link" :key="link.id">
-        <Link
-          :id="link.id"
-          :rel="link.rel"
-          :href="link.href"
-          :hreflang="link.hreflang"
-        />
-      </template>
-      <template v-for="meta in head.meta" :key="meta.id">
-        <Meta :id="meta.id" :property="meta.property" :content="meta.content" />
-      </template>
-    </Head>
-    <Body>
-      <main class="t-page -default">
-        <slot />
-      </main>
-    </Body>
-  </Html>
+  <div class="l-layoutDefault">
+    <Header
+      :scrolled="isScrolled"
+      :theme="resolvedTheme"
+      :locale="currentLocale"
+      :logo-href="homeHref"
+      :logo-label="t('layouts.header.logoLabel')"
+      :social-links="socialLinks"
+      @toggle-theme="toggleTheme"
+      @change-lang="onChangeLang"
+    />
+    <main class="l-layoutDefault__main">
+      <slot />
+    </main>
+    <MainNav :links="links" :min="isFooterMin" />
+  </div>
 </template>
 
 <script setup lang="ts">
-  // Constants
-  import { ROUTE_LAYOUT_DEFAULT } from '@/constants/routes';
+  import { computed } from 'vue';
 
-  defineOptions({
-    name: ROUTE_LAYOUT_DEFAULT,
-  });
+  import { useScrollY } from '@/composables/useScrollY';
+  import { useTheme } from '@/composables/useTheme';
 
-  const { t } = useI18n();
+  import {
+    LINK_EXTERNAL_GITHUB,
+    LINK_EXTERNAL_LINKEDIN,
+    LINK_EXTERNAL_TWITTER,
+  } from '@/constants/links';
+
+  import { Header, MainNav } from '@antsask/styleguide';
+
+  defineOptions({ name: 'LayoutDefault' });
+
+  interface NavLink {
+    label: string;
+    href: string;
+    current: boolean;
+  }
+
+  interface SocialLink {
+    icon: string;
+    href: string;
+    label: string;
+  }
+
   const route = useRoute();
+  const { locale, t } = useI18n();
+  // Template refs auto-unwrap once; re-wrap locale.value in a computed so
+  // both a real Composer ref and a plain-object stub unwrap consistently.
+  const currentLocale = computed(() => locale.value);
+  const switchLocalePath = useSwitchLocalePath();
+  const localePath = useLocalePath();
+  const { isScrolled, isFooterMin } = useScrollY();
+  const { resolvedTheme, toggleTheme } = useTheme();
 
-  const head = useLocaleHead({
-    dir: true,
-    seo: true,
-  });
+  const homeHref = computed(() => localePath('/'));
 
-  const title = computed((): string => t(route.meta.title as string));
+  const socialLinks = computed<SocialLink[]>(() => [
+    {
+      icon: 'github',
+      href: LINK_EXTERNAL_GITHUB,
+      label: t('layouts.header.social.github'),
+    },
+    {
+      icon: 'linkedin',
+      href: LINK_EXTERNAL_LINKEDIN,
+      label: t('layouts.header.social.linkedin'),
+    },
+    {
+      icon: 'x',
+      href: LINK_EXTERNAL_TWITTER,
+      label: t('layouts.header.social.x'),
+    },
+  ]);
 
-  const { applySeoMeta } = useSeo();
-  applySeoMeta(title);
+  const links = computed<NavLink[]>(() => [
+    {
+      label: t('layouts.nav.home'),
+      href: localePath('/'),
+      current: route.path === localePath('/'),
+    },
+    {
+      label: t('layouts.nav.blog'),
+      href: localePath('/blog'),
+      current: route.path === localePath('/blog'),
+    },
+    {
+      label: t('layouts.nav.projects'),
+      href: localePath('/projects'),
+      current: route.path === localePath('/projects'),
+    },
+    {
+      label: t('layouts.nav.about'),
+      href: localePath('/about'),
+      current: route.path === localePath('/about'),
+    },
+  ]);
+
+  const onChangeLang = (target: typeof locale.value): void => {
+    navigateTo(switchLocalePath(target));
+  };
 </script>
-
-<style lang="scss" src="./style.scss"></style>

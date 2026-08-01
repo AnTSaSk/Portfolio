@@ -1,154 +1,346 @@
-import { beforeEach, describe, expect, it, vi } from 'vitest';
-import { computed, ref } from 'vue';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import { ref } from 'vue';
 
-const mockT = vi.fn((key: string) => key);
-const mockLocale = ref('en');
-const mockRoute = {
-  meta: { description: 'seo.meta.description.landing' },
-  fullPath: '/about',
-};
-const mockRuntimeConfig = {
-  public: { baseUrl: 'https://test.example.com' },
-};
-const mockUseSeoMeta = vi.fn();
-
-// Nuxt auto-imports are globals - stub them before importing useSeo
-vi.stubGlobal('useI18n', () => ({ t: mockT, locale: mockLocale }));
-vi.stubGlobal('useRoute', () => mockRoute);
-vi.stubGlobal('useRuntimeConfig', () => mockRuntimeConfig);
-vi.stubGlobal('useSeoMeta', (...args: unknown[]) => mockUseSeoMeta(...args));
-vi.stubGlobal('computed', computed);
-
-// Import AFTER stubs
-const { useSeo } = await import('../useSeo');
+import { useSiteConfigMock } from '../../__tests__/setup/nuxt-macros';
 
 describe('useSeo', () => {
+  let currentLocale: string;
+
   beforeEach(() => {
-    vi.clearAllMocks();
-    mockLocale.value = 'en';
-    mockRoute.meta.description = 'seo.meta.description.landing';
-    mockRoute.fullPath = '/about';
-    mockRuntimeConfig.public.baseUrl = 'https://test.example.com';
+    currentLocale = 'en';
+
+    vi.stubGlobal(
+      'useI18n',
+      vi.fn(() => ({ locale: ref(currentLocale) })),
+    );
   });
 
-  describe('baseUrl', () => {
-    it('returns runtimeConfig public baseUrl', () => {
-      const { baseUrl } = useSeo();
-
-      expect(baseUrl.value).toBe('https://test.example.com');
-    });
-
-    it('falls back to https://alexisbesson.fr when baseUrl is empty', () => {
-      mockRuntimeConfig.public.baseUrl = '';
-      const { baseUrl } = useSeo();
-
-      expect(baseUrl.value).toBe('https://alexisbesson.fr');
-    });
+  afterEach(() => {
+    // Clears call history only: useSeoMeta/useSiteConfig stay stubbed by the
+    // shared setup file across the whole file (unstubAllGlobals would erase
+    // them, since they are only stubbed once at setup-file load time).
+    vi.mocked(useSeoMeta).mockClear();
+    vi.resetModules();
   });
 
-  describe('description', () => {
-    it('calls t() with route.meta.description key', () => {
-      const { description } = useSeo();
+  it('calls useSeoMeta with the provided title and description', async () => {
+    const { useSeo } = await import('../useSeo');
 
-      expect(description.value).toBe('seo.meta.description.landing');
-      expect(mockT).toHaveBeenCalledWith('seo.meta.description.landing');
-    });
+    useSeo({ title: 'Home title', description: 'Home description' });
+
+    expect(useSeoMeta).toHaveBeenCalledWith(
+      expect.objectContaining({
+        title: 'Home title',
+        description: 'Home description',
+      }),
+    );
   });
 
-  describe('ogLocale', () => {
-    it('returns en_US when locale is en', () => {
-      const { ogLocale } = useSeo();
+  it('sets ogTitle/ogDescription from title/description and defaults ogType to "website"', async () => {
+    const { useSeo } = await import('../useSeo');
 
-      expect(ogLocale.value).toBe('en_US');
-    });
+    useSeo({ title: 'Home title', description: 'Home description' });
 
-    it('returns fr_FR when locale is fr', () => {
-      mockLocale.value = 'fr';
-      const { ogLocale } = useSeo();
-
-      expect(ogLocale.value).toBe('fr_FR');
-    });
+    expect(useSeoMeta).toHaveBeenCalledWith(
+      expect.objectContaining({
+        ogTitle: 'Home title',
+        ogDescription: 'Home description',
+        ogType: 'website',
+      }),
+    );
   });
 
-  describe('ogLocaleAlternate', () => {
-    it('returns ["fr_FR"] when locale is en', () => {
-      const { ogLocaleAlternate } = useSeo();
+  it('sets ogType to "article" when type is "article"', async () => {
+    const { useSeo } = await import('../useSeo');
 
-      expect(ogLocaleAlternate.value).toEqual(['fr_FR']);
+    useSeo({
+      title: 'Article title',
+      description: 'Article description',
+      type: 'article',
     });
 
-    it('returns ["en_US"] when locale is fr', () => {
-      mockLocale.value = 'fr';
-      const { ogLocaleAlternate } = useSeo();
-
-      expect(ogLocaleAlternate.value).toEqual(['en_US']);
-    });
+    expect(useSeoMeta).toHaveBeenCalledWith(
+      expect.objectContaining({ ogType: 'article' }),
+    );
   });
 
-  describe('ogUrl', () => {
-    it('concatenates baseUrl and route.fullPath', () => {
-      const { ogUrl } = useSeo();
+  it('sets twitterCard to "summary_large_image" with twitterTitle/twitterDescription', async () => {
+    const { useSeo } = await import('../useSeo');
 
-      expect(ogUrl.value).toBe('https://test.example.com/about');
-    });
+    useSeo({ title: 'Home title', description: 'Home description' });
+
+    expect(useSeoMeta).toHaveBeenCalledWith(
+      expect.objectContaining({
+        twitterCard: 'summary_large_image',
+        twitterTitle: 'Home title',
+        twitterDescription: 'Home description',
+      }),
+    );
   });
 
-  describe('ogImage', () => {
-    it('builds social banner URL from baseUrl', () => {
-      const { ogImage } = useSeo();
+  it('sets ogLocale from useI18n().locale when locale is "en"', async () => {
+    currentLocale = 'en';
 
-      expect(ogImage.value).toBe(
-        'https://test.example.com/SocialNetworkBanner.webp',
+    const { useSeo } = await import('../useSeo');
+
+    useSeo({ title: 'Home title', description: 'Home description' });
+
+    expect(useSeoMeta).toHaveBeenCalledWith(
+      expect.objectContaining({ ogLocale: 'en' }),
+    );
+  });
+
+  it('sets ogLocale from useI18n().locale when locale is "fr"', async () => {
+    currentLocale = 'fr';
+
+    const { useSeo } = await import('../useSeo');
+
+    useSeo({ title: 'Home title', description: 'Home description' });
+
+    expect(useSeoMeta).toHaveBeenCalledWith(
+      expect.objectContaining({ ogLocale: 'fr' }),
+    );
+  });
+
+  it('reflects a changing title ref in the value read by useSeoMeta', async () => {
+    const { useSeo } = await import('../useSeo');
+    const title = ref('Initial title');
+
+    useSeo({ title, description: 'Static description' });
+
+    const { calls } = vi.mocked(useSeoMeta).mock;
+
+    expect(calls[0]).toBeDefined();
+
+    const [options] = calls[0]!;
+    const resolvedTitle =
+      typeof options.title === 'function' ? options.title() : options.title;
+
+    expect(resolvedTitle).toBe('Initial title');
+
+    title.value = 'Updated title';
+
+    const updatedTitle =
+      typeof options.title === 'function' ? options.title() : options.title;
+
+    expect(updatedTitle).toBe('Updated title');
+  });
+
+  describe('og:image / twitter:image', () => {
+    const lastCall = (): Record<string, unknown> => {
+      const { calls } = vi.mocked(useSeoMeta).mock;
+      const call = calls.at(-1)?.[0];
+
+      expect(call).toBeDefined();
+
+      return call! as Record<string, unknown>;
+    };
+
+    const resolveValue = (value: unknown): unknown =>
+      typeof value === 'function' ? (value as () => unknown)() : value;
+
+    it('falls back to the absolute og-default.jpg when no image is provided', async () => {
+      const { useSeo } = await import('../useSeo');
+
+      useSeo({ title: 'Home title', description: 'Home description' });
+
+      const call = lastCall();
+
+      expect(resolveValue(call.ogImage)).toBe(
+        'https://alexisbesson.fr/img/og-default.jpg',
+      );
+      expect(resolveValue(call.twitterImage)).toBe(
+        'https://alexisbesson.fr/img/og-default.jpg',
       );
     });
-  });
 
-  describe('applySeoMeta', () => {
-    it('calls useSeoMeta with correct properties', () => {
-      const { applySeoMeta } = useSeo();
-      const title = ref('Test Title');
+    it('sets ogImageWidth/ogImageHeight to 1200/630 on the fallback', async () => {
+      const { useSeo } = await import('../useSeo');
 
-      applySeoMeta(title);
+      useSeo({ title: 'Home title', description: 'Home description' });
 
-      expect(mockUseSeoMeta).toHaveBeenCalledOnce();
-      expect(mockUseSeoMeta).toHaveBeenCalledWith(
-        expect.objectContaining({
-          ogType: 'website',
-          ogImageWidth: 1200,
-          ogImageHeight: 630,
-          twitterCard: 'summary_large_image',
-          twitterCreator: '@AlexisBessonWeb',
-          author: 'Alexis Besson',
-          robots: 'index, follow',
-        }),
+      const call = lastCall();
+
+      expect(call.ogImageWidth).toBe(1200);
+      expect(call.ogImageHeight).toBe(630);
+    });
+
+    it('sets a fixed brand alt on the fallback, symmetric between og and twitter', async () => {
+      const { useSeo } = await import('../useSeo');
+
+      useSeo({ title: 'Home title', description: 'Home description' });
+
+      const call = lastCall();
+
+      expect(resolveValue(call.ogImageAlt)).toBe('Alexis Besson — portfolio');
+      expect(resolveValue(call.twitterImageAlt)).toBe(
+        'Alexis Besson — portfolio',
       );
     });
 
-    it('passes reactive getters for dynamic SEO values', () => {
-      const { applySeoMeta } = useSeo();
-      const title = ref('Test Title');
+    it('emits the recadrée JPEG variant URL when a cover image is provided', async () => {
+      const { useSeo } = await import('../useSeo');
 
-      applySeoMeta(title);
+      useSeo({
+        title: 'Project title',
+        description: 'Project description',
+        image: { src: '/img/Portfolio_Arneo_Cover.jpg' },
+      });
 
-      const meta = mockUseSeoMeta.mock.calls[0]![0];
+      const call = lastCall();
 
-      expect(meta.title()).toBe('Test Title');
-      expect(meta.description()).toBe('seo.meta.description.landing');
-      expect(meta.ogTitle()).toBe('Test Title');
-      expect(meta.ogDescription()).toBe('seo.meta.description.landing');
-      expect(meta.ogUrl()).toBe('https://test.example.com/about');
-      expect(meta.ogImage()).toBe(
-        'https://test.example.com/SocialNetworkBanner.webp',
+      expect(resolveValue(call.ogImage)).toBe(
+        'https://alexisbesson.fr/_ipx/cover_1200x630_jpeg/img/Portfolio_Arneo_Cover.jpg',
       );
-      expect(meta.ogImageAlt()).toBe('Test Title');
-      expect(meta.ogLocale()).toBe('en_US');
-      expect(meta.ogLocaleAlternate()).toEqual(['fr_FR']);
-      expect(meta.ogSiteName()).toBe('seo.meta.title.generic');
-      expect(meta.twitterTitle()).toBe('Test Title');
-      expect(meta.twitterDescription()).toBe('seo.meta.description.landing');
-      expect(meta.twitterImage()).toBe(
-        'https://test.example.com/SocialNetworkBanner.webp',
+      expect(resolveValue(call.twitterImage)).toBe(
+        'https://alexisbesson.fr/_ipx/cover_1200x630_jpeg/img/Portfolio_Arneo_Cover.jpg',
       );
+      expect(call.ogImageWidth).toBe(1200);
+      expect(call.ogImageHeight).toBe(630);
+    });
+
+    it('sets ogImageAlt/twitterImageAlt to the resolved title when a cover is provided', async () => {
+      const { useSeo } = await import('../useSeo');
+
+      useSeo({
+        title: 'Project title',
+        description: 'Project description',
+        image: { src: '/img/Portfolio_Arneo_Cover.jpg' },
+      });
+
+      const call = lastCall();
+
+      expect(resolveValue(call.ogImageAlt)).toBe('Project title');
+      expect(resolveValue(call.twitterImageAlt)).toBe('Project title');
+    });
+
+    it('joins the fallback path without a double slash after the scheme', async () => {
+      const { useSeo } = await import('../useSeo');
+
+      useSeo({ title: 'Home title', description: 'Home description' });
+
+      const call = lastCall();
+
+      expect(resolveValue(call.ogImage) as string).toMatch(
+        /^https:\/\/[^/]+\/[^/]/,
+      );
+    });
+
+    it('joins the cover variant path without a double slash after the scheme', async () => {
+      const { useSeo } = await import('../useSeo');
+
+      useSeo({
+        title: 'Project title',
+        description: 'Project description',
+        image: { src: '/img/Portfolio_Arneo_Cover.jpg' },
+      });
+
+      const call = lastCall();
+
+      expect(resolveValue(call.ogImage) as string).toMatch(
+        /^https:\/\/[^/]+\/[^/]/,
+      );
+    });
+
+    it('never emits ogImageAlt without twitterImageAlt (fallback case)', async () => {
+      const { useSeo } = await import('../useSeo');
+
+      useSeo({ title: 'Home title', description: 'Home description' });
+
+      const call = lastCall();
+
+      expect(resolveValue(call.ogImageAlt)).toBeDefined();
+      expect(resolveValue(call.twitterImageAlt)).toBeDefined();
+      expect(resolveValue(call.ogImageAlt)).toBe(
+        resolveValue(call.twitterImageAlt),
+      );
+    });
+
+    it('never emits ogImageAlt without twitterImageAlt (cover case)', async () => {
+      const { useSeo } = await import('../useSeo');
+
+      useSeo({
+        title: 'Project title',
+        description: 'Project description',
+        image: { src: '/img/Portfolio_Arneo_Cover.jpg' },
+      });
+
+      const call = lastCall();
+
+      expect(resolveValue(call.ogImageAlt)).toBe(
+        resolveValue(call.twitterImageAlt),
+      );
+    });
+
+    it('resolves the recadrée variant once the image ref is filled in after useSeo runs', async () => {
+      const { useSeo } = await import('../useSeo');
+      const image = ref<{ src: string } | undefined>(undefined);
+
+      useSeo({
+        title: 'Project title',
+        description: 'Project description',
+        image,
+      });
+
+      const beforeCall = lastCall();
+
+      expect(resolveValue(beforeCall.ogImage)).toBe(
+        'https://alexisbesson.fr/img/og-default.jpg',
+      );
+
+      image.value = { src: '/img/Portfolio_Arneo_Cover.jpg' };
+
+      const afterCall = lastCall();
+
+      expect(resolveValue(afterCall.ogImage)).toBe(
+        'https://alexisbesson.fr/_ipx/cover_1200x630_jpeg/img/Portfolio_Arneo_Cover.jpg',
+      );
+    });
+
+    it('joins the path without a double slash when the site origin has a trailing slash', async () => {
+      useSiteConfigMock.mockReturnValueOnce({
+        url: 'https://alexisbesson.fr/',
+        name: 'Alexis Besson',
+      });
+
+      const { useSeo } = await import('../useSeo');
+
+      useSeo({
+        title: 'Project title',
+        description: 'Project description',
+        image: { src: '/img/Portfolio_Arneo_Cover.jpg' },
+      });
+
+      const call = lastCall();
+
+      expect(resolveValue(call.ogImage)).toBe(
+        'https://alexisbesson.fr/_ipx/cover_1200x630_jpeg/img/Portfolio_Arneo_Cover.jpg',
+      );
+    });
+
+    // Covered at the composable level, not by mounting the page: the
+    // content-collection/TOC harness needed to mount [slug].vue is too heavy
+    // for this unit spec.
+    it('emits the recadrée variant and resolved-title alt once the page-like coverImage computed settles', async () => {
+      const { useSeo } = await import('../useSeo');
+      const project = ref<{ cover?: { src: string } } | undefined>(undefined);
+      const coverImage = ref<{ src: string } | undefined>(undefined);
+
+      useSeo({
+        title: 'Project title',
+        description: 'Project description',
+        image: coverImage,
+      });
+
+      project.value = { cover: { src: '/img/Portfolio_Arneo_Cover.jpg' } };
+      coverImage.value = project.value.cover;
+
+      const call = lastCall();
+
+      expect(resolveValue(call.ogImage)).toBe(
+        'https://alexisbesson.fr/_ipx/cover_1200x630_jpeg/img/Portfolio_Arneo_Cover.jpg',
+      );
+      expect(resolveValue(call.ogImageAlt)).toBe('Project title');
     });
   });
 });

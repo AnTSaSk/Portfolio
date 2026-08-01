@@ -1,68 +1,91 @@
 <template>
-  <div class="t-error">
-    <Logo class="t-error__logo" aria-hidden="true" />
-
-    <div class="t-error__content" role="alert">
-      <Heading tag="h1" variant="h1-regular">
-        {{ title }}
-      </Heading>
-
-      <Paragraph>
-        {{ description }}
-      </Paragraph>
-
-      <CTA variant="main" @click="handleError">
-        {{ t('error.back') }}
-      </CTA>
+  <div
+    aria-hidden="true"
+    style="position: absolute; width: 0; height: 0; overflow: hidden"
+    v-html="sprite"
+  />
+  <NuxtLayout name="error">
+    <div class="l-page -error">
+      <div class="u-radial" aria-hidden="true"></div>
+      <div class="l-container">
+        <div class="l-container__wrapper">
+          <div class="l-page__error">
+            <Text tag="p" variant="eyebrow" class="l-page__errorEyebrow">
+              {{ t('error.eyebrow') }}
+            </Text>
+            <Heading tag="h1" level="h1" class="l-page__errorCode">
+              {{ statusCode }}
+            </Heading>
+            <Text tag="p" variant="eyebrow" class="l-page__errorSub">
+              {{ sub }}
+            </Text>
+            <Text tag="p" variant="lede" tone="muted" class="l-page__errorLead">
+              {{ lead }}
+            </Text>
+            <nav class="l-page__errorActions" :aria-label="t('error.eyebrow')">
+              <Button
+                variant="primary"
+                type="link"
+                :href="homeHref"
+                @click.prevent="goTo(homeHref)"
+              >
+                {{ t('error.actions.home') }}
+              </Button>
+              <Link
+                variant="quiet"
+                :href="blogHref"
+                @click.prevent="goTo(blogHref)"
+              >
+                {{ t('layouts.nav.blog') }}
+              </Link>
+              <Link
+                variant="quiet"
+                :href="projectsHref"
+                @click.prevent="goTo(projectsHref)"
+              >
+                {{ t('layouts.nav.projects') }}
+              </Link>
+            </nav>
+          </div>
+        </div>
+      </div>
+      <Watermark :text="marquee" />
     </div>
-  </div>
+  </NuxtLayout>
 </template>
 
 <script setup lang="ts">
-  import type { NuxtError } from '#app';
+  import sprite from '@antsask/styleguide/src/assets/sprite.svg?raw';
+  import { computed } from 'vue';
 
-  import { ROUTE_COMMON_ERROR } from '@/constants/routes';
-
-  import { CTA, Heading, Paragraph } from '@antsask/styleguide';
-
-  import { clearError } from '#app';
-  import Logo from '@/assets/images/logo.svg';
-
-  defineOptions({
-    name: ROUTE_COMMON_ERROR,
-  });
-
-  const { t } = useI18n();
+  import { Button, Heading, Link, Text, Watermark } from '@antsask/styleguide';
 
   interface Props {
-    error: NuxtError;
+    error: { statusCode?: number };
   }
+
+  defineOptions({ name: 'AppError' });
 
   const { error } = defineProps<Props>();
 
-  const title = computed((): string => {
-    if (error.status === 404) {
-      return t('error.title.404');
-    }
-    return t('error.title.default');
-  });
+  const { t } = useI18n();
+  const localePath = useLocalePath();
 
-  const description = computed((): string => {
-    if (error.status === 404) {
-      return t('error.description.404');
-    }
-    return t('error.description.default');
-  });
+  const statusCode = computed(() => error.statusCode ?? 500);
+  const is404 = computed(() => statusCode.value === 404);
+  const key = computed(() => (is404.value ? '404' : 'default'));
 
-  const handleError = () => clearError({ redirect: '/' });
+  const sub = computed(() => t(`error.sub.${key.value}`));
+  const lead = computed(() => t(`error.lead.${key.value}`));
+  const marquee = computed(
+    () => `${statusCode.value}/${t(`error.title.${key.value}`)}`,
+  );
 
-  useHead(() => ({
-    title: title.value,
-  }));
+  const homeHref = computed(() => localePath('/'));
+  const blogHref = computed(() => localePath('/blog'));
+  const projectsHref = computed(() => localePath('/projects'));
 
-  useSeoMeta({
-    robots: 'noindex, nofollow',
-  });
+  // error.vue replaces app.vue and lives outside routing; clearError is the
+  // only way to leave the error state and navigate.
+  const goTo = (path: string): Promise<void> => clearError({ redirect: path });
 </script>
-
-<style scoped lang="scss" src="./error.scss" />
