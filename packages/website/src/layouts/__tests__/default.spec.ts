@@ -109,6 +109,27 @@ describe('layouts/default.vue', () => {
     );
   });
 
+  it('marks the parent section current on a detail route', async () => {
+    vi.stubGlobal('useRoute', () => ({ path: '/blog/mon-article' }));
+
+    const DefaultLayout = (await import('../default.vue')).default;
+    const wrapper = mount(DefaultLayout, {
+      slots: { default: '<div />' },
+    });
+
+    const mainNav = wrapper.findComponent({ name: 'OrganismMainNav' });
+    const links = mainNav.props('links') as Array<{
+      label: string;
+      current: boolean;
+    }>;
+
+    expect(
+      links.filter((link) => link.current).map((link) => link.label),
+    ).toEqual(['Blog']);
+
+    vi.stubGlobal('useRoute', () => ({ path: '/' }));
+  });
+
   it('wires socialLinks to the Header from constants and i18n, in order', async () => {
     const DefaultLayout = (await import('../default.vue')).default;
     const wrapper = mount(DefaultLayout, {

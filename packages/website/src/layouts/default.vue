@@ -20,6 +20,7 @@
 <script setup lang="ts">
   import { computed } from 'vue';
 
+  import { useMainNavLinks } from '@/composables/useMainNavLinks';
   import { useScrollY } from '@/composables/useScrollY';
   import { useTheme } from '@/composables/useTheme';
 
@@ -30,22 +31,10 @@
   } from '@/constants/links';
 
   import { Header, MainNav } from '@antsask/styleguide';
+  import type { SocialLink } from '@antsask/styleguide/src/components/Organisms/Header/index.vue';
 
   defineOptions({ name: 'LayoutDefault' });
 
-  interface NavLink {
-    label: string;
-    href: string;
-    current: boolean;
-  }
-
-  interface SocialLink {
-    icon: string;
-    href: string;
-    label: string;
-  }
-
-  const route = useRoute();
   const { locale, t } = useI18n();
   // Template refs auto-unwrap once; re-wrap locale.value in a computed so
   // both a real Composer ref and a plain-object stub unwrap consistently.
@@ -75,28 +64,7 @@
     },
   ]);
 
-  const links = computed<NavLink[]>(() => [
-    {
-      label: t('layouts.nav.home'),
-      href: localePath('/'),
-      current: route.path === localePath('/'),
-    },
-    {
-      label: t('layouts.nav.blog'),
-      href: localePath('/blog'),
-      current: route.path === localePath('/blog'),
-    },
-    {
-      label: t('layouts.nav.projects'),
-      href: localePath('/projects'),
-      current: route.path === localePath('/projects'),
-    },
-    {
-      label: t('layouts.nav.about'),
-      href: localePath('/about'),
-      current: route.path === localePath('/about'),
-    },
-  ]);
+  const links = useMainNavLinks();
 
   const onChangeLang = (target: typeof locale.value): void => {
     navigateTo(switchLocalePath(target));
