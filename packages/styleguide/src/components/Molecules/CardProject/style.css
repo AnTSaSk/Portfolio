@@ -35,7 +35,7 @@
   .m-cardProject__cover {
     overflow: hidden;
     aspect-ratio: 16 / 10;
-    margin-block-end: 22px;
+    margin-block-end: var(--space-6);
     border: var(--border-1);
     border-radius: 5px;
     transition: border-color 240ms;
@@ -67,24 +67,24 @@
   }
 
   .m-cardProject__meta {
-    margin-block-end: 12px;
+    margin-block-end: var(--space-3);
     color: var(--fg-3);
   }
 
   .m-cardProject__title {
-    margin-block-end: 12px;
+    margin-block-end: var(--space-3);
     color: var(--fg-1);
   }
 
   .m-cardProject__desc {
-    margin-block-end: 18px;
+    margin-block-end: var(--space-5);
     color: var(--fg-3);
   }
 
   .m-cardProject__stack {
     display: flex;
     flex-wrap: wrap;
-    gap: 6px;
+    gap: var(--space-2);
     padding: 0;
     margin-block-start: auto;
     list-style: none;

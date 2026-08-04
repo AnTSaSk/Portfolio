@@ -1,14 +1,13 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite';
 
 import CardProject from './index.vue';
+import { VALHALLA } from '../../__fixtures__/content';
 
-const cover =
-  'https://images.unsplash.com/photo-1607465511939-92cd96b8c3f5?auto=format&fit=crop&ixlib=rb-';
+const cover = VALHALLA.cover.src;
 
 const meta: Meta<typeof CardProject> = {
   title: 'Design System/Molecules/CardProject',
   component: CardProject,
-  tags: ['autodocs'],
   parameters: {
     layout: 'fullscreen',
   },

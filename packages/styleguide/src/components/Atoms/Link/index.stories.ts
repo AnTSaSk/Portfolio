@@ -6,7 +6,6 @@ import Icon from '../Icon/index.vue';
 const meta: Meta<typeof Link> = {
   title: 'Design System/Atoms/Link',
   component: Link,
-  tags: ['autodocs'],
   parameters: {
     layout: 'centered',
   },

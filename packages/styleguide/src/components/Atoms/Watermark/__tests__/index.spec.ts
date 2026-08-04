@@ -15,7 +15,7 @@ const styleCss = readFileSync(
 describe('Watermark', () => {
   it('renders a div.a-watermark root element', () => {
     const wrapper = mount(Watermark, {
-      props: { text: 'antsask/alexis besson' },
+      props: { text: 'AnTSaSk/Alexis Besson' },
     });
     const root = wrapper.find('div.a-watermark');
 
@@ -24,7 +24,7 @@ describe('Watermark', () => {
 
   it('is always aria-hidden regardless of the text prop', () => {
     const wrapper = mount(Watermark, {
-      props: { text: 'antsask/alexis besson' },
+      props: { text: 'AnTSaSk/Alexis Besson' },
     });
     const root = wrapper.find('div.a-watermark');
 
@@ -33,11 +33,11 @@ describe('Watermark', () => {
 
   it('renders its text content equal to the text prop', () => {
     const wrapper = mount(Watermark, {
-      props: { text: 'antsask/alexis besson' },
+      props: { text: 'AnTSaSk/Alexis Besson' },
     });
     const root = wrapper.find('div.a-watermark');
 
-    expect(root.text()).toBe('antsask/alexis besson');
+    expect(root.text()).toBe('AnTSaSk/Alexis Besson');
   });
 
   it('renders no text content when the text prop is not provided (default)', () => {
@@ -49,17 +49,17 @@ describe('Watermark', () => {
 
   it('exposes the text length as the --wm-chars CSS variable', () => {
     const wrapper = mount(Watermark, {
-      props: { text: 'antsask/alexis besson' },
+      props: { text: 'AnTSaSk/Alexis Besson' },
     });
     const root = wrapper.find('div.a-watermark');
 
     expect(root.attributes('style')).toContain(
-      `--wm-chars: ${'antsask/alexis besson'.length}`,
+      `--wm-chars: ${'AnTSaSk/Alexis Besson'.length}`,
     );
   });
 
   // The build minifier drops the inner parens of `/ ((N) * 0.62)`, turning it
-  // into `/ (N) * 0.62` which CSS evaluates as `(vw / N) * 0.62` — a smaller,
+  // into `/ (N) * 0.62` which CSS evaluates as `(vw / N) * 0.62`, a smaller,
   // wrong glyph. The font-size divisor must be written as sequential divisions
   // (`/ N / 0.62`), which has no removable parens.
   it('sizes the glyph with a minification-robust calc (sequential division)', () => {

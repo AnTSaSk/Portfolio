@@ -6,7 +6,6 @@ import Pagination from './index.vue';
 const meta: Meta<typeof Pagination> = {
   title: 'Design System/Molecules/Pagination',
   component: Pagination,
-  tags: ['autodocs'],
   parameters: {
     layout: 'fullscreen',
   },

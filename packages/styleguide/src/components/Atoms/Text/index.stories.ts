@@ -5,7 +5,6 @@ import Text from './index.vue';
 const meta: Meta<typeof Text> = {
   title: 'Design System/Atoms/Text',
   component: Text,
-  tags: ['autodocs'],
   parameters: {
     layout: 'fullscreen',
   },

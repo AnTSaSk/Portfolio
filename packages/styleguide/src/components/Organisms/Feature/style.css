@@ -24,17 +24,17 @@
   }
 
   .o-feature__label {
-    margin-block-end: 24px;
+    margin-block-end: var(--space-6);
     color: var(--color-jungle-green);
   }
 
   .o-feature__meta {
-    margin-block-end: 14px;
+    margin-block-end: var(--space-3);
     color: var(--fg-3);
   }
 
   .o-feature__title {
-    margin-block-end: 20px;
+    margin-block-end: var(--space-5);
     color: var(--fg-1);
     transition: color 240ms;
   }
@@ -44,7 +44,7 @@
   }
 
   .o-feature__lead {
-    margin-block-end: 24px;
+    margin-block-end: var(--space-6);
     max-inline-size: 46ch;
     color: var(--fg-2);
     text-wrap: pretty;
@@ -53,8 +53,8 @@
   .o-feature__stack {
     display: flex;
     flex-wrap: wrap;
-    gap: 6px;
-    margin-block-end: 28px;
+    gap: var(--space-2);
+    margin-block-end: var(--space-7);
     padding: 0;
     list-style: none;
   }
@@ -82,7 +82,7 @@
     overflow: hidden;
     color: var(--fg-1);
     font-family: var(--font-display);
-    font-size: clamp(28px, 3vw, 44px);
+    font-size: var(--fs-displayM);
     font-weight: var(--fw-regular);
     line-height: 1.04;
     letter-spacing: 0.01em;

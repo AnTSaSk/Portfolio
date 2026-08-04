@@ -1,7 +1,7 @@
 @layer components {
   .a-langSwitcher {
     display: inline-flex;
-    gap: 10px;
+    gap: var(--space-3);
     align-items: center;
     color: var(--fg-2);
     background: transparent;

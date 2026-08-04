@@ -2,7 +2,7 @@
   .m-mediaCover {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: var(--space-3);
     margin: 0;
   }
 
@@ -41,15 +41,15 @@
 
   .m-mediaCover__cat {
     position: absolute;
-    inset-block-end: 40px;
-    inset-inline-start: 40px;
+    inset-block-end: var(--space-10);
+    inset-inline-start: var(--space-10);
     color: var(--fg-3);
     letter-spacing: 0.22em;
   }
 
   .m-mediaCover__frame.-big .m-mediaCover__catLabel {
     color: var(--fg-1);
-    font-size: clamp(28px, 3vw, 44px);
+    font-size: var(--fs-displayM);
     font-weight: var(--fw-regular);
     line-height: 1.04;
     letter-spacing: normal;
@@ -58,6 +58,6 @@
   .m-mediaCover__cap {
     display: flex;
     flex-direction: column;
-    gap: 4px;
+    gap: var(--space-1);
   }
 }

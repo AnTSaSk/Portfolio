@@ -8,7 +8,7 @@
   .m-gallery {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 16px;
+    gap: var(--space-4);
   }
 
   .m-gallery__fig {
@@ -26,8 +26,8 @@
 
   .m-gallery__cap {
     position: absolute;
-    inset-block-end: 20px;
-    inset-inline-start: 20px;
+    inset-block-end: var(--space-5);
+    inset-inline-start: var(--space-5);
     color: var(--fg-3);
   }
 

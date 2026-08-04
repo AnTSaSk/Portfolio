@@ -1,11 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite';
 
 import Button from './index.vue';
+import { iconNames } from '../Icon/names';
 
 const meta = {
   title: 'Design System/Atoms/Button',
   component: Button,
-  tags: ['autodocs'],
   parameters: {
     layout: 'centered',
   },
@@ -22,14 +22,7 @@ const meta = {
     disabled: { control: 'boolean' },
     icon: {
       control: 'select',
-      options: [
-        undefined,
-        'github',
-        'linkedin',
-        'x',
-        'arrow-right',
-        'arrow-up-right',
-      ],
+      options: [undefined, ...iconNames],
     },
     iconPosition: {
       control: 'inline-radio',
@@ -67,7 +60,7 @@ export const Ghost: Story = {
 };
 
 export const WithIcon: Story = {
-  args: { icon: 'arrow-right' },
+  args: { icon: 'arrowRight' },
   render: (args) => ({
     components: { Button },
     setup: () => ({ args }),
@@ -76,7 +69,7 @@ export const WithIcon: Story = {
 };
 
 export const AsLink: Story = {
-  args: { type: 'link', href: '/contact' },
+  args: { type: 'link', href: '/projects' },
   render: (args) => ({
     components: { Button },
     setup: () => ({ args }),

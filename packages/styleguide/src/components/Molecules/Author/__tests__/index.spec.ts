@@ -39,6 +39,26 @@ describe('Author', () => {
     expect(initialsText.text()).toBe(baseProps.initials);
   });
 
+  it('renders the photo instead of initials when a photo prop is provided', () => {
+    const wrapper = mount(Author, {
+      props: { ...baseProps, photo: { src: '/img/author.jpg' } },
+    });
+
+    const photo = wrapper.find('.m-author__photo');
+
+    expect(photo.exists()).toBe(true);
+    expect(photo.attributes('src')).toBe('/img/author.jpg');
+    expect(photo.attributes('alt')).toBe('');
+    expect(wrapper.find('.m-author__avatar .a-text').exists()).toBe(false);
+  });
+
+  it('falls back to initials when no photo prop is provided', () => {
+    const wrapper = mount(Author, { props: baseProps });
+
+    expect(wrapper.find('.m-author__photo').exists()).toBe(false);
+    expect(wrapper.find('.m-author__avatar .a-text').exists()).toBe(true);
+  });
+
   it('renders the name through a Text with the -bodyS variant', () => {
     const wrapper = mount(Author, { props: baseProps });
 

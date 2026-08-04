@@ -1,28 +1,24 @@
 import { type Meta, type StoryObj } from '@storybook/vue3-vite';
 
 import Hero from './index.vue';
+import { HOME, LINKS } from '../../__fixtures__/content';
 
 const meta: Meta<typeof Hero> = {
   title: 'Design System/Organisms/Hero',
   component: Hero,
-  tags: ['autodocs'],
   parameters: {
     layout: 'fullscreen',
   },
   args: {
-    greeting: 'Bonsoir !',
-    name: 'Je suis Alexis Besson,',
-    role: 'Lead Développeur Front-end',
-    body: [
-      'Je conçois des interfaces web robustes et accessibles, du design system à la mise en production.',
-      "J'accompagne les équipes produit sur l'architecture front, la performance et la qualité de code.",
-      'Basé en France, je collabore à distance avec des équipes internationales.',
-    ],
-    tags: ['Vue.js', 'Nuxt', 'TypeScript'],
-    watermarkText: 'ALEXIS BESSON',
-    primaryHref: '#projects',
+    greeting: HOME.greeting,
+    name: HOME.name,
+    role: HOME.role,
+    body: [...HOME.body],
+    tags: [...HOME.tags],
+    watermarkText: HOME.watermark,
+    primaryHref: '/projects',
     primaryLabel: 'Voir les projets',
-    secondaryHref: 'https://www.linkedin.com/in/example/',
+    secondaryHref: LINKS.linkedin,
     secondaryLabel: 'LinkedIn',
     secondaryExternal: true,
   },

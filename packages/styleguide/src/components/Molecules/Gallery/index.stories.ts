@@ -1,33 +1,21 @@
 import { type Meta, type StoryObj } from '@storybook/vue3-vite';
 
 import Gallery from './index.vue';
+import { EMEIS_GALLERY, VALHALLA } from '../../__fixtures__/content';
 
-const heroImage =
-  'https://arneo.io/sites/default/files/styles/1668x1083/public/medias/images/desktopemeishero-img.png.webp';
-const secondImage =
-  'https://imgsrv2.voi.id/jGiu2UfMVVe1E7cPJcuLetBT667v0-ihNgVfQyVT4G8/auto/1200/675/sm/1/bG9jYWw6Ly8vcHVibGlzaGVycy81MTM1ODMvMjAyNTA5MTExMTI2LW1haW4uY3JvcHBlZF8xNzU3NTY0Nzk3LmpwZw.jpg';
-const thirdImage =
-  'https://arneo.io/sites/default/files/styles/1112x594/public/medias/images/ia-et-numerique-responsable-nos-choix-pour-une-integration-raisonnee.png.webp';
-const fourthImage =
-  'https://images.unsplash.com/photo-1607465511939-92cd96b8c3f5?auto=format&fit=crop&ixlib=rb-';
-const fifthImage = 'Paperclub.jpg';
+const styleAItems = VALHALLA.gallery.map((image, index) => ({
+  image: { ...image, alt: `Projet Valhalla, visuel ${index + 1}` },
+  caption: `Fig. 0${index + 1}`,
+}));
 
-const styleAItems = [
-  { image: { src: heroImage, alt: 'Hero shot' }, caption: 'Fig. 01' },
-  { image: { src: secondImage, alt: 'Side profile' }, caption: 'Fig. 02' },
-  { image: { src: thirdImage, alt: '' }, caption: 'Fig. 03' },
-];
-
-const threeUpItems = [
-  { image: { src: fourthImage, alt: 'Hero shot' }, caption: 'Fig. 01' },
-  { image: { src: thirdImage, alt: 'Side profile' }, caption: 'Fig. 02' },
-  { image: { src: fifthImage, alt: '' }, caption: 'Fig. 03' },
-];
+const threeUpItems = EMEIS_GALLERY.map((image, index) => ({
+  image: { ...image, alt: `Projet Emeis, visuel ${index + 1}` },
+  caption: `Fig. 0${index + 1}`,
+}));
 
 const meta: Meta<typeof Gallery> = {
   title: 'Design System/Molecules/Gallery',
   component: Gallery,
-  tags: ['autodocs'],
   parameters: {
     layout: 'fullscreen',
   },

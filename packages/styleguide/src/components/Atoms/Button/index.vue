@@ -19,6 +19,8 @@
 <script setup lang="ts">
   import { computed } from 'vue';
 
+  import type { IconName } from '../Icon/names';
+
   import Icon from '../Icon/index.vue';
   import Text from '../Text/index.vue';
 
@@ -32,7 +34,7 @@
     type?: ButtonType;
     href?: string;
     disabled?: boolean;
-    icon?: string;
+    icon?: IconName;
     iconPosition?: ButtonIconPosition;
     tag?: ButtonTag;
   }

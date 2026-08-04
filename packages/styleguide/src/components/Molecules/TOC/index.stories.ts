@@ -6,7 +6,6 @@ import TOC from './index.vue';
 const meta: Meta<typeof TOC> = {
   title: 'Design System/Molecules/TOC',
   component: TOC,
-  tags: ['autodocs'],
   parameters: {
     layout: 'fullscreen',
   },

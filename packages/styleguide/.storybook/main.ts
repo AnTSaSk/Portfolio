@@ -8,6 +8,8 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 const config: StorybookConfig = {
   stories: ['../src/**/*.mdx', '../src/**/*.stories.@(js|jsx|ts|tsx)'],
+  // Stories reuse the website's published images instead of duplicating binaries.
+  staticDirs: ['../../website/public'],
   addons: [
     '@storybook/addon-links',
     '@storybook/addon-a11y',

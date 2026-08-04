@@ -5,7 +5,6 @@ import Logo from './index.vue';
 const meta = {
   title: 'Design System/Atoms/Logo',
   component: Logo,
-  tags: ['autodocs'],
   parameters: {
     layout: 'centered',
   },

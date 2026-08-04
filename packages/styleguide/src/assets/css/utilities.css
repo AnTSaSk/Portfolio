@@ -1,5 +1,5 @@
 /* =============================================================
-   utilities.css — single-purpose utility classes (@layer utilities)
+   utilities.css: single-purpose utility classes (@layer utilities)
    u-noise: decorative grain overlay, verbatim SVG fractalNoise
    from the design source (atom-noise-overlay.html).
    ============================================================= */
@@ -57,7 +57,7 @@
   align-items: center;
   inline-size: 100%;
   block-size: 100%;
-  padding: 26px;
+  padding: var(--space-6);
   background:
     radial-gradient(
       120% 140% at 0% 0%,
@@ -89,7 +89,7 @@
 
 .u-placeholder.-big {
   align-items: flex-end;
-  padding: 40px;
+  padding: var(--space-10);
 }
 
 /* u-radial: decorative ambient glow behind hero content.

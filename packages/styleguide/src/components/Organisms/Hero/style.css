@@ -19,25 +19,21 @@
 
   .o-hero__greeting {
     display: inline-flex;
-    gap: 0.45em;
+    gap: var(--space-4);
     align-items: center;
-    margin-block-end: clamp(20px, 3.5vh, 40px);
+    margin-block-end: clamp(var(--space-5), 3.5vh, var(--space-10));
   }
 
   .o-hero__inner .o-hero__greeting.a-heading {
     color: var(--fg-2);
-    font-size: clamp(18px, 1.7vw, 28px);
+    font-size: var(--fs-ledeL);
     font-weight: var(--fw-medium);
     letter-spacing: 0.04em;
   }
 
-  .o-hero__wave {
-    font-size: 0.92em;
-  }
-
   .o-hero__inner .o-hero__name.a-heading {
     color: var(--fg-1);
-    font-size: clamp(38px, 5vw, 84px);
+    font-size: var(--fs-displayHero);
     font-weight: var(--fw-regular);
     line-height: 0.96;
     letter-spacing: -0.01em;
@@ -45,13 +41,13 @@
 
   .o-hero__inner .o-hero__role.a-heading {
     color: var(--color-shuttle-gray);
-    font-size: clamp(18px, 2vw, 30px);
+    font-size: var(--fs-displayS);
     font-weight: var(--fw-medium);
     letter-spacing: 0.02em;
   }
 
   .o-hero__role {
-    margin-block-start: 8px;
+    margin-block-start: var(--space-3);
   }
 
   .o-hero__body {
@@ -65,9 +61,9 @@
   .o-hero__tags {
     display: flex;
     flex-wrap: wrap;
-    gap: 8px;
+    gap: var(--space-3);
     margin-inline: 0;
-    margin-block-start: clamp(24px, 3.5vh, 36px);
+    margin-block-start: clamp(var(--space-6), 3.5vh, var(--space-9));
     padding: 0;
     list-style: none;
   }
@@ -79,9 +75,9 @@
   .o-hero__actions {
     display: flex;
     flex-wrap: wrap;
-    gap: 20px;
+    gap: var(--space-5);
     align-items: center;
-    margin-block-start: clamp(24px, 3.5vh, 36px);
+    margin-block-start: clamp(var(--space-6), 3.5vh, var(--space-9));
   }
 
   .o-hero__watermark {

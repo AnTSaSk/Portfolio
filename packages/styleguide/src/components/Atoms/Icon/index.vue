@@ -11,10 +11,12 @@
 </template>
 
 <script setup lang="ts">
+  import type { IconName } from './names';
+
   export type IconSize = 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 
   export interface Props {
-    name: string;
+    name: IconName;
     size?: IconSize;
     label?: string;
     stroke?: boolean;

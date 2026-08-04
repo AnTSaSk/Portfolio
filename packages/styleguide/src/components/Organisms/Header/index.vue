@@ -28,6 +28,8 @@
 </template>
 
 <script setup lang="ts">
+  import type { IconName } from '../../Atoms/Icon/names';
+
   import Icon from '../../Atoms/Icon/index.vue';
   import LangSwitcher, {
     type LangSwitcherLocale,
@@ -39,7 +41,7 @@
   } from '../../Atoms/ThemeSwitcher/index.vue';
 
   export interface SocialLink {
-    icon: string;
+    icon: IconName;
     href: string;
     label: string;
   }

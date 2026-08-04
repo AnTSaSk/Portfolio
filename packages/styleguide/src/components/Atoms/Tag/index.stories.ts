@@ -5,7 +5,6 @@ import Tag from './index.vue';
 const meta = {
   title: 'Design System/Atoms/Tag',
   component: Tag,
-  tags: ['autodocs'],
   parameters: {
     layout: 'centered',
   },

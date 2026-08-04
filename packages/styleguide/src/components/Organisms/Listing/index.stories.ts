@@ -1,6 +1,7 @@
 import { type Meta, type StoryObj } from '@storybook/vue3-vite';
 
 import Listing from './index.vue';
+import { LAUNCH_ARTICLES, PROJECT_CARDS } from '../../__fixtures__/content';
 import CardArticle from '../../Molecules/CardArticle/index.vue';
 import CardProject from '../../Molecules/CardProject/index.vue';
 import Filter from '../../Molecules/Filter/index.vue';
@@ -9,7 +10,6 @@ import Pagination from '../../Molecules/Pagination/index.vue';
 const meta: Meta<typeof Listing> = {
   title: 'Design System/Organisms/Listing',
   component: Listing,
-  tags: ['autodocs'],
   parameters: {
     layout: 'fullscreen',
   },
@@ -21,8 +21,9 @@ type Story = StoryObj<typeof meta>;
 const blogFilterProps = {
   items: [
     { id: 'all', label: 'Tous', pressed: true },
-    { id: 'vue', label: 'Vue.js', pressed: false },
     { id: 'nuxt', label: 'Nuxt', pressed: false },
+    { id: 'css', label: 'CSS', pressed: false },
+    { id: 'ia', label: 'Dev IA', pressed: false },
   ],
   ariaLabel: 'Filtrer par tag',
 };
@@ -34,30 +35,13 @@ const blogPaginationProps = {
   hasNext: true,
 };
 
-const blogArticles = [
-  {
-    href: '/blog/article-1',
-    title: 'Concevoir un design system durable',
-    date: '01.01.2026',
-    excerpt:
-      'Comment structurer un design system évolutif avec Vue et Storybook.',
-    tags: ['Vue.js'],
-  },
-  {
-    href: '/blog/article-2',
-    title: 'SSR et performance avec Nuxt',
-    date: '15.01.2026',
-    excerpt: 'Optimiser le rendu serveur pour de meilleurs Core Web Vitals.',
-    tags: ['Nuxt'],
-  },
-  {
-    href: '/blog/article-3',
-    title: 'TypeScript strict en production',
-    date: '28.01.2026',
-    excerpt: 'Les patterns qui tiennent dans le temps sur un monorepo.',
-    tags: ['TypeScript'],
-  },
-];
+const blogArticles = LAUNCH_ARTICLES.map((article) => ({
+  href: article.href,
+  title: article.title,
+  date: article.date,
+  excerpt: article.excerpt,
+  tags: [...article.tags],
+}));
 
 export const Blog: Story = {
   render: () => ({
@@ -76,26 +60,19 @@ export const Blog: Story = {
 const projectsFilterProps = {
   items: [
     { id: 'all', label: 'Tous', pressed: true },
-    { id: 'vue', label: 'Vue', pressed: false },
-    { id: 'react', label: 'React', pressed: false },
+    { id: 'nuxt', label: 'Nuxt', pressed: false },
+    { id: 'next', label: 'Next.js', pressed: false },
   ],
-  ariaLabel: 'Filtrer par framework',
+  ariaLabel: 'Filtrer par technologie',
 };
 
-const projects = [
-  {
-    href: '/projects/project-1',
-    title: 'Portfolio personnel',
-    meta: 'Vue.js — 2026',
-    stack: ['Vue.js', 'Nuxt'],
-  },
-  {
-    href: '/projects/project-2',
-    title: 'Plateforme e-commerce',
-    meta: 'React — 2025',
-    stack: ['React', 'TypeScript'],
-  },
-];
+const projects = PROJECT_CARDS.map((project) => ({
+  href: project.href,
+  title: project.title,
+  meta: String(project.year),
+  excerpt: project.excerpt,
+  image: { ...project.image },
+}));
 
 export const Projects: Story = {
   render: () => ({

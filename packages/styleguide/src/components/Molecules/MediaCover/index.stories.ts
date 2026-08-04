@@ -4,14 +4,13 @@ import type { Meta, StoryObj } from '@storybook/vue3-vite';
 
 import MediaCover from './index.vue';
 import StubNuxtImg from '../../../../.storybook/StubNuxtImg';
+import { VALHALLA } from '../../__fixtures__/content';
 
-const valley =
-  'https://carfans.fr/wp-content/uploads/2024/12/JAGUAR_TYPE00_SIDEPROFILE_16x9_021224.webp';
+const cover = VALHALLA.cover.src;
 
 const meta: Meta<typeof MediaCover> = {
   title: 'Design System/Molecules/MediaCover',
   component: MediaCover,
-  tags: ['autodocs'],
   parameters: {
     layout: 'fullscreen',
   },
@@ -63,7 +62,7 @@ export const PlaceholderCover: Story = {
 
 export const ImageCover: Story = {
   args: {
-    image: { src: valley, alt: 'A valley seen from above' },
+    image: { src: cover, alt: 'Couverture du projet Valhalla' },
   },
   render: (args) => ({
     components: { MediaCover },
@@ -83,9 +82,9 @@ export const Poster: Story = {
 
 export const WithCaption: Story = {
   args: {
-    image: { src: valley, alt: 'A valley seen from above' },
+    image: { src: cover, alt: 'Couverture du projet Valhalla' },
     eyebrow: 'Fig. 01',
-    caption: 'A view over the valley',
+    caption: 'Valhalla, Breitling × Aston Martin',
   },
   render: (args) => ({
     components: { MediaCover },
@@ -99,8 +98,8 @@ export const Light: Story = {
     theme: 'light',
   },
   args: {
-    image: { src: valley, alt: 'A valley seen from above' },
-    caption: 'A view over the valley',
+    image: { src: cover, alt: 'Couverture du projet Valhalla' },
+    caption: 'Valhalla, Breitling × Aston Martin',
   },
   render: (args) => ({
     components: { MediaCover },
@@ -126,8 +125,8 @@ export const InjectedImage: Story = {
   args: {
     variant: 'poster',
     image: {
-      src: valley,
-      alt: 'A valley seen from above',
+      src: cover,
+      alt: 'Couverture du projet Valhalla',
       width: 1200,
       height: 675,
     },

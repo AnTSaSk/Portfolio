@@ -1,5 +1,5 @@
 /* =============================================================
-   tokens.css — design tokens (single source of truth)
+   tokens.css: design tokens (single source of truth)
    No cascade layer wrapper: consumers place the import in their
    own layer (see app.css). Values verbatim from the design source.
    ============================================================= */
@@ -21,7 +21,7 @@
   --color-info: #1dbf6a;
   --color-warning: #f2660c;
   --color-error: #bf2d1d;
-  /* Design-source functional blue for the Tag -info variant — distinct
+  /* Design-source functional blue for the Tag -info variant: distinct
      from --color-info (green), which the DS preview does not use here. */
   --color-info-tag: #1db6f4;
 
@@ -48,7 +48,7 @@
   --lh-heading: 1.2;
   --lh-body: 1.5;
 
-  /* Fluid infra — mobile (375px) to desktop (1440px) */
+  /* Fluid infra: mobile (375px) to desktop (1440px) */
   --fluid-vw-min: 375;
   --fluid-vw-max: 1440;
   --fluid-range: calc(var(--fluid-vw-max) - var(--fluid-vw-min));
@@ -109,37 +109,53 @@
   );
 
   --fs-body: 14px;
+  --fs-article: 16px;
   --fs-lede: 20px;
   --fs-caption: 12px;
   --fs-eyebrow: 12px;
   --fs-tag: 11px;
 
+  /* Editorial display sizes: viewport-sloped, not interpolated between the
+     two reference viewports like --fs-h*, so the rendered curve is preserved. */
+  --fs-displayXl: clamp(56px, 8vw, 120px);
+  --fs-displayL: clamp(48px, 6vw, 72px);
+  --fs-displayHero: clamp(38px, 5vw, 84px);
+  --fs-displayM: clamp(28px, 3vw, 44px);
+  --fs-displayS: clamp(18px, 2vw, 30px);
+  --fs-ledeL: clamp(18px, 1.7vw, 28px);
+  --fs-ledeS: clamp(17px, 1.4vw, 20px);
+  --fs-metaS: clamp(15px, 1.1vw, 18px);
+  --fs-watermark: clamp(64px, 12vw, 140px);
+
   --ls-tag: 0.14em;
 
   /* ============================================================
-     5. SPACING — 4px base scale
+     5. SPACING: ascending scale (index order == value order)
      ============================================================ */
   --space-0: 0;
   --space-1: 4px;
-  --space-2: 8px;
-  --space-3: 16px;
-  --space-4: 24px;
-  --space-5: 32px;
-  --space-6: 36px;
-  --space-7: 40px;
-  --space-8: 48px;
-  --space-9: 60px;
-  --space-10: 64px;
-  --space-11: 72px;
-  --space-12: 80px;
-  --space-13: 88px;
-  --space-14: 96px;
-  --space-15: 104px;
-  --space-16: 112px;
-  --space-17: 120px;
-  --space-18: 124px;
-  --space-19: 132px;
-  --space-20: 140px;
+  --space-2: 6px;
+  --space-3: 8px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-7: 30px;
+  --space-8: 32px;
+  --space-9: 36px;
+  --space-10: 40px;
+  --space-11: 48px;
+  --space-12: 60px;
+  --space-13: 64px;
+  --space-14: 72px;
+  --space-15: 80px;
+  --space-16: 88px;
+  --space-17: 96px;
+  --space-18: 104px;
+  --space-19: 112px;
+  --space-20: 120px;
+  --space-21: 124px;
+  --space-22: 132px;
+  --space-23: 140px;
 
   /* ============================================================
      6. RADII / BORDERS
@@ -174,7 +190,7 @@
   --z-noise: 50;
 
   /* ============================================================
-     10. SEMANTIC COLOR TOKENS — light-dark(), never raw hex
+     10. SEMANTIC COLOR TOKENS: light-dark(), never raw hex
      ============================================================ */
   --bg-page: light-dark(var(--color-athens-gray), var(--color-woodsmoke));
   --bg-surface: light-dark(var(--color-white), var(--color-shark));
@@ -198,7 +214,7 @@
   color-scheme: light dark;
 }
 
-/* Manual theme overrides only ever reassign color-scheme — every
+/* Manual theme overrides only ever reassign color-scheme: every
    semantic token above already resolves through light-dark(). */
 [data-theme='light'] {
   color-scheme: light;

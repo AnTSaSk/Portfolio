@@ -1,16 +1,14 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite';
 
 import Image from './index.vue';
+import { VALHALLA } from '../../__fixtures__/content';
 
-const astonMartin =
-  'https://www.astonmartin.com/-/media/partnerships-page/1-lifestyle/breitling/breitling-hero.jpg?mw=1920&rev=-1&hash=9A8D24859B25D6DC03FCA13A639A0E2D';
-const jaguar =
-  'https://carfans.fr/wp-content/uploads/2024/12/JAGUAR_TYPE00_SIDEPROFILE_16x9_021224.webp';
+const astonMartin = VALHALLA.cover.src;
+const jaguar = VALHALLA.gallery[1].src;
 
 const meta: Meta<typeof Image> = {
   title: 'Design System/Atoms/Image',
   component: Image,
-  tags: ['autodocs'],
   parameters: {
     layout: 'fullscreen',
   },
@@ -36,7 +34,7 @@ const meta: Meta<typeof Image> = {
   },
   args: {
     src: astonMartin,
-    alt: 'Aston Martin x Breitling partnership hero shot',
+    alt: 'Couverture du projet Valhalla',
     width: 1920,
     height: 1080,
   },

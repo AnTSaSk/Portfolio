@@ -26,7 +26,7 @@ COPY packages/ packages/
 # Build Storybook static output to packages/styleguide/storybook-static
 RUN pnpm build:styleguide
 
-# Stage 2: Production — nginx serves static files
+# Stage 2: Production: nginx serves static files
 # NOTE: tmpfs mounts are required at runtime for read_only container compatibility:
 #   /var/cache/nginx, /var/run, /tmp
 FROM nginx:1.31-alpine AS production

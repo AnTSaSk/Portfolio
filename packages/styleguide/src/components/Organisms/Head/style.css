@@ -1,10 +1,10 @@
 @layer components {
   .o-head {
-    padding-block: 8px 40px;
+    padding-block: var(--space-3) var(--space-10);
   }
 
   .o-head__back {
-    margin-block-end: 36px;
+    margin-block-end: var(--space-9);
   }
 
   .o-head__backLabel.a-text {
@@ -14,41 +14,41 @@
   .o-head__tags {
     display: flex;
     flex-wrap: wrap;
-    gap: 6px;
+    gap: var(--space-2);
     padding: 0;
-    margin: 0 0 24px;
+    margin: 0 0 var(--space-6);
     list-style: none;
   }
 
   .o-head.-listing .o-head__title {
-    margin-block: 14px 22px;
+    margin-block: var(--space-4) var(--space-1);
   }
 
   .o-head.-article .o-head__title {
-    margin-block-end: 24px;
+    margin-block-end: var(--space-6);
   }
 
   .o-head.-listing .o-head__title.a-heading {
-    font-size: clamp(56px, 8vw, 120px);
+    font-size: var(--fs-displayXl);
     line-height: 0.95;
     letter-spacing: -0.01em;
   }
 
   .o-head.-article .o-head__title.a-heading {
-    font-size: clamp(48px, 6vw, 88px);
+    font-size: var(--fs-displayL);
     line-height: 1;
   }
 
   .o-head.-article .o-head__lede.a-text {
-    margin-block-end: 28px;
-    font-size: clamp(17px, 1.4vw, 20px);
+    margin-block-end: var(--space-7);
+    font-size: var(--fs-ledeS);
     line-height: 1.5;
   }
 
   .o-head__meta {
     display: flex;
     flex-wrap: wrap;
-    gap: 24px;
+    gap: var(--space-6);
     align-items: center;
   }
 }

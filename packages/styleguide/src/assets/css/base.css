@@ -1,5 +1,5 @@
 /* =============================================================
-   base.css — fonts, reset and bare-tag base styles
+   base.css: fonts, reset and bare-tag base styles
    Consumed as a whole under layer(base) by app.css; internal
    @layer statements group font-faces and reset separately.
    ============================================================= */

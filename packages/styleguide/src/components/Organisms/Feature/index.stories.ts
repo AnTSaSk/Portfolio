@@ -1,21 +1,21 @@
 import { type Meta, type StoryObj } from '@storybook/vue3-vite';
 
 import Feature from './index.vue';
+import { VALHALLA } from '../../__fixtures__/content';
 
 const meta: Meta<typeof Feature> = {
   title: 'Design System/Organisms/Feature',
   component: Feature,
-  tags: ['autodocs'],
   parameters: {
     layout: 'fullscreen',
   },
   args: {
-    href: 'project.html',
+    href: VALHALLA.href,
     label: 'À la une',
-    meta: '2025 · Lead front-end · design systems',
-    title: 'Aurora Design System',
-    lead: 'A token-driven component library. Designed for product teams that ship across surfaces, dark and light, with strong type and motion language.',
-    stack: ['Vue 3', 'Nuxt 4', 'TypeScript', 'Storybook', 'Sass'],
+    meta: `${VALHALLA.year} · ${VALHALLA.role} · ${VALHALLA.client}`,
+    title: VALHALLA.title,
+    lead: VALHALLA.shortDescription,
+    stack: [...VALHALLA.stack],
     ctaLabel: 'Voir le projet',
   },
 };
@@ -25,7 +25,7 @@ type Story = StoryObj<typeof meta>;
 
 const template = `<div style="padding: 24px;"><Feature v-bind="args" /></div>`;
 
-export const Placeholder: Story = {
+export const Default: Story = {
   render: (args) => ({
     components: { Feature },
     setup: () => ({ args }),
@@ -36,8 +36,8 @@ export const Placeholder: Story = {
 export const WithImage: Story = {
   args: {
     image: {
-      src: 'https://www.astonmartin.com/-/media/partnerships-page/1-lifestyle/breitling/breitling-hero.jpg?mw=1920&rev=-1&hash=9A8D24859B25D6DC03FCA13A639A0E2D',
-      alt: 'Aurora Design System cover',
+      src: VALHALLA.cover.src,
+      alt: `Couverture du projet ${VALHALLA.title}`,
     },
   },
   render: (args) => ({

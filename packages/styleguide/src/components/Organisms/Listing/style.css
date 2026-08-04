@@ -9,25 +9,25 @@
   }
 
   .o-listing__filter {
-    margin-block-start: 36px;
+    margin-block-start: var(--space-9);
   }
 
   .o-listing__preGrid {
-    margin-block-start: 36px;
+    margin-block-start: var(--space-9);
   }
 
   .o-listing__grid {
     display: grid;
-    margin-block-start: 36px;
+    margin-block-start: var(--space-9);
   }
 
   .o-listing__pagination {
-    margin-block-start: 56px;
+    margin-block-start: var(--space-12);
   }
 
   .o-listing__grid.-autoFill {
     grid-template-columns: 1fr;
-    gap: 40px 32px;
+    gap: var(--space-10) var(--space-8);
 
     @media (min-width: 521px) {
       grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
@@ -36,8 +36,8 @@
 
   .o-listing__grid.-twoUp {
     grid-template-columns: 1fr;
-    gap: 48px 32px;
-    margin-block-start: 48px;
+    gap: var(--space-11) var(--space-8);
+    margin-block-start: var(--space-11);
 
     @media (min-width: 721px) {
       grid-template-columns: repeat(2, 1fr);

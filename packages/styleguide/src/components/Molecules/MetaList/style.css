@@ -2,20 +2,20 @@
   .m-metaList {
     display: flex;
     flex-direction: column;
-    gap: 32px;
+    gap: var(--space-8);
   }
 
   .m-metaList__list {
     display: flex;
     flex-direction: column;
-    gap: 22px;
+    gap: var(--space-6);
     margin: 0;
   }
 
   .m-metaList__row {
     display: flex;
     flex-direction: column;
-    gap: 8px;
+    gap: var(--space-3);
   }
 
   .m-metaList__term {
@@ -30,7 +30,7 @@
   .m-metaList__stack {
     display: flex;
     flex-wrap: wrap;
-    gap: 6px;
+    gap: var(--space-2);
     padding: 0;
     list-style: none;
   }
@@ -38,9 +38,9 @@
   .m-metaList__links {
     display: flex;
     flex-direction: column;
-    gap: 14px;
+    gap: var(--space-3);
     align-items: flex-start;
-    padding-block-start: 28px;
+    padding-block-start: var(--space-7);
     border-block-start: var(--border-1);
   }
 

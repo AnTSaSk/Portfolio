@@ -12,22 +12,6 @@ describe('ThemeSwitcher', () => {
     expect(wrapper.classes()).toContain('a-themeSwitcher');
   });
 
-  it('applies the -square shape class by default', () => {
-    const wrapper = mount(ThemeSwitcher, { props: { theme: 'light' } });
-
-    expect(wrapper.classes()).toContain('-square');
-    expect(wrapper.classes()).not.toContain('-circle');
-  });
-
-  it('applies the -circle shape class when shape is circle', () => {
-    const wrapper = mount(ThemeSwitcher, {
-      props: { theme: 'light', shape: 'circle' },
-    });
-
-    expect(wrapper.classes()).toContain('-circle');
-    expect(wrapper.classes()).not.toContain('-square');
-  });
-
   it('renders the "Switch to dark" aria-label when theme is light', () => {
     const wrapper = mount(ThemeSwitcher, { props: { theme: 'light' } });
 

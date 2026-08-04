@@ -1,5 +1,5 @@
 /* =============================================================
-   app.css — styleguide global CSS entry
+   app.css: styleguide global CSS entry
    Declares the cascade layer order, then imports the global sheets.
    Tokens are the single source of truth (shared with the website
    via the package "exports" field).

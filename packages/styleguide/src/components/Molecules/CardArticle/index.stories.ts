@@ -1,14 +1,13 @@
 import { type Meta, type StoryObj } from '@storybook/vue3';
 
 import CardArticle from './index.vue';
+import { LAUNCH_ARTICLES } from '../../__fixtures__/content';
 
-const cover =
-  'https://agence-scroll.com/_next/image?url=%2Fapi%2Fmedia%2Ffile%2F699c2bbb8511c914b4b10f6b_Design%2520sans%2520titre%2520(1)-1-1900x1069.jpg&w=2048&q=75';
+const cover = LAUNCH_ARTICLES[0].image.src;
 
 const meta: Meta<typeof CardArticle> = {
   title: 'Design System/Molecules/CardArticle',
   component: CardArticle,
-  tags: ['autodocs'],
   parameters: {
     layout: 'fullscreen',
   },

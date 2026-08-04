@@ -23,9 +23,9 @@ describe('Icon', () => {
   });
 
   it('renders a use element referencing the sprite symbol id', () => {
-    const wrapper = mount(Icon, { props: { name: 'arrow-r' } });
+    const wrapper = mount(Icon, { props: { name: 'arrowRight' } });
 
-    expect(wrapper.find('use').attributes('href')).toBe('#arrow-r');
+    expect(wrapper.find('use').attributes('href')).toBe('#arrowRight');
   });
 
   it('is aria-hidden when no label is provided (decorative default)', () => {

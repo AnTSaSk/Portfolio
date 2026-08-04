@@ -1,7 +1,8 @@
 <template>
   <aside class="m-author">
     <div class="m-author__avatar" aria-hidden="true">
-      <Text tag="span" variant="tag">{{ initials }}</Text>
+      <img v-if="photo" class="m-author__photo" :src="photo.src" alt="" />
+      <Text v-else tag="span" variant="tag">{{ initials }}</Text>
     </div>
 
     <div class="m-author__content">
@@ -43,6 +44,7 @@
     name: string;
     bio: string;
     links: AuthorLink[];
+    photo?: { src: string };
   }
 
   defineOptions({ name: 'MoleculeAuthor' });

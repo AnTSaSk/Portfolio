@@ -1,11 +1,11 @@
 import { type Meta, type StoryObj } from '@storybook/vue3-vite';
 
 import MetaList from './index.vue';
+import { LINKS } from '../../__fixtures__/content';
 
 const meta: Meta<typeof MetaList> = {
   title: 'Design System/Molecules/MetaList',
   component: MetaList,
-  tags: ['autodocs'],
   parameters: {
     layout: 'fullscreen',
   },
@@ -72,10 +72,10 @@ export const Dark: Story = {
 export const WithLinks: Story = {
   args: {
     links: [
-      { label: 'Voir le dépôt', href: 'https://github.com/antsask' },
+      { label: 'Voir le dépôt', href: LINKS.github },
       {
-        label: 'Voir le déploiement',
-        href: 'https://example.com',
+        label: 'Voir le site',
+        href: 'https://valhalla.breitling.com/fr',
         external: true,
       },
     ],

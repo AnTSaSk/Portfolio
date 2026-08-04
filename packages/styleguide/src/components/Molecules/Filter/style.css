@@ -2,12 +2,12 @@
   .m-filter {
     display: flex;
     flex-wrap: wrap;
-    gap: 8px;
+    gap: var(--space-3);
     align-items: center;
   }
 
   .m-filter__label {
     color: var(--fg-3);
-    margin-inline-end: 4px;
+    margin-inline-end: var(--space-1);
   }
 }

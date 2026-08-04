@@ -5,7 +5,6 @@ import Heading from './index.vue';
 const meta: Meta<typeof Heading> = {
   title: 'Design System/Atoms/Heading',
   component: Heading,
-  tags: ['autodocs'],
   parameters: {
     layout: 'fullscreen',
   },

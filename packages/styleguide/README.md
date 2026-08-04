@@ -1,16 +1,69 @@
-# Vue 3 + TypeScript + Vite
+# @antsask/styleguide
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+The design system: a Vue component library organised by Atomic Design, documented and previewed in Storybook. Consumed by [`@antsask/website`](../website/README.md) as a workspace dependency.
 
-## Recommended IDE Setup
+Live Storybook: [styleguide.alexisbesson.fr](https://styleguide.alexisbesson.fr)
 
-- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar)
+Part of the [portfolio monorepo](../../README.md): run scripts from the repo root with `--filter @antsask/styleguide`, or locally from this directory.
 
-## Type Support For `.vue` Imports in TS
+## Stack
 
-Since TypeScript cannot handle type information for `.vue` imports, they are shimmed to be a generic Vue component type by default. In most cases this is fine if you don't really care about component prop types outside of templates. However, if you wish to get actual prop types in `.vue` imports (for example to get props validation when using manual `h(...)` calls), you can enable Volar's Take Over mode by following these steps:
+| Category | Technologies |
+|----------|-------------|
+| Components | Vue 3.5, TypeScript 6 (strict), Atomic Design, ABEM |
+| Documentation | Storybook 10 (Vue 3 + Vite), a11y, docs, themes addons |
+| Styles | Modern native CSS (`@layer`, nesting, `light-dark()`) |
+| Testing | Vitest 4 + Vue Test Utils, jsdom |
 
-1. Run `Extensions: Show Built-in Extensions` from VS Code's command palette, look for `TypeScript and JavaScript Language Features`, then right click and select `Disable (Workspace)`. By default, Take Over mode will enable itself if the default TypeScript extension is disabled.
-2. Reload the VS Code window by running `Developer: Reload Window` from the command palette.
+## Structure
 
-You can learn more about Take Over mode [here](https://github.com/johnsoncodehk/volar/discussions/471).
+```
+src/
+  assets/         CSS layers (tokens, base, utilities, app) and the icon sprite
+  components/
+    Atoms/        Smallest building blocks
+    Molecules/    Compositions of atoms
+    Organisms/    Compositions of molecules
+  docs/           Storybook documentation pages
+bin/              Build scripts (icon sprite, component export generation)
+types/            Emitted type declarations (build output)
+```
+
+## Exports
+
+The package exposes the component barrel plus individual CSS layers, importable by consumers:
+
+| Export | Path |
+|--------|------|
+| `.` | Component library (`src/index.ts`) |
+| `./tokens.css` | Design tokens |
+| `./base.css` | Base styles |
+| `./utilities.css` | Utility classes |
+| `./app.css` | Composed app stylesheet |
+
+## Scripts
+
+| Command | Description |
+|---------|-------------|
+| `dev` | Start Storybook on port 6006 |
+| `build` | Type-check, emit types, and build Storybook to `dist/styleguide` |
+| `build:types` | Emit `.d.ts` declarations (used by the website before its build) |
+| `generate:icons` | Rebuild the SVG sprite from source icons |
+| `lint` | ESLint |
+| `lint:style` | Stylelint over `src/**/*.css` |
+| `lint:markup` | `vue-tsc` type checking |
+| `test` | Run unit and component tests |
+| `test:watch` | Run tests in watch mode |
+| `test:coverage` | Run tests with coverage |
+
+The component export barrel is regenerated from the repo root with `pnpm generate:components`.
+
+## Conventions
+
+- **Atomic Design.** Components live under `Atoms/`, `Molecules/`, or `Organisms/`; an organism may compose molecules and atoms, never the reverse.
+- **ABEM.** Class naming follows ABEM (`a-`/`m-`/`o-`/`l-`/`u-` prefixes, compound modifiers `.block.-mod`), enforced by Stylelint.
+- **File layout.** Each component is a `Name/` folder with `index.vue`, `index.ts`, `style.css`, `index.stories.ts`, and `__tests__/`.
+
+## License
+
+[MIT](../../LICENSE).

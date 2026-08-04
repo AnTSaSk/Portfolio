@@ -2,10 +2,7 @@
   <button
     type="button"
     class="a-themeSwitcher"
-    :class="[
-      shape === 'circle' ? '-circle' : '-square',
-      { '-active': pressed },
-    ]"
+    :class="{ '-active': pressed }"
     :aria-label="ariaLabel"
     :aria-pressed="pressed ? 'true' : undefined"
     :disabled="disabled ? true : undefined"
@@ -28,21 +25,14 @@
   import Icon from '../Icon/index.vue';
 
   export type ThemeSwitcherTheme = 'light' | 'dark';
-  export type ThemeSwitcherShape = 'square' | 'circle';
 
   export interface Props {
     theme: ThemeSwitcherTheme;
-    shape?: ThemeSwitcherShape;
     pressed?: boolean;
     disabled?: boolean;
   }
 
-  const {
-    theme,
-    shape = 'square',
-    pressed = false,
-    disabled = false,
-  } = defineProps<Props>();
+  const { theme, pressed = false, disabled = false } = defineProps<Props>();
 
   const emit = defineEmits<{
     toggle: [];

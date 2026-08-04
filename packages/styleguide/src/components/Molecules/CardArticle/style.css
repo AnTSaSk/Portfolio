@@ -22,7 +22,7 @@
   .m-cardArticle__cover {
     overflow: hidden;
     aspect-ratio: 16 / 10;
-    margin-block-end: 20px;
+    margin-block-end: var(--space-5);
     border: var(--border-1);
     border-radius: var(--radius-md);
     transition: border-color 240ms;
@@ -50,25 +50,25 @@
   }
 
   .m-cardArticle__date {
-    margin-block-end: 10px;
+    margin-block-end: var(--space-3);
     color: var(--fg-3);
   }
 
   .m-cardArticle .m-cardArticle__title {
-    margin-block-end: 10px;
+    margin-block-end: var(--space-3);
     color: var(--fg-1);
     font-weight: var(--fw-regular);
   }
 
   .m-cardArticle__excerpt {
-    margin-block-end: 16px;
+    margin-block-end: var(--space-4);
     color: var(--fg-3);
   }
 
   .m-cardArticle__tags {
     display: flex;
     flex-wrap: wrap;
-    gap: 6px;
+    gap: var(--space-2);
     padding: 0;
     margin-block-start: auto;
     list-style: none;

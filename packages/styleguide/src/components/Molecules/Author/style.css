@@ -2,9 +2,9 @@
   .m-author {
     display: grid;
     grid-template-columns: 64px 1fr;
-    gap: 24px;
+    gap: var(--space-6);
     align-items: start;
-    padding-block-start: 32px;
+    padding-block-start: var(--space-8);
     border-block-start: var(--border-1);
   }
 
@@ -19,6 +19,12 @@
     block-size: 64px;
   }
 
+  .m-author__photo {
+    inline-size: 100%;
+    block-size: 100%;
+    object-fit: cover;
+  }
+
   .m-author__name {
     color: var(--fg-2);
     font-family: var(--font-display);
@@ -26,20 +32,16 @@
     font-weight: var(--fw-medium);
     letter-spacing: 0.06em;
     text-transform: uppercase;
-    margin-block-end: 8px;
+    margin-block-end: var(--space-3);
   }
 
   .m-author__body {
-    margin-block-end: 16px;
+    margin-block-end: var(--space-4);
     color: var(--fg-3);
-  }
-
-  .m-author__body .a-text {
-    max-inline-size: 60ch;
   }
 
   .m-author__links {
     display: flex;
-    gap: 16px;
+    gap: var(--space-4);
   }
 }

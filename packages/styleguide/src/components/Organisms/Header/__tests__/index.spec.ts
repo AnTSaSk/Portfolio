@@ -8,7 +8,7 @@ import { describe, expect, it } from 'vitest';
 import LangSwitcher from '../../../Atoms/LangSwitcher/index.vue';
 import Logo from '../../../Atoms/Logo/index.vue';
 import ThemeSwitcher from '../../../Atoms/ThemeSwitcher/index.vue';
-import Header from '../index.vue';
+import Header, { type SocialLink } from '../index.vue';
 
 const dirname = path.dirname(fileURLToPath(import.meta.url));
 const STYLE_CSS_PATH = path.join(dirname, '../style.css');
@@ -117,18 +117,17 @@ describe('Header (right column compartments)', () => {
 });
 
 describe('Header (social links)', () => {
-  const socialProps = {
-    ...baseProps,
-    socialLinks: [
-      { icon: 'github', href: 'https://github.com/x', label: 'GitHub' },
-      {
-        icon: 'linkedin',
-        href: 'https://linkedin.com/in/x',
-        label: 'LinkedIn',
-      },
-      { icon: 'x', href: 'https://x.com/x', label: 'X' },
-    ],
-  };
+  const socialLinks: SocialLink[] = [
+    { icon: 'github', href: 'https://github.com/x', label: 'GitHub' },
+    {
+      icon: 'linkedin',
+      href: 'https://linkedin.com/in/x',
+      label: 'LinkedIn',
+    },
+    { icon: 'x', href: 'https://x.com/x', label: 'X' },
+  ];
+
+  const socialProps = { ...baseProps, socialLinks };
 
   it('renders no social icon link when socialLinks is absent', () => {
     const wrapper = mount(Header, { props: baseProps });

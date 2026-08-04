@@ -1,11 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite';
 
 import Icon from './index.vue';
+import { iconNames } from './names';
 
 const meta: Meta<typeof Icon> = {
   title: 'Design System/Atoms/Icon',
   component: Icon,
-  tags: ['autodocs'],
   parameters: {
     layout: 'fullscreen',
   },
@@ -23,15 +23,7 @@ const meta: Meta<typeof Icon> = {
   argTypes: {
     name: {
       control: 'select',
-      options: [
-        'github',
-        'linkedin',
-        'x',
-        'arrow-right',
-        'arrow-up-right',
-        'moon',
-        'sun',
-      ],
+      options: [...iconNames],
     },
     size: {
       control: 'inline-radio',
@@ -41,7 +33,7 @@ const meta: Meta<typeof Icon> = {
     stroke: { control: 'boolean' },
   },
   args: {
-    name: 'arrow-right',
+    name: 'arrowRight',
     size: 'md',
   },
 };
@@ -50,10 +42,6 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {};
-
-export const Meaningful: Story = {
-  args: { name: 'arrow-up-right', label: 'Open in a new tab' },
-};
 
 export const Stroke: Story = {
   args: { name: 'moon', stroke: true },

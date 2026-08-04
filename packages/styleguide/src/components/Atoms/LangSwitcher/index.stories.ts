@@ -6,7 +6,6 @@ import LangSwitcher from './index.vue';
 const meta = {
   title: 'Design System/Atoms/LangSwitcher',
   component: LangSwitcher,
-  tags: ['autodocs'],
   parameters: {
     layout: 'centered',
   },

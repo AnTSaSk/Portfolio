@@ -52,7 +52,6 @@ const preview: Preview = {
     options: {
       storySort: {
         order: [
-          'Docs',
           'Design System',
           'Design System/Atoms',
           'Design System/Molecules',
@@ -62,8 +61,6 @@ const preview: Preview = {
       },
     },
   },
-
-  tags: ['autodocs'],
 };
 
 export default preview;

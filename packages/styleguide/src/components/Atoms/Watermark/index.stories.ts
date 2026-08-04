@@ -5,7 +5,6 @@ import Watermark from './index.vue';
 const meta = {
   title: 'Design System/Atoms/Watermark',
   component: Watermark,
-  tags: ['autodocs'],
   parameters: {
     layout: 'centered',
   },
@@ -13,7 +12,7 @@ const meta = {
     text: { control: 'text' },
   },
   args: {
-    text: 'antsask/alexis besson',
+    text: 'AnTSaSk/Alexis Besson',
   },
 } satisfies Meta<typeof Watermark>;
 

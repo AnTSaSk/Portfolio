@@ -5,7 +5,6 @@ import Header from './index.vue';
 const meta: Meta<typeof Header> = {
   title: 'Design System/Organisms/Header',
   component: Header,
-  tags: ['autodocs'],
   parameters: {
     layout: 'fullscreen',
   },

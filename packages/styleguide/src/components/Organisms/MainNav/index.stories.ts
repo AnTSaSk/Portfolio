@@ -1,11 +1,11 @@
 import { type Meta, type StoryObj } from '@storybook/vue3-vite';
 
 import MainNav from './index.vue';
+import { NAV_LINKS } from '../../__fixtures__/content';
 
 const meta: Meta<typeof MainNav> = {
   title: 'Design System/Organisms/MainNav',
   component: MainNav,
-  tags: ['autodocs'],
   parameters: {
     layout: 'fullscreen',
   },
@@ -26,12 +26,7 @@ const meta: Meta<typeof MainNav> = {
   },
   args: {
     ariaLabel: 'Principale',
-    links: [
-      { label: 'Home', href: '/', current: true },
-      { label: 'Projects', href: '/projects' },
-      { label: 'Contact', href: '/contact' },
-      { label: 'GitHub', href: 'https://github.com/antsask', external: true },
-    ],
+    links: [...NAV_LINKS],
   },
 };
 

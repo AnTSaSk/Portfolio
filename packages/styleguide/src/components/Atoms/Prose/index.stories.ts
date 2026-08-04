@@ -5,7 +5,6 @@ import Prose from './index.vue';
 const meta: Meta<typeof Prose> = {
   title: 'Design System/Atoms/Prose',
   component: Prose,
-  tags: ['autodocs'],
   parameters: {
     layout: 'fullscreen',
   },

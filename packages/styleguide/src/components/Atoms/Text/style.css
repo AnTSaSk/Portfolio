@@ -17,6 +17,7 @@
 
   .a-text.-caption {
     font-size: var(--fs-caption);
+    font-style: italic;
   }
 
   .a-text.-cta {

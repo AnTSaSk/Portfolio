@@ -6,7 +6,6 @@ import Filter from './index.vue';
 const meta: Meta<typeof Filter> = {
   title: 'Design System/Molecules/Filter',
   component: Filter,
-  tags: ['autodocs'],
   parameters: {
     layout: 'fullscreen',
   },

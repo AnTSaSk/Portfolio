@@ -18,6 +18,33 @@ function readCss(fileName: string): string {
   return fs.readFileSync(filePath, 'utf-8');
 }
 
+const SPACING_SCALE = [
+  '0',
+  '4px',
+  '6px',
+  '8px',
+  '16px',
+  '20px',
+  '24px',
+  '30px',
+  '32px',
+  '36px',
+  '40px',
+  '48px',
+  '60px',
+  '64px',
+  '72px',
+  '80px',
+  '88px',
+  '96px',
+  '104px',
+  '112px',
+  '120px',
+  '124px',
+  '132px',
+  '140px',
+];
+
 const tokensCss = readCss('tokens.css');
 const appCss = readCss('app.css');
 const baseCss = readCss('base.css');
@@ -88,31 +115,12 @@ describe('tokens.css : generic tokens', () => {
     expect(tokensCss).not.toMatch(/--fs-b[123]:/);
   });
 
-  it('defines the full 4px spacing scale (--space-0..--space-17)', () => {
-    const expected = [
-      '--space-0: 0;',
-      '--space-1: 4px;',
-      '--space-2: 8px;',
-      '--space-3: 16px;',
-      '--space-4: 24px;',
-      '--space-5: 32px;',
-      '--space-6: 36px;',
-      '--space-7: 40px;',
-      '--space-8: 48px;',
-      '--space-9: 60px;',
-      '--space-10: 64px;',
-      '--space-11: 72px;',
-      '--space-12: 80px;',
-      '--space-13: 88px;',
-      '--space-14: 96px;',
-      '--space-15: 104px;',
-      '--space-16: 112px;',
-      '--space-17: 120px;',
-    ];
-
-    for (const token of expected) {
-      expect(tokensCss).toContain(token);
+  it('defines the full spacing scale (--space-0..--space-23)', () => {
+    for (const [index, value] of SPACING_SCALE.entries()) {
+      expect(tokensCss).toContain(`--space-${index}: ${value};`);
     }
+
+    expect(tokensCss).not.toMatch(/--space-24:/);
   });
 
   it('defines radii and breakpoint tokens verbatim', () => {
@@ -304,4 +312,49 @@ describe('package.json : exports', () => {
       './src/assets/css/utilities.css',
     );
   });
+});
+
+describe('spacing scale : no effective px drift on existing usages', () => {
+  const scaleFromTokens = new Map<string, string>();
+
+  for (const [, index, value] of tokensCss.matchAll(
+    /--space-(\d+):\s*([^;]+);/g,
+  )) {
+    scaleFromTokens.set(index, value.trim());
+  }
+
+  // px values the pre-renumbering usages resolved to, in source order.
+  // Asserted as a subsequence: later passes may add new tokenized usages,
+  // but none of these historical ones may shift.
+  const EXPECTED_USAGES: Array<[string, string[]]> = [
+    ['components/Atoms/Button/style.css', ['4px', '8px', '16px']],
+    ['components/Atoms/Link/style.css', ['8px']],
+    [
+      'components/Atoms/Prose/style.css',
+      ['40px', '40px', '24px', '24px', '60px'],
+    ],
+    ['components/Organisms/Header/style.css', ['24px', '24px', '24px', '64px']],
+    ['components/Organisms/Hero/style.css', ['16px']],
+    ['components/Organisms/MainNav/style.css', ['16px', '24px']],
+  ];
+
+  const srcDir = path.resolve(dirname, '../../..');
+
+  it.each(EXPECTED_USAGES)(
+    '%s keeps its effective px values',
+    (file, sizes) => {
+      const css = fs.readFileSync(path.join(srcDir, file), 'utf-8');
+      const resolved = [...css.matchAll(/var\(\s*--space-(\d+)\s*\)/g)].map(
+        ([, index]) => scaleFromTokens.get(index),
+      );
+
+      let cursor = 0;
+
+      for (const size of sizes) {
+        cursor = resolved.indexOf(size, cursor) + 1;
+
+        expect(cursor, `missing ${size} in ${file}`).toBeGreaterThan(0);
+      }
+    },
+  );
 });

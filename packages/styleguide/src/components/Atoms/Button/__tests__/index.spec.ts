@@ -90,16 +90,16 @@ describe('Button', () => {
 
   it('renders the Icon component with the given icon name when icon prop is provided', () => {
     const wrapper = mount(Button, {
-      props: { icon: 'check' },
+      props: { icon: 'github' },
       slots: { default: 'Submit' },
     });
 
-    expect(wrapper.get('svg.a-icon use').attributes('href')).toBe('#check');
+    expect(wrapper.get('svg.a-icon use').attributes('href')).toBe('#github');
   });
 
   it('renders the icon after the label by default', () => {
     const wrapper = mount(Button, {
-      props: { icon: 'check' },
+      props: { icon: 'github' },
       slots: { default: 'Submit' },
     });
 
@@ -111,7 +111,7 @@ describe('Button', () => {
 
   it('renders the icon before the label when iconPosition is before', () => {
     const wrapper = mount(Button, {
-      props: { icon: 'check', iconPosition: 'before' },
+      props: { icon: 'github', iconPosition: 'before' },
       slots: { default: 'Submit' },
     });
 

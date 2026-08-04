@@ -216,11 +216,4 @@ describe('Hero (typography owned by Heading/Text/Tag only)', () => {
       expect(overrideRule).toMatch(/font-size\s*:/);
     });
   });
-
-  it('tolerates only the relative 0.92em font-size on .o-hero__wave', () => {
-    const css = readFileSync(STYLE_CSS_PATH, 'utf-8');
-    const waveRule = css.match(/\.o-hero__wave\s*\{[^}]*\}/)?.[0] ?? '';
-
-    expect(waveRule).toMatch(/font-size:\s*0\.92em/);
-  });
 });
