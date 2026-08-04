@@ -1,7 +1,7 @@
 <svg viewBox="0 0 155 143" xmlns="http://www.w3.org/2000/svg">
     <path d="M63.0546 27H81L17.8225 143H0L63.0546 27Z" fill="url(#first_gradient)"/>
     <path d="M58.9224 133H41.1L104.155 17L113.5 0H115L120 17L120.738 19.5L58.9224 133Z" fill="url(#second_gradient)"/>
-    <path fill-rule="evenodd" clip-rule="evenodd" d="M123.344 102.996H84.2636L93.8199 85.4499H118.554L110.296 55.1978L123.971 30.0895L155 133H131.535L123.344 102.996Z" />
+    <path fill="currentColor" fill-rule="evenodd" clip-rule="evenodd" d="M123.344 102.996H84.2636L93.8199 85.4499H118.554L110.296 55.1978L123.971 30.0895L155 133H131.535L123.344 102.996Z" />
     <defs>
         <linearGradient id="first_gradient" x1="114.5" y1="3.22134e-06" x2="-4.35819e-06" y2="162.5" gradientUnits="userSpaceOnUse">
             <stop stop-color="#30BF75"/>

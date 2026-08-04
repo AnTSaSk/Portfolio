@@ -34,6 +34,8 @@
               :date="cardMeta(article)"
               :excerpt="article.description"
               :tags="article.tags"
+              :image="articleImage(article)"
+              :image-component="NuxtImg"
             />
           </template>
 
@@ -55,7 +57,7 @@
 </template>
 
 <script setup lang="ts">
-  import { computed, ref } from 'vue';
+  import { computed, ref, resolveComponent, type Component } from 'vue';
 
   import { useLocaleContent } from '@/composables/useLocaleContent';
   import { useSeo } from '@/composables/useSeo';
@@ -88,7 +90,15 @@
     draft?: boolean;
     readingTime?: number;
     path: string;
+    cover?: { src: string; width: number; height: number };
   }
+
+  const NuxtImg = resolveComponent('NuxtImg') as Component;
+
+  const articleImage = (
+    article: BlogArticle,
+  ): { src: string; alt: string } | undefined =>
+    article.cover ? { src: article.cover.src, alt: article.title } : undefined;
 
   const { t, locale } = useI18n();
   const localePath = useLocalePath();
