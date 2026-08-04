@@ -33,7 +33,7 @@ interface ArticleFixture {
   description: string;
   date: string;
   tags: string[];
-  cover?: string;
+  cover?: { src: string; width: number; height: number; caption?: string };
   path: string;
   body: { toc: { links: TocLinkFixture[] } };
 }
@@ -44,7 +44,12 @@ function makeArticle(overrides: Partial<ArticleFixture>): ArticleFixture {
     description: 'A lede about design systems.',
     date: '2026-01-10',
     tags: ['design-systems', 'css'],
-    cover: '/img/cover.jpg',
+    cover: {
+      src: '/img/cover.jpg',
+      width: 2560,
+      height: 1440,
+      caption: 'A caption for the cover.',
+    },
     path: '/blog/en/design-systems-101',
     body: {
       toc: {
@@ -87,7 +92,11 @@ const HeadStub = defineComponent({
 
 const MediaCoverStub = defineComponent({
   name: 'MoleculeMediaCover',
-  props: { src: { type: String, default: '' } },
+  props: {
+    src: { type: String, default: '' },
+    image: { type: Object, default: undefined },
+    caption: { type: String, default: undefined },
+  },
   setup: (): (() => ReturnType<typeof h>) => () =>
     h('figure', { class: 'm-cover' }),
 });
@@ -213,6 +222,38 @@ function stubEnv(
 }
 
 describe('pages/blog/[slug].vue', () => {
+  it('passes the cover caption to MediaCover and as the figure title attribute', async () => {
+    stubEnv('en', 'design-systems-101', makeArticle({}));
+    const BlogArticle = (await import('../[slug].vue')).default;
+    const wrapper = mountSuspended(BlogArticle);
+
+    await flushPromises();
+
+    const cover = wrapper.findComponent({ name: 'MoleculeMediaCover' });
+
+    expect(cover.props('caption')).toBe('A caption for the cover.');
+    expect(cover.attributes('title')).toBe('A caption for the cover.');
+  });
+
+  it('omits the caption when the cover declares none', async () => {
+    stubEnv(
+      'en',
+      'design-systems-101',
+      makeArticle({
+        cover: { src: '/img/cover.jpg', width: 2560, height: 1440 },
+      }),
+    );
+    const BlogArticle = (await import('../[slug].vue')).default;
+    const wrapper = mountSuspended(BlogArticle);
+
+    await flushPromises();
+
+    const cover = wrapper.findComponent({ name: 'MoleculeMediaCover' });
+
+    expect(cover.props('caption')).toBeUndefined();
+    expect(cover.attributes('title')).toBeUndefined();
+  });
+
   it('composes Head(article) + MediaCover + Prose + Author + Related from the barrel', async () => {
     stubEnv('en', 'design-systems-101', makeArticle({}));
     const BlogArticle = (await import('../[slug].vue')).default;

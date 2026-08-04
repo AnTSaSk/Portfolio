@@ -172,9 +172,9 @@ describe('useSeo', () => {
 
       const call = lastCall();
 
-      expect(resolveValue(call.ogImageAlt)).toBe('Alexis Besson — portfolio');
+      expect(resolveValue(call.ogImageAlt)).toBe('Alexis Besson, portfolio');
       expect(resolveValue(call.twitterImageAlt)).toBe(
-        'Alexis Besson — portfolio',
+        'Alexis Besson, portfolio',
       );
     });
 
@@ -184,16 +184,16 @@ describe('useSeo', () => {
       useSeo({
         title: 'Project title',
         description: 'Project description',
-        image: { src: '/img/Portfolio_Arneo_Cover.jpg' },
+        image: { src: '/img/Projects/Arneo_Cover.jpg' },
       });
 
       const call = lastCall();
 
       expect(resolveValue(call.ogImage)).toBe(
-        'https://alexisbesson.fr/_ipx/cover_1200x630_jpeg/img/Portfolio_Arneo_Cover.jpg',
+        'https://alexisbesson.fr/_ipx/cover_1200x630_jpeg/img/Projects/Arneo_Cover.jpg',
       );
       expect(resolveValue(call.twitterImage)).toBe(
-        'https://alexisbesson.fr/_ipx/cover_1200x630_jpeg/img/Portfolio_Arneo_Cover.jpg',
+        'https://alexisbesson.fr/_ipx/cover_1200x630_jpeg/img/Projects/Arneo_Cover.jpg',
       );
       expect(call.ogImageWidth).toBe(1200);
       expect(call.ogImageHeight).toBe(630);
@@ -205,7 +205,7 @@ describe('useSeo', () => {
       useSeo({
         title: 'Project title',
         description: 'Project description',
-        image: { src: '/img/Portfolio_Arneo_Cover.jpg' },
+        image: { src: '/img/Projects/Arneo_Cover.jpg' },
       });
 
       const call = lastCall();
@@ -232,7 +232,7 @@ describe('useSeo', () => {
       useSeo({
         title: 'Project title',
         description: 'Project description',
-        image: { src: '/img/Portfolio_Arneo_Cover.jpg' },
+        image: { src: '/img/Projects/Arneo_Cover.jpg' },
       });
 
       const call = lastCall();
@@ -262,7 +262,7 @@ describe('useSeo', () => {
       useSeo({
         title: 'Project title',
         description: 'Project description',
-        image: { src: '/img/Portfolio_Arneo_Cover.jpg' },
+        image: { src: '/img/Projects/Arneo_Cover.jpg' },
       });
 
       const call = lastCall();
@@ -288,12 +288,12 @@ describe('useSeo', () => {
         'https://alexisbesson.fr/img/og-default.jpg',
       );
 
-      image.value = { src: '/img/Portfolio_Arneo_Cover.jpg' };
+      image.value = { src: '/img/Projects/Arneo_Cover.jpg' };
 
       const afterCall = lastCall();
 
       expect(resolveValue(afterCall.ogImage)).toBe(
-        'https://alexisbesson.fr/_ipx/cover_1200x630_jpeg/img/Portfolio_Arneo_Cover.jpg',
+        'https://alexisbesson.fr/_ipx/cover_1200x630_jpeg/img/Projects/Arneo_Cover.jpg',
       );
     });
 
@@ -308,13 +308,13 @@ describe('useSeo', () => {
       useSeo({
         title: 'Project title',
         description: 'Project description',
-        image: { src: '/img/Portfolio_Arneo_Cover.jpg' },
+        image: { src: '/img/Projects/Arneo_Cover.jpg' },
       });
 
       const call = lastCall();
 
       expect(resolveValue(call.ogImage)).toBe(
-        'https://alexisbesson.fr/_ipx/cover_1200x630_jpeg/img/Portfolio_Arneo_Cover.jpg',
+        'https://alexisbesson.fr/_ipx/cover_1200x630_jpeg/img/Projects/Arneo_Cover.jpg',
       );
     });
 
@@ -332,13 +332,13 @@ describe('useSeo', () => {
         image: coverImage,
       });
 
-      project.value = { cover: { src: '/img/Portfolio_Arneo_Cover.jpg' } };
+      project.value = { cover: { src: '/img/Projects/Arneo_Cover.jpg' } };
       coverImage.value = project.value.cover;
 
       const call = lastCall();
 
       expect(resolveValue(call.ogImage)).toBe(
-        'https://alexisbesson.fr/_ipx/cover_1200x630_jpeg/img/Portfolio_Arneo_Cover.jpg',
+        'https://alexisbesson.fr/_ipx/cover_1200x630_jpeg/img/Projects/Arneo_Cover.jpg',
       );
       expect(resolveValue(call.ogImageAlt)).toBe('Project title');
     });

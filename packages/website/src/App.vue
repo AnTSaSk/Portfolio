@@ -12,6 +12,8 @@
 <script setup lang="ts">
   import sprite from '@antsask/styleguide/src/assets/sprite.svg?raw';
 
+  import { AUTHOR_PHOTO_PATH } from '@/constants/assets';
+
   const { url, name } = useSiteConfig();
   const { locale } = useI18n();
 
@@ -24,9 +26,11 @@
   useSchemaOrg([
     {
       '@type': 'Person',
+      '@id': `${url}/#identity`,
       name: 'Alexis Besson',
       jobTitle: 'Lead Front-end JS/TS, Vue 3 / Nuxt',
       url,
+      image: `${url}${AUTHOR_PHOTO_PATH}`,
       email: 'mailto:me@alexisbesson.fr',
       sameAs: [
         'https://www.linkedin.com/in/alexis-besson-lead-front',

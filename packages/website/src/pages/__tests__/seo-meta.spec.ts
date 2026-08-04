@@ -232,7 +232,7 @@ describe('detail page with a resolved cover emits the recadrée og:image variant
       image: coverImage,
     });
 
-    coverImage.value = { src: '/img/Portfolio_Arneo_Cover.jpg' };
+    coverImage.value = { src: '/img/Projects/Arneo_Cover.jpg' };
 
     const call = useSeoMetaMock.mock.calls.at(-1)?.[0] as
       Record<string, unknown> | undefined;
@@ -243,10 +243,10 @@ describe('detail page with a resolved cover emits the recadrée og:image variant
       typeof value === 'function' ? (value as () => unknown)() : value;
 
     expect(resolveValue(call!.ogImage)).toBe(
-      'https://alexisbesson.fr/_ipx/cover_1200x630_jpeg/img/Portfolio_Arneo_Cover.jpg',
+      'https://alexisbesson.fr/_ipx/cover_1200x630_jpeg/img/Projects/Arneo_Cover.jpg',
     );
     expect(resolveValue(call!.twitterImage)).toBe(
-      'https://alexisbesson.fr/_ipx/cover_1200x630_jpeg/img/Portfolio_Arneo_Cover.jpg',
+      'https://alexisbesson.fr/_ipx/cover_1200x630_jpeg/img/Projects/Arneo_Cover.jpg',
     );
     expect(resolveValue(call!.ogImageAlt)).toBe('Portfolio v2');
   });

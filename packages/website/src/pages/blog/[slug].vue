@@ -15,10 +15,13 @@
           />
 
           <MediaCover
+            v-if="coverImage"
             variant="poster"
             :image="coverImage"
             :image-component="NuxtImg"
             :category="article.tags?.[0]"
+            :caption="article.cover?.caption"
+            :title="article.cover?.caption"
           />
 
           <div class="o-articleLayout">
@@ -37,6 +40,7 @@
                 :name="authorName"
                 :bio="t('blog.article.author.bio')"
                 :links="authorLinks"
+                :photo="authorPhoto"
               />
             </div>
           </div>
@@ -69,9 +73,11 @@
   import { useSeo } from '@/composables/useSeo';
   import { useTocTracking } from '@/composables/useTocTracking';
 
+  import { AUTHOR_PHOTO_PATH } from '@/constants/assets';
   import {
     LINK_EXTERNAL_GITHUB,
     LINK_EXTERNAL_LINKEDIN,
+    LINK_EXTERNAL_TWITTER,
   } from '@/constants/links';
 
   import { formatDate } from '@/utils/formatDate';
@@ -105,7 +111,12 @@
     date: string;
     updated?: string;
     tags: string[];
-    cover?: { src: string; width: number; height: number };
+    cover?: {
+      src: string;
+      width: number;
+      height: number;
+      caption?: string;
+    };
     author?: string;
     draft?: boolean;
     readingTime?: number;
@@ -138,6 +149,8 @@
 
   const route = useRoute();
   const { t, locale } = useI18n();
+  const siteConfig = useSiteConfig();
+  const img = useImage();
   const localePath = useLocalePath();
   const { collection } = useLocaleContent('blog');
 
@@ -260,6 +273,10 @@
 
   const authorName = computed(() => article.value?.author ?? t('home.name'));
 
+  const authorPhoto = {
+    src: img(AUTHOR_PHOTO_PATH, { width: 128, height: 128, fit: 'cover' }),
+  };
+
   const authorInitials = computed(() =>
     authorName.value
       .trim()
@@ -279,6 +296,11 @@
     {
       label: t('blog.article.author.linkLinkedin'),
       href: LINK_EXTERNAL_LINKEDIN,
+      external: true,
+    },
+    {
+      label: t('blog.article.author.linkX'),
+      href: LINK_EXTERNAL_TWITTER,
       external: true,
     },
   ]);
@@ -305,7 +327,7 @@
       '@type': 'Article',
       headline: current.title,
       datePublished: current.date,
-      author: { '@type': 'Person', name: authorName.value },
+      author: { '@id': `${siteConfig.url}/#identity` },
       inLanguage: locale.value,
     };
 

@@ -201,7 +201,9 @@ describe('blog/[slug].vue, generic Article schema', () => {
       datePublished: '2026-01-10',
       inLanguage: 'en',
     });
-    expect(article.author).toBeDefined();
+    expect(article.author).toEqual({
+      '@id': 'https://alexisbesson.fr/#identity',
+    });
   });
 
   it('derives a different Article node from a second, unrelated article fixture with no per-article wiring', async () => {

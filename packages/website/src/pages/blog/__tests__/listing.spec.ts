@@ -79,6 +79,11 @@ const CardArticleStub = defineComponent({
     title: { type: String, default: '' },
     date: { type: [String, Date], default: '' },
     tags: { type: Array, default: () => [] },
+    image: { type: Object, default: undefined },
+    imageComponent: {
+      type: [Object, String, Function],
+      default: undefined,
+    },
   },
   setup: (props) => () => h('a', { class: 'm-article-card' }, props.title),
 });
@@ -99,6 +104,7 @@ interface ArticleFixture {
   tags: string[];
   draft?: boolean;
   path: string;
+  cover?: { src: string; width: number; height: number };
 }
 
 function makeArticle(overrides: Partial<ArticleFixture>): ArticleFixture {
@@ -248,6 +254,36 @@ describe('pages/blog/index.vue', () => {
       'Article 4',
       'Article 3',
     ]);
+  });
+
+  it('passes the article cover to CardArticle as its image (absent cover = no image)', async () => {
+    const covered = makeArticle({
+      title: 'Covered',
+      path: '/blog/en/covered',
+      date: '2026-02-01',
+      cover: { src: '/img/Blog/N0_Cover.jpg', width: 2560, height: 1440 },
+    });
+    const bare = makeArticle({
+      title: 'Bare',
+      path: '/blog/en/bare',
+      date: '2026-01-01',
+    });
+
+    stubEnv('en', [covered, bare]);
+    const BlogListing = (await import('../index.vue')).default;
+    const wrapper = mount(BlogListing);
+
+    await flushPromises();
+
+    const cards = wrapper.findAllComponents({ name: 'MoleculeCardArticle' });
+
+    expect(cards).toHaveLength(2);
+    expect(cards[0]?.props('image')).toMatchObject({
+      src: '/img/Blog/N0_Cover.jpg',
+      alt: 'Covered',
+    });
+    expect(cards[0]?.props('imageComponent')).toBeTruthy();
+    expect(cards[1]?.props('image')).toBeUndefined();
   });
 
   it('filters the rendered CardArticle set to the tag selected via Filter', async () => {

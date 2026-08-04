@@ -1,4 +1,45 @@
 {
+  "about": {
+    "legal": "Legal notice",
+    "marquee": "ABOUT ME",
+    "seo": {
+      "description": "A front-end developer for about ten years. How I work, and how I approach code quality and AI-assisted development.",
+      "title": "About {'|'} Alexis Besson"
+    }
+  },
+  "blog": {
+    "article": {
+      "author": {
+        "bio": "Lead front-end developer, ten-odd years designing interfaces built to last and perform. My home turf: JavaScript and TypeScript, design systems, performance, and lately, using AI to assist me (under close supervision). I've always loved sharing what I'm working on: hence this blog.",
+        "linkGithub": "GitHub",
+        "linkLinkedin": "LinkedIn",
+        "linkX": "X"
+      },
+      "backToList": "Back to blog",
+      "readingTime": "{n} min read",
+      "related": "More articles",
+      "toc": "summary"
+    },
+    "card": {
+      "meta": "{date} · {n} min"
+    },
+    "listing": {
+      "backToList": "Back to blog",
+      "empty": "Nothing yet, coming soon.",
+      "eyebrow": "The blog",
+      "filter": {
+        "all": "All",
+        "label": "Filter by tag"
+      },
+      "lede": "What I'm learning and testing along the way. Field notes, tech watch and dev write-ups.",
+      "noResults": "No articles match this filter.",
+      "title": "Blog"
+    },
+    "seo": {
+      "description": "Articles on front-end development, Vue.js, TypeScript, design systems, and engineering.",
+      "title": "Blog {'|'} Alexis Besson"
+    }
+  },
   "common": {
     "locale": {
       "en": {
@@ -16,14 +57,130 @@
       "message": "You won't find anything here, except wonderful links to my social networks:"
     }
   },
+  "error": {
+    "actions": {
+      "contact": "Report an issue",
+      "home": "Back to home"
+    },
+    "back": "Back to home",
+    "description": {
+      "404": "The page you are looking for does not exist or has been moved.",
+      "default": "Something went wrong. Please try again later."
+    },
+    "eyebrow": "Off the beaten path",
+    "lead": {
+      "404": "The URL may have changed, been removed, or never existed.",
+      "default": "Our team has been notified. Try again in a moment."
+    },
+    "sub": {
+      "404": "This page doesn't exist.",
+      "default": "Something broke on our end."
+    },
+    "title": {
+      "404": "Page not found",
+      "default": "An error occurred"
+    }
+  },
+  "home": {
+    "actions": {
+      "linkedin": "LinkedIn",
+      "projects": "See projects"
+    },
+    "body": {
+      "p1": "For about ten years, I've been building web interfaces and supporting teams in agencies.",
+      "p2": "From long-running SaaS to high-end event sites, front-ends built to perform and to last."
+    },
+    "greeting": "Hello",
+    "marquee": "ALEXIS BESSON",
+    "name": "Alexis Besson",
+    "role": "Lead Front-end Developer",
+    "seo": {
+      "description": "Lead Front-end Developer based in Paris, ~10 years of experience. JavaScript, TypeScript, Vue 3, Nuxt, design systems, performance and AI-assisted development.",
+      "title": "Alexis Besson {'|'} Lead Front-end Developer"
+    },
+    "tags": {
+      "ai": "AI Dev",
+      "ds": "Design Systems",
+      "js": "JavaScript / TypeScript",
+      "perf": "Performance",
+      "vue": "Vue 3 & Nuxt"
+    }
+  },
+  "layouts": {
+    "header": {
+      "aria": {
+        "lang": "Switch language",
+        "theme": "Toggle theme"
+      },
+      "logoLabel": "Alexis Besson, home",
+      "social": {
+        "github": "GitHub profile",
+        "linkedin": "LinkedIn profile",
+        "x": "X profile"
+      }
+    },
+    "nav": {
+      "about": "About",
+      "blog": "Blog",
+      "home": "Home",
+      "projects": "Projects"
+    }
+  },
+  "legal": {
+    "description": "Legal notice for the Alexis Besson portfolio website.",
+    "lastUpdated": "Last updated: {date}",
+    "seo": {
+      "description": "Legal notice, publisher and hosting information for the Alexis Besson portfolio website.",
+      "title": "Legal notice {'|'} Alexis Besson"
+    },
+    "title": "Legal notice"
+  },
+  "projects": {
+    "card": {
+      "meta": "{year} · {role}"
+    },
+    "listing": {
+      "empty": "Nothing yet.",
+      "eyebrow": "The projects",
+      "feature": {
+        "label": "Featured"
+      },
+      "filter": {
+        "all": "All",
+        "label": "Filter by stack"
+      },
+      "lede": "A selection of real projects, from agency work to side-projects.",
+      "noResults": "No projects match this filter.",
+      "title": "Projects"
+    },
+    "project": {
+      "backToList": "Back to projects",
+      "facts": {
+        "client": "Client",
+        "links": "Links",
+        "period": "Period",
+        "role": "Role",
+        "stack": "Stack",
+        "year": "Year"
+      },
+      "factsAriaLabel": "Project information",
+      "galleryAriaLabel": "Project gallery",
+      "related": "More projects",
+      "seeProject": "See project"
+    },
+    "seo": {
+      "description": "Selected projects by Alexis Besson: design systems, Vue.js applications, and front-end engineering.",
+      "title": "Projects {'|'} Alexis Besson"
+    }
+  },
   "seo": {
     "meta": {
       "description": {
-        "landing": "Alexis Besson \u2014 Lead Front-end Developer with 10+ years of experience. Expert in JavaScript, TypeScript, Vue.js & Node.js. Building scalable design systems, leading teams and delivering SaaS & marketplace projects."
+        "landing": "Alexis Besson, Lead Front-end Developer, ~10 years' experience including 6+ leading teams. JavaScript & TypeScript expert (Vue 3, Nuxt, Node.js), design systems, performance and AI-assisted development (Claude Code) in Paris."
       },
       "title": {
-        "generic": "Alexis Besson {'|'} Lead Front-end Developer \u2014 Vue.js, TypeScript & Node.js",
-        "landing": "Alexis Besson {'|'} Lead Front-end Developer \u2014 Vue.js, TypeScript & Node.js"
+        "generic": "Alexis Besson {'|'} Lead Front-end Developer \u00b7 Vue.js, TypeScript & Node.js",
+        "landing": "Alexis Besson {'|'} Lead Front-end Developer \u00b7 Vue.js, TypeScript & Node.js"
       },
       "variable": {
         "after": "{'|'} Alexis Besson",
@@ -32,18 +189,6 @@
       }
     }
   },
-  "error": {
-    "title": {
-      "404": "Page not found",
-      "default": "An error occurred"
-    },
-    "description": {
-      "404": "The page you are looking for does not exist or has been moved.",
-      "default": "Something went wrong. Please try again later."
-    },
-    "back": "Back to home"
-  },
-  "layouts": {},
   "view": {
     "landing": {
       "subtitle": "Lead Front-end Developer"

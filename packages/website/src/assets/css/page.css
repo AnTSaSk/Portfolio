@@ -17,12 +17,12 @@
 .l-page__note {
   display: flex;
   flex-direction: column;
-  gap: var(--space-4);
+  gap: var(--space-6);
   max-inline-size: 74ch;
 }
 
 .l-page__legal {
-  margin-block-start: var(--space-2);
+  margin-block-start: var(--space-3);
 }
 
 .l-page.-about .a-watermark {
@@ -36,7 +36,7 @@
 }
 
 .l-page.-legal * + .a-prose {
-  margin-block-start: var(--space-5);
+  margin-block-start: var(--space-8);
 }
 
 .l-page.-error {
@@ -62,16 +62,16 @@
 .l-page__errorEyebrow {
   display: inline-flex;
   align-items: center;
-  margin-block-end: clamp(20px, 3.5vh, 40px);
+  margin-block-end: clamp(var(--space-5), 3.5vh, var(--space-10));
   color: var(--fg-2);
-  font-size: clamp(18px, 1.7vw, 28px);
+  font-size: var(--fs-ledeL);
   font-weight: var(--fw-medium);
   letter-spacing: 0.04em;
 }
 
 .l-page__errorCode {
   color: var(--fg-1);
-  font-size: clamp(64px, 12vw, 140px);
+  font-size: var(--fs-watermark);
   font-weight: var(--fw-regular);
   line-height: 0.96;
   letter-spacing: -0.01em;
@@ -79,10 +79,10 @@
 }
 
 .l-page__errorSub {
-  margin-block-start: var(--space-2);
+  margin-block-start: var(--space-3);
   color: var(--color-shuttle-gray);
   font-family: var(--font-display);
-  font-size: clamp(18px, 2vw, 30px);
+  font-size: var(--fs-displayS);
   font-weight: var(--fw-medium);
   letter-spacing: 0.02em;
   text-transform: uppercase;
@@ -91,7 +91,7 @@
 .l-page__errorLead {
   margin-block-start: clamp(24px, 4vh, 44px);
   color: var(--fg-2);
-  font-size: clamp(15px, 1.1vw, 18px);
+  font-size: var(--fs-metaS);
   line-height: 1.55;
   text-wrap: pretty;
 }
@@ -99,7 +99,7 @@
 .l-page__errorActions {
   display: flex;
   flex-wrap: wrap;
-  gap: var(--space-3);
+  gap: var(--space-4);
   align-items: center;
   margin-block-start: clamp(28px, 4vh, 40px);
 }
@@ -126,15 +126,16 @@
 .l-page.-article .o-articleLayout {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 32px;
-  margin-block-start: 56px;
-  padding-block-start: 56px;
+  gap: var(--space-8);
+  margin-block-start: var(--space-12);
+  padding-block-start: var(--space-12);
   border-block-start: var(--border-1);
 }
 
 .l-page.-article .o-articleLayout__body {
   grid-row: auto;
   grid-column: auto;
+  min-inline-size: 0;
 }
 
 .l-page.-article .o-articleLayout .m-toc {
@@ -144,17 +145,17 @@
 }
 
 .l-page.-article .m-author {
-  margin-top: var(--space-10);
+  margin-top: var(--space-13);
 }
 
 .l-page.-article .o-related {
-  margin: var(--space-12) 0;
+  margin: var(--space-15) 0;
 }
 
 @media (min-width: 1280px) {
   .l-page.-article .o-articleLayout {
     grid-template-columns: 1fr minmax(220px, 24%);
-    gap: 56px 64px;
+    gap: var(--space-12) var(--space-13);
   }
 
   .l-page.-article .o-articleLayout__body {
@@ -166,25 +167,25 @@
     position: sticky;
     grid-row: 1;
     grid-column: 2;
-    inset-block-start: 110px;
+    inset-block-start: var(--space-19);
     align-self: start;
   }
 
   .l-page.-article .m-author {
-    margin-top: var(--space-12);
+    margin-top: var(--space-15);
   }
 
   .l-page.-article .o-related {
-    margin: var(--space-16) 0;
+    margin: var(--space-19) 0;
   }
 }
 
 .l-page.-project .o-caseLayout {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 32px;
-  margin-block-start: 56px;
-  padding-block-start: 56px;
+  gap: var(--space-8);
+  margin-block-start: var(--space-12);
+  padding-block-start: var(--space-12);
   border-block-start: var(--border-1);
 }
 
@@ -200,17 +201,17 @@
 }
 
 .l-page.-project .m-gallery {
-  margin-block: 80px;
+  margin-block: var(--space-15);
 }
 
 .l-page.-project .o-related {
-  margin-block-start: 112px;
+  margin-block-start: var(--space-19);
 }
 
 @media (min-width: 1280px) {
   .l-page.-project .o-caseLayout {
     grid-template-columns: 1fr minmax(240px, 26%);
-    gap: 56px 64px;
+    gap: var(--space-12) var(--space-13);
   }
 
   .l-page.-project .o-caseLayout__body {
@@ -222,7 +223,7 @@
     position: sticky;
     grid-row: 1;
     grid-column: 2;
-    inset-block-start: 110px;
+    inset-block-start: var(--space-19);
     align-self: start;
   }
 }

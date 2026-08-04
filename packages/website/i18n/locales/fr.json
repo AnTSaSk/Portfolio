@@ -1,4 +1,45 @@
 {
+  "about": {
+    "legal": "Mentions l\u00e9gales",
+    "marquee": "\u00c0 PROPOS",
+    "seo": {
+      "description": "D\u00e9veloppeur front depuis une dizaine d'ann\u00e9es. Ma fa\u00e7on de travailler, mon rapport \u00e0 la qualit\u00e9 et au d\u00e9veloppement assist\u00e9 par IA.",
+      "title": "\u00c0 propos {'|'} Alexis Besson"
+    }
+  },
+  "blog": {
+    "article": {
+      "author": {
+        "bio": "Lead développeur front, une dizaine d'années à concevoir des interfaces pensées pour durer et performer. Mon terrain de prédilection : JavaScript et TypeScript, les design systems, la performance, et depuis peu, utiliser l'IA pour m'assister (supervisée de près). J'ai toujours aimé partager ce sur quoi je travaille : d'où ce blog.",
+        "linkGithub": "GitHub",
+        "linkLinkedin": "LinkedIn",
+        "linkX": "X"
+      },
+      "backToList": "Retour au blog",
+      "readingTime": "{n} min de lecture",
+      "related": "Plus d'articles",
+      "toc": "Sommaire"
+    },
+    "card": {
+      "meta": "{date} · {n} min"
+    },
+    "listing": {
+      "backToList": "Retour au blog",
+      "empty": "Rien pour l'instant, ça arrive.",
+      "eyebrow": "Le blog",
+      "filter": {
+        "all": "Tous",
+        "label": "Filtrer par tag"
+      },
+      "lede": "Ce que j'apprends et teste au fil des projets. Retours d'expérience, veille et notes de dev.",
+      "noResults": "Aucun article ne correspond à ce filtre.",
+      "title": "Blog"
+    },
+    "seo": {
+      "description": "Articles sur le développement front-end, Vue.js, TypeScript, les design systems et l'ingénierie.",
+      "title": "Blog {'|'} Alexis Besson"
+    }
+  },
   "common": {
     "locale": {
       "en": {
@@ -6,24 +47,140 @@
         "short": "en"
       },
       "fr": {
-        "long": "Français",
+        "long": "Fran\u00e7ais",
         "short": "fr"
       }
     }
   },
   "easteregg": {
     "log": {
-      "message": "Vous ne trouverez rien ici, si ce n'est de merveilleux liens vers mes réseaux sociaux :"
+      "message": "Vous ne trouverez rien ici, si ce n'est de merveilleux liens vers mes r\u00e9seaux sociaux :"
+    }
+  },
+  "error": {
+    "actions": {
+      "contact": "Signaler un probl\u00e8me",
+      "home": "Retour \u00e0 l'accueil"
+    },
+    "back": "Retour \u00e0 l'accueil",
+    "description": {
+      "404": "La page que vous recherchez n'existe pas ou a \u00e9t\u00e9 d\u00e9plac\u00e9e.",
+      "default": "Quelque chose s'est mal pass\u00e9. Veuillez r\u00e9essayer plus tard."
+    },
+    "eyebrow": "Hors des sentiers battus",
+    "lead": {
+      "404": "L'URL a peut-\u00eatre chang\u00e9, \u00e9t\u00e9 supprim\u00e9e, ou n'a jamais exist\u00e9.",
+      "default": "Notre \u00e9quipe a \u00e9t\u00e9 notifi\u00e9e. R\u00e9essayez dans un instant."
+    },
+    "sub": {
+      "404": "Cette page n'existe pas.",
+      "default": "Une erreur s'est produite de notre c\u00f4t\u00e9."
+    },
+    "title": {
+      "404": "Page introuvable",
+      "default": "Une erreur est survenue"
+    }
+  },
+  "home": {
+    "actions": {
+      "linkedin": "LinkedIn",
+      "projects": "Voir les projets"
+    },
+    "body": {
+      "p1": "Depuis une dizaine d'ann\u00e9es, je con\u00e7ois des interfaces web et j'accompagne des \u00e9quipes en agence.",
+      "p2": "Du SaaS port\u00e9 dans la dur\u00e9e au site \u00e9v\u00e9nementiel haut de gamme, des fronts pens\u00e9s pour la performance et pour durer."
+    },
+    "greeting": "Bonjour",
+    "marquee": "AnTSaSk/Alexis Besson",
+    "name": "Alexis Besson",
+    "role": "Lead D\u00e9veloppeur Front-end",
+    "seo": {
+      "description": "Lead D\u00e9veloppeur Front-end bas\u00e9 \u00e0 Paris, ~10 ans d'exp\u00e9rience. JavaScript, TypeScript, Vue 3, Nuxt, design systems, performance et d\u00e9veloppement assist\u00e9 par IA.",
+      "title": "Alexis Besson {'|'} Lead D\u00e9veloppeur Front-end"
+    },
+    "tags": {
+      "ai": "Dev IA",
+      "ds": "Design Systems",
+      "js": "JavaScript / TypeScript",
+      "perf": "Performance",
+      "vue": "Vue 3 & Nuxt"
+    }
+  },
+  "layouts": {
+    "header": {
+      "aria": {
+        "lang": "Changer de langue",
+        "theme": "Changer de thème"
+      },
+      "logoLabel": "Alexis Besson, accueil",
+      "social": {
+        "github": "Profil GitHub",
+        "linkedin": "Profil LinkedIn",
+        "x": "Profil X"
+      }
+    },
+    "nav": {
+      "about": "À propos",
+      "blog": "Blog",
+      "home": "Accueil",
+      "projects": "Projets"
+    }
+  },
+  "legal": {
+    "description": "Mentions légales du portfolio d'Alexis Besson.",
+    "lastUpdated": "Dernière mise à jour : {date}",
+    "seo": {
+      "description": "Mentions légales, éditeur et hébergeur du portfolio d'Alexis Besson.",
+      "title": "Mentions légales {'|'} Alexis Besson"
+    },
+    "title": "Mentions légales"
+  },
+  "projects": {
+    "card": {
+      "meta": "{year} · {role}"
+    },
+    "listing": {
+      "empty": "Rien pour l'instant.",
+      "eyebrow": "Les projets",
+      "feature": {
+        "label": "À la une"
+      },
+      "filter": {
+        "all": "Tous",
+        "label": "Filtrer par stack"
+      },
+      "lede": "Une sélection de projets réels, en agence comme en perso.",
+      "noResults": "Aucun projet ne correspond à ce filtre.",
+      "title": "Projets"
+    },
+    "project": {
+      "backToList": "Retour aux projets",
+      "facts": {
+        "client": "Client",
+        "links": "Liens",
+        "period": "Période",
+        "role": "Rôle",
+        "stack": "Stack",
+        "year": "Année"
+      },
+      "factsAriaLabel": "Informations du projet",
+      "galleryAriaLabel": "Galerie du projet",
+      "related": "Plus de projets",
+      "seeProject": "Voir le projet"
+    },
+    "seo": {
+      "description": "Projets sélectionnés d'Alexis Besson : design systems, applications Vue.js et ingénierie front-end.",
+      "title": "Projets {'|'} Alexis Besson"
     }
   },
   "seo": {
     "meta": {
       "description": {
-        "landing": "Alexis Besson \u2014 Lead D\u00e9veloppeur Front-end, 10+ ans d'exp\u00e9rience. Expert JavaScript, TypeScript, Vue.js et Node.js. Design systems, leadership technique et projets SaaS & marketplace \u00e0 Paris."
+        "landing": "Alexis Besson, Lead D\u00e9veloppeur Front-end, ~10 ans d'exp\u00e9rience dont 6+ en lead. Expert JavaScript & TypeScript (Vue 3, Nuxt, Node.js), design systems, performance et d\u00e9veloppement assist\u00e9 par IA (Claude Code) \u00e0 Paris."
       },
       "title": {
-        "generic": "Alexis Besson {'|'} Lead D\u00e9veloppeur Front-end \u2014 Vue.js, TypeScript et Node.js",
-        "landing": "Alexis Besson {'|'} Lead D\u00e9veloppeur Front-end \u2014 Vue.js, TypeScript et Node.js"
+        "generic": "Alexis Besson {'|'} Lead D\u00e9veloppeur Front-end \u00b7 Vue.js, TypeScript et Node.js",
+        "landing": "Alexis Besson {'|'} Lead D\u00e9veloppeur Front-end \u00b7 Vue.js, TypeScript et Node.js"
       },
       "variable": {
         "after": "{'|'} Alexis Besson",
@@ -32,21 +189,9 @@
       }
     }
   },
-  "error": {
-    "title": {
-      "404": "Page introuvable",
-      "default": "Une erreur est survenue"
-    },
-    "description": {
-      "404": "La page que vous recherchez n'existe pas ou a été déplacée.",
-      "default": "Quelque chose s'est mal passé. Veuillez réessayer plus tard."
-    },
-    "back": "Retour à l'accueil"
-  },
-  "layouts": {},
   "view": {
     "landing": {
-      "subtitle": "Lead Développeur Front-end"
+      "subtitle": "Lead D\u00e9veloppeur Front-end"
     }
   }
 }

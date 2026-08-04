@@ -1,6 +1,6 @@
 import { isRef, toValue, type MaybeRefOrGetter } from 'vue';
 
-const BRAND_ALT = 'Alexis Besson — portfolio';
+const BRAND_ALT = 'Alexis Besson, portfolio';
 const DEFAULT_OG_IMAGE_PATH = '/img/og-default.jpg';
 
 interface UseSeoOptions {

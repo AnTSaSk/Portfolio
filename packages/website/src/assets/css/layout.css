@@ -54,7 +54,7 @@ body:has(.l-layoutError.-locked) {
   width: 100%;
   max-width: var(--bp-desktop);
   height: 100%;
-  padding-inline: var(--space-4);
+  padding-inline: var(--space-6);
 }
 
 .l-container.-large {
@@ -66,7 +66,7 @@ body:has(.l-layoutError.-locked) {
 }
 
 .l-container__wrapper {
-  margin: var(--space-12) 0;
+  margin: var(--space-15) 0;
 }
 
 @media (min-width: 1440px) {
@@ -75,6 +75,6 @@ body:has(.l-layoutError.-locked) {
   }
 
   .l-container__wrapper {
-    margin: var(--space-14) 0;
+    margin: var(--space-17) 0;
   }
 }
