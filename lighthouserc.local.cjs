@@ -11,7 +11,8 @@ module.exports = {
         'http://localhost:3000/projects/emeis',
         'http://localhost:3000/blog/portfolio-v1',
       ],
-      numberOfRuns: 3,
+      // Single run: only deterministic assertions block, repeating them changes nothing.
+      numberOfRuns: 1,
       settings: {
         chromeFlags: '--headless=new --no-sandbox',
       },

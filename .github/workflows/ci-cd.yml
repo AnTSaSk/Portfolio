@@ -49,18 +49,39 @@ jobs:
       - name: Unit tests (website)
         run: pnpm --filter @antsask/website test
 
-      - name: Lighthouse CI (perf budget)
-        run: pnpm perf:audit
-
       - name: Audit dependencies
         # ACCEPTED-RISK: Non-blocking, transitive dependency CVEs may not have fixes yet.
         # Review audit output regularly and update dependencies when patches are available.
         run: pnpm audit --prod --audit-level=high
         continue-on-error: true
 
+  lighthouse-budget:
+    name: Lighthouse budget
+    # Deliberately depends on nothing: runs concurrently with quality.
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+
+      - name: Setup pnpm and Node.js
+        # built-in install lacks frozen-lockfile control (pnpm/setup#10)
+        uses: pnpm/setup@c9883cc79df532ad1a7b81bf9ab944ceb090d65c # v2.0.0
+        with:
+          runtime: node@24
+          cache: true
+          install: false
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Lighthouse CI (perf budget)
+        run: pnpm perf:audit
+
   build:
     name: Build & Push
-    needs: [quality]
+    needs: [quality, lighthouse-budget]
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -149,7 +170,7 @@ jobs:
 
   deploy:
     name: Deploy to Swarm
-    needs: [quality, build]
+    needs: [quality, lighthouse-budget, build]
     runs-on: ubuntu-latest
     environment: production
     permissions:
