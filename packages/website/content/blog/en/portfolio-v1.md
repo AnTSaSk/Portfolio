@@ -1,7 +1,7 @@
 ---
 title: 'Portfolio v1: the launch, and what''s behind it'
 description: "The launch of my portfolio, a project I'd had in mind since 2023: what you'll find on it, why the design system is public, and the choices behind the site."
-date: 2026-08-05
+date: 2026-08-07
 tags:
   - Nuxt
   - Storybook

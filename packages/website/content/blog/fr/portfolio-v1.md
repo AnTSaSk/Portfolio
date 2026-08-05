@@ -1,7 +1,7 @@
 ---
 title: 'Portfolio v1 : le lancement, et ce qu''il y a derrière'
 description: "Le lancement de mon portfolio, un projet en tête depuis 2023 : ce qu'on y trouve, pourquoi le design system est public, et les choix derrière le site."
-date: 2026-08-05
+date: 2026-08-07
 tags:
   - Nuxt
   - Storybook
