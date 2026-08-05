@@ -1,7 +1,5 @@
 // Mobile form factor (Lighthouse default). Desktop lives in the companion file.
-// Size ceilings are UX-derived per page type (LCP <=2.5s under mobile throttling
-// bounds the critical path), not measured-weight snapshots: intentional additions
-// fit within them; approaching one is the signal to investigate.
+// Size ceilings are UX-derived per page type, not measured-weight snapshots.
 module.exports = {
   ci: {
     collect: {
