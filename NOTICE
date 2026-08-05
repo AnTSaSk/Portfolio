@@ -1,0 +1,25 @@
+Portfolio - Alexis Besson
+
+The source code of this repository is licensed under the MIT License (see the
+LICENSE file). This grant covers the code of the packages only: components,
+configuration, build tooling and scripts.
+
+It does NOT cover the editorial and personal materials, which are all rights
+reserved and excluded from the MIT grant:
+
+  - written content (project write-ups, articles, legal pages, copy)
+  - visual design, layout and brand identity
+  - the name, likeness and personal information of Alexis Besson
+  - images, photographs and media assets
+
+This exclusion explicitly includes the editorial content of the `packages/cv/`
+package: the resume text, its personal layout and the photograph are the
+property of Alexis Besson and are not covered by the MIT grant. All rights
+reserved on that content; the package's code (build, styles, structure) is MIT
+like the rest of the repository.
+
+You may read, reuse and adapt the code under the MIT terms. You may not reuse
+the reserved materials, and you may not publish this repository, in whole or in
+substantial part, as a ready-made portfolio template.
+
+For any use beyond the MIT grant, contact the author.

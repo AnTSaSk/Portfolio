@@ -9,6 +9,9 @@ WORKDIR /app
 # Skip husky install in Docker
 ENV HUSKY=0
 
+# libvips runtime for sharp (@nuxt/image IPX) on Alpine/musl
+RUN apk add --no-cache vips
+
 # Copy PNPM workspace config for layer caching
 COPY pnpm-workspace.yaml pnpm-lock.yaml package.json .npmrc ./
 
@@ -23,6 +26,37 @@ RUN corepack enable pnpm && pnpm install --frozen-lockfile
 # Copy source code
 COPY packages/ packages/
 
+# Sentry source map upload (build-time). Empty when secrets absent -> upload skipped, build still succeeds.
+ARG SENTRY_AUTH_TOKEN=""
+ARG SENTRY_ORG=""
+ARG SENTRY_PROJECT=""
+ARG SENTRY_RELEASE=""
+ARG SENTRY_ENVIRONMENT="production"
+# Client-side DSN is read via import.meta.env, which Vite resolves at build time:
+# absent here, it is inlined as undefined and no runtime env can restore it.
+ARG NUXT_PUBLIC_SENTRY_DSN=""
+ENV SENTRY_AUTH_TOKEN=$SENTRY_AUTH_TOKEN \
+    SENTRY_ORG=$SENTRY_ORG \
+    SENTRY_PROJECT=$SENTRY_PROJECT \
+    SENTRY_RELEASE=$SENTRY_RELEASE \
+    NUXT_PUBLIC_SENTRY_RELEASE=$SENTRY_RELEASE \
+    NUXT_PUBLIC_SENTRY_DSN=$NUXT_PUBLIC_SENTRY_DSN \
+    SENTRY_ENVIRONMENT=$SENTRY_ENVIRONMENT
+
+# Umami tracker: the script tag lands in app.head at build time and its origin
+# feeds the generated CSP, so both are decided here. Empty means no tag emitted.
+ARG NUXT_PUBLIC_UMAMI_SRC=""
+ARG NUXT_PUBLIC_UMAMI_WEBSITE_ID=""
+ARG NUXT_PUBLIC_UMAMI_DOMAINS=""
+ENV NUXT_PUBLIC_UMAMI_SRC=$NUXT_PUBLIC_UMAMI_SRC \
+    NUXT_PUBLIC_UMAMI_WEBSITE_ID=$NUXT_PUBLIC_UMAMI_WEBSITE_ID \
+    NUXT_PUBLIC_UMAMI_DOMAINS=$NUXT_PUBLIC_UMAMI_DOMAINS
+
+# @nuxt/content bakes content.database.filename into the Nitro bundle at build time
+# and offers no runtime override, so this must be set here, not only in the
+# production stage.
+ENV NUXT_CONTENT_DB=/app/.data/content/contents.sqlite
+
 # Regenerate Nuxt types (postinstall ran before source was available) then build
 RUN pnpm --filter @antsask/website exec nuxt prepare && pnpm build:website
 
@@ -30,6 +64,9 @@ RUN pnpm --filter @antsask/website exec nuxt prepare && pnpm build:website
 FROM node:24-alpine AS production
 
 WORKDIR /app
+
+# libvips runtime for sharp (IPX image transforms at request time)
+RUN apk add --no-cache vips
 
 # Create non-root user for security (matching infra-vps convention: UID 1001)
 RUN addgroup --system --gid 1001 nodejs && \
@@ -39,10 +76,15 @@ RUN addgroup --system --gid 1001 nodejs && \
 # Nuxt .output is self-contained (bundled dependencies included)
 COPY --from=builder --chown=nodeuser:nodejs /app/packages/website/.output .output
 
+# Writable dir for the @nuxt/content runtime SQLite DB (restored + written lazily
+# per collection). The node:sqlite driver needs no native package on musl.
+RUN mkdir -p /app/.data/content && chown -R nodeuser:nodejs /app/.data
+
 # Set environment
 ENV NODE_ENV=production
 ENV HOST=0.0.0.0
 ENV PORT=3000
+ENV NUXT_CONTENT_DB=/app/.data/content/contents.sqlite
 
 # Expose port
 EXPOSE 3000

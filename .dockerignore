@@ -52,6 +52,6 @@ ecosystem.config.js
 # Scripts (dev only)
 bin
 
-# Claude
+# Local dev tooling config
 .claude
 CLAUDE.md

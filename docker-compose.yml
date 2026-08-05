@@ -4,10 +4,28 @@ services:
     environment:
       NODE_ENV: production
       NUXT_BASE_URL: https://${APP_DOMAIN:-alexisbesson.fr}
+      # Public DSN (ships in the client bundle): feeds the server-side SDK, which
+      # reads process.env. The client copy is inlined at build time via build-arg.
+      NUXT_PUBLIC_SENTRY_DSN: ${NUXT_PUBLIC_SENTRY_DSN:-}
+      SENTRY_ENVIRONMENT: production
+      SENTRY_RELEASE: ${SENTRY_RELEASE:-}
+      # Mirrors the build-args that already decided the script tag and the CSP:
+      # kept here so the server-side runtimeConfig reports the same values.
+      NUXT_PUBLIC_UMAMI_SRC: ${NUXT_PUBLIC_UMAMI_SRC:-}
+      NUXT_PUBLIC_UMAMI_WEBSITE_ID: ${NUXT_PUBLIC_UMAMI_WEBSITE_ID:-}
+      NUXT_PUBLIC_UMAMI_DOMAINS: ${NUXT_PUBLIC_UMAMI_DOMAINS:-}
+      # V8 heap ceiling below the container limit: libvips allocates off-heap, so
+      # leave room or the kernel OOM-kills before V8 decides to collect
+      NODE_OPTIONS: --max-old-space-size=288
     networks:
       - traefik-public
     deploy:
-      replicas: 2
+      # single-node Swarm: a 2nd replica shares the failure domain and doubles the
+      # memory cost; start-first already covers zero-downtime deploys
+      replicas: 1
+      placement:
+        constraints:
+          - node.role == manager
       update_config:
         parallelism: 1
         delay: 10s
@@ -23,10 +41,10 @@ services:
         window: 120s
       resources:
         limits:
-          memory: 384M
-          cpus: '0.5'
+          memory: 512M
+          cpus: '0.75'
         reservations:
-          memory: 128M
+          memory: 192M
           cpus: '0.1'
       labels:
         # Traefik routing
@@ -45,7 +63,7 @@ services:
         # which would block search engines from indexing this public portfolio
         - 'traefik.http.routers.${APP_NAME:-portfolio}.middlewares=compress,${APP_NAME:-portfolio}-security,${APP_NAME:-portfolio}-ratelimit'
 
-        # Middleware: Security headers (NO X-Robots-Tag — allows SEO indexing)
+        # Middleware: Security headers (NO X-Robots-Tag, allows SEO indexing)
         - 'traefik.http.middlewares.${APP_NAME:-portfolio}-security.headers.stsSeconds=63072000'
         - 'traefik.http.middlewares.${APP_NAME:-portfolio}-security.headers.stsIncludeSubdomains=true'
         - 'traefik.http.middlewares.${APP_NAME:-portfolio}-security.headers.contentTypeNosniff=true'
@@ -68,9 +86,20 @@ services:
     cap_drop:
       - ALL
     read_only: true
-    tmpfs:
-      - /tmp:mode=1777,size=64m
-      - /app/.output/server/.data:mode=1777,size=32m
+    # service-level `tmpfs:` is silently dropped by `docker stack deploy`
+    volumes:
+      - type: tmpfs
+        target: /tmp
+        tmpfs:
+          size: 67108864
+          mode: 1777
+      # must match NUXT_CONTENT_DB: @nuxt/content restores its SQLite dump here at
+      # boot and creates tables lazily, so it stays written to for the process life
+      - type: tmpfs
+        target: /app/.data/content
+        tmpfs:
+          size: 33554432
+          mode: 1777
     healthcheck:
       test:
         ['CMD', 'wget', '-q', '-O', '/dev/null', 'http://127.0.0.1:3000/health']
@@ -85,6 +114,9 @@ services:
       - traefik-public
     deploy:
       replicas: 1
+      placement:
+        constraints:
+          - node.role == manager
       update_config:
         parallelism: 1
         delay: 10s
@@ -106,7 +138,7 @@ services:
           memory: 16M
           cpus: '0.05'
       labels:
-        # Traefik routing — internal Storybook, not indexed by search engines
+        # Traefik routing: internal Storybook, not indexed by search engines
         - 'traefik.enable=true'
         - 'traefik.http.routers.styleguide.rule=Host(`styleguide.alexisbesson.fr`)'
         - 'traefik.http.routers.styleguide.entrypoints=websecure'
@@ -134,14 +166,27 @@ services:
         - 'traefik.http.middlewares.styleguide-ratelimit.ratelimit.burst=20'
         - 'traefik.http.middlewares.styleguide-ratelimit.ratelimit.period=1s'
 
-    # Security hardening — read_only requires tmpfs for nginx runtime dirs
+    # Security hardening: read_only requires tmpfs for nginx runtime dirs
     cap_drop:
       - ALL
     read_only: true
-    tmpfs:
-      - /var/cache/nginx:mode=1777,size=32m
-      - /var/run:mode=1777,size=1m
-      - /tmp:mode=1777,size=16m
+    # service-level `tmpfs:` is silently dropped by `docker stack deploy`
+    volumes:
+      - type: tmpfs
+        target: /var/cache/nginx
+        tmpfs:
+          size: 33554432
+          mode: 1777
+      - type: tmpfs
+        target: /var/run
+        tmpfs:
+          size: 1048576
+          mode: 1777
+      - type: tmpfs
+        target: /tmp
+        tmpfs:
+          size: 16777216
+          mode: 1777
     healthcheck:
       test:
         ['CMD', 'wget', '-q', '-O', '/dev/null', 'http://127.0.0.1:8080/health']

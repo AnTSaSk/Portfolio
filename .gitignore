@@ -1,6 +1,7 @@
-# Claude factory work artifacts (extractions, phase contracts, barrier verdicts) — never committed
+# Local tooling artifacts, never committed
 scratchpad/
 **/scratchpad/
+.lighthouseci*
 
 # Editor directories and files
 .vscode/*
@@ -52,7 +53,7 @@ packages/website/nuxt.config.d.ts
 .env.*
 !.env.example
 
-# Claude
+# Local dev tooling config
 .claude/
 CLAUDE.md
 CONVENTIONS.md

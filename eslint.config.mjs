@@ -243,7 +243,6 @@ export default [
       ],
       'vue/no-v-html': 'warn',
       'vue/no-v-text-v-html-on-component': 'warn',
-      'vue/script-indent': ['error', 2, { baseIndent: 1, switchCase: 1 }],
     },
   },
 

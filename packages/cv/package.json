@@ -2,7 +2,8 @@
   "name": "@antsask/cv",
   "version": "0.1.0",
   "repository": "git@github.com:AnTSaSk/Portfolio.git",
-  "author": "Alexis Besson <alexis.bessonweb@gmail.com>",
+  "author": "Alexis Besson <me@alexisbesson.fr>",
+  "license": "SEE LICENSE IN LICENSE",
   "private": true,
   "type": "module",
   "scripts": {

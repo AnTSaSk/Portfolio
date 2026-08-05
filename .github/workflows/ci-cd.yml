@@ -50,8 +50,11 @@ jobs:
       - name: Unit tests (website)
         run: pnpm --filter @antsask/website test
 
+      - name: Lighthouse CI (perf budget)
+        run: pnpm perf:audit
+
       - name: Audit dependencies
-        # ACCEPTED-RISK: Non-blocking — transitive dependency CVEs may not have fixes yet.
+        # ACCEPTED-RISK: Non-blocking, transitive dependency CVEs may not have fixes yet.
         # Review audit output regularly and update dependencies when patches are available.
         run: pnpm audit --prod --audit-level=high
         continue-on-error: true
@@ -112,6 +115,16 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
           platforms: linux/amd64
+          build-args: |
+            SENTRY_RELEASE=${{ github.sha }}
+            SENTRY_ENVIRONMENT=production
+            SENTRY_ORG=${{ secrets.SENTRY_ORG }}
+            SENTRY_PROJECT=${{ secrets.SENTRY_PROJECT }}
+            SENTRY_AUTH_TOKEN=${{ secrets.SENTRY_AUTH_TOKEN }}
+            NUXT_PUBLIC_SENTRY_DSN=${{ vars.NUXT_PUBLIC_SENTRY_DSN }}
+            NUXT_PUBLIC_UMAMI_SRC=${{ vars.NUXT_PUBLIC_UMAMI_SRC }}
+            NUXT_PUBLIC_UMAMI_WEBSITE_ID=${{ vars.NUXT_PUBLIC_UMAMI_WEBSITE_ID }}
+            NUXT_PUBLIC_UMAMI_DOMAINS=${{ vars.NUXT_PUBLIC_UMAMI_DOMAINS }}
 
       - name: Extract metadata (styleguide)
         id: meta-styleguide
@@ -163,11 +176,16 @@ jobs:
           APP_NAME: ${{ vars.APP_NAME }}
           APP_DOMAIN: ${{ vars.APP_DOMAIN }}
           GITHUB_REPOSITORY: ${{ github.repository }}
+          NUXT_PUBLIC_SENTRY_DSN: ${{ vars.NUXT_PUBLIC_SENTRY_DSN }}
+          SENTRY_RELEASE: ${{ github.sha }}
+          NUXT_PUBLIC_UMAMI_SRC: ${{ vars.NUXT_PUBLIC_UMAMI_SRC }}
+          NUXT_PUBLIC_UMAMI_WEBSITE_ID: ${{ vars.NUXT_PUBLIC_UMAMI_WEBSITE_ID }}
+          NUXT_PUBLIC_UMAMI_DOMAINS: ${{ vars.NUXT_PUBLIC_UMAMI_DOMAINS }}
         with:
           host: ${{ secrets.VPS_HOST }}
           username: deploy
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          envs: IMAGE_TAG,APP_NAME,APP_DOMAIN,GITHUB_REPOSITORY
+          envs: IMAGE_TAG,APP_NAME,APP_DOMAIN,GITHUB_REPOSITORY,NUXT_PUBLIC_SENTRY_DSN,SENTRY_RELEASE,NUXT_PUBLIC_UMAMI_SRC,NUXT_PUBLIC_UMAMI_WEBSITE_ID,NUXT_PUBLIC_UMAMI_DOMAINS
           script: |
             # Convert repository name to lowercase (Docker requirement)
             IMAGE_NAME="${GITHUB_REPOSITORY,,}"
@@ -180,6 +198,11 @@ jobs:
             export APP_NAME="${APP_NAME}"
             export APP_DOMAIN="${APP_DOMAIN}"
             export GITHUB_REPOSITORY="${IMAGE_NAME}"
+            export NUXT_PUBLIC_SENTRY_DSN="${NUXT_PUBLIC_SENTRY_DSN}"
+            export SENTRY_RELEASE="${SENTRY_RELEASE}"
+            export NUXT_PUBLIC_UMAMI_SRC="${NUXT_PUBLIC_UMAMI_SRC}"
+            export NUXT_PUBLIC_UMAMI_WEBSITE_ID="${NUXT_PUBLIC_UMAMI_WEBSITE_ID}"
+            export NUXT_PUBLIC_UMAMI_DOMAINS="${NUXT_PUBLIC_UMAMI_DOMAINS}"
 
             # Deploy the stack (start-first for zero-downtime)
             docker stack deploy \
