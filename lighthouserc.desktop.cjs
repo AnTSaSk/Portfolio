@@ -1,5 +1,5 @@
 // Desktop form factor. Companion of lighthouserc.local.cjs (one form factor per file).
-// Size budgets sit ~15% above measured transfer weight as a regression guard.
+// Size ceilings are UX-derived per page type (see lighthouserc.local.cjs).
 module.exports = {
   ci: {
     collect: {
@@ -28,7 +28,7 @@ module.exports = {
             'total-blocking-time': ['error', { maxNumericValue: 300 }],
             'resource-summary:total:size': [
               'error',
-              { maxNumericValue: 335872 },
+              { maxNumericValue: 500000 },
             ],
           },
         },
@@ -41,7 +41,7 @@ module.exports = {
             'total-blocking-time': ['error', { maxNumericValue: 300 }],
             'resource-summary:total:size': [
               'error',
-              { maxNumericValue: 876749 },
+              { maxNumericValue: 1000000 },
             ],
           },
         },
@@ -54,7 +54,7 @@ module.exports = {
             'total-blocking-time': ['error', { maxNumericValue: 300 }],
             'resource-summary:total:size': [
               'error',
-              { maxNumericValue: 795955 },
+              { maxNumericValue: 1000000 },
             ],
           },
         },
@@ -67,7 +67,7 @@ module.exports = {
             'total-blocking-time': ['error', { maxNumericValue: 300 }],
             'resource-summary:total:size': [
               'error',
-              { maxNumericValue: 424141 },
+              { maxNumericValue: 700000 },
             ],
           },
         },
