@@ -246,21 +246,49 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           envs: APP_NAME
           script: |
-            # Check service is running (2 replicas expected for web app)
+            # Compare running replicas against the desired count declared by the
+            # stack, so the check survives a change of scale.
             for i in {1..20}; do
               REPLICAS=$(docker service ls --filter "name=${APP_NAME}_app" --format "{{.Replicas}}")
-              if [[ "$REPLICAS" == *"2/2"* ]]; then
-                echo "Deployment successful: $REPLICAS"
+              RUNNING="${REPLICAS%%/*}"
+              DESIRED="${REPLICAS##*/}"
+              DESIRED="${DESIRED%% *}"
 
-                # Check recent logs for startup confirmation
-                echo "=== Recent logs ==="
-                docker service logs --tail 30 "${APP_NAME}_app" 2>&1 | grep -E "(ready|listening|started|error)" | tail -10 || true
-                exit 0
+              if [[ -n "$RUNNING" && "$RUNNING" == "$DESIRED" && "$RUNNING" != "0" ]]; then
+                # A converged count can still include a task about to fail its
+                # healthcheck, so require the update itself to be complete.
+                STATE=$(docker service inspect "${APP_NAME}_app" \
+                  --format '{{if .UpdateStatus}}{{.UpdateStatus.State}}{{else}}none{{end}}' 2>/dev/null || echo "none")
+
+                if [[ "$STATE" == "none" || "$STATE" == "completed" ]]; then
+                  echo "Deployment successful: $REPLICAS (update state: $STATE)"
+
+                  echo "=== Recent logs ==="
+                  docker service logs --tail 30 "${APP_NAME}_app" 2>&1 | grep -E "(ready|listening|started|error)" | tail -10 || true
+                  exit 0
+                fi
+
+                # Only states known to be terminal fail the step; anything else
+                # is treated as still in flight so an unknown value cannot
+                # trigger a false rollback.
+                case "$STATE" in
+                  paused|rollback_started|rollback_paused|rollback_completed)
+                    echo "Update failed on the server (state: $STATE)"
+                    docker service ps --no-trunc "${APP_NAME}_app" 2>&1 | head -20 || true
+                    exit 1
+                    ;;
+                esac
+
+                echo "Waiting for update to complete... ($REPLICAS, state: $STATE)"
+                sleep 5
+                continue
               fi
+
               echo "Waiting for deployment... ($REPLICAS)"
               sleep 5
             done
             echo "Deployment timeout"
+            docker service ps --no-trunc "${APP_NAME}_app" 2>&1 | head -20 || true
             docker service logs --tail 50 "${APP_NAME}_app" 2>&1 || true
             exit 1
 
