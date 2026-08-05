@@ -78,7 +78,10 @@ COPY --from=builder --chown=nodeuser:nodejs /app/packages/website/.output .outpu
 
 # Writable dir for the @nuxt/content runtime SQLite DB (restored + written lazily
 # per collection). The node:sqlite driver needs no native package on musl.
-RUN mkdir -p /app/.data/content && chown -R nodeuser:nodejs /app/.data
+# Mode 1777: under `docker stack deploy` a tmpfs inherits the mode of the
+# directory it covers but not its ownership, so a chown alone leaves the mount
+# root-owned and unwritable to nodeuser.
+RUN mkdir -p /app/.data/content && chmod 1777 /app/.data/content && chown -R nodeuser:nodejs /app/.data
 
 # Set environment
 ENV NODE_ENV=production
