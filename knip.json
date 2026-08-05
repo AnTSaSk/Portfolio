@@ -1,6 +1,14 @@
 {
-  "$schema": "https://unpkg.com/knip@5/schema.json",
+  "$schema": "https://unpkg.com/knip@6/schema.json",
   "workspaces": {
+    ".": {
+      "entry": [
+        ".lighthouserc.cjs",
+        "lighthouserc.desktop.cjs",
+        "lighthouserc.local.cjs"
+      ],
+      "ignore": ["dist/**"]
+    },
     "packages/website": {
       "entry": [
         "nuxt.config.ts",
@@ -14,7 +22,9 @@
         "src/composables/**/*.ts",
         "src/server/**/*.ts",
         "server/**/*.ts",
-        "i18n.config.ts"
+        "i18n.config.ts",
+        "src/constants/**/*.ts",
+        "src/utils/**/*.ts"
       ],
       "paths": {
         "@/*": ["src/*"],
@@ -22,7 +32,7 @@
         "#imports": [".nuxt/imports.d.ts"],
         "#app": [".nuxt/nuxt.d.ts"]
       },
-      "ignore": [".nuxt/**", ".output/**", ".eslintrc.cjs", ".stylelintrc.mjs"],
+      "ignore": [".nuxt/**", ".output/**", ".stylelintrc.mjs"],
       "ignoreDependencies": [
         "@nuxt/content",
         "@nuxtjs/i18n",
@@ -31,24 +41,21 @@
         "jsdom",
         "eslint",
         "stylelint"
-      ],
-      "ignoreExports": [
-        "src/composables/useLocaleContent.ts",
-        "src/composables/useScrollY.ts",
-        "src/composables/useTheme.ts",
-        "src/composables/useTocTracking.ts",
-        "src/composables/useSeo.ts",
-        "src/constants/**",
-        "src/utils/**"
       ]
     },
     "packages/styleguide": {
-      "entry": ["src/index.ts", "src/**/*.stories.ts", ".storybook/**/*.ts"],
-      "ignore": ["storybook-static/**", "types/**"],
-      "ignoreExports": ["src/components/**"]
+      "entry": [
+        "src/index.ts",
+        "src/**/*.stories.ts",
+        ".storybook/**/*.ts",
+        "src/components/**/*.vue",
+        "src/components/**/*.ts"
+      ],
+      "ignore": ["storybook-static/**", "types/**"]
     },
     "packages/cv": {
-      "entry": ["src/main.ts", "vite.config.ts", "vitest.config.ts"]
+      "entry": ["src/main.ts", "vite.config.ts", "vitest.config.ts"],
+      "ignore": ["dist/**"]
     }
   }
 }

@@ -10,8 +10,7 @@ import { useSeoMetaMock } from '@/__tests__/setup/nuxt-macros';
 
 // editorial per-page title/description meta, driven by i18n, with
 // EN/FR parity. hreflang alternates are emitted automatically by
-// i18n+seo and are proven present in the SSR head by the barrier (plan task
-// 3.8), never unit-tested here, no wiring test for a module default.
+// i18n+seo and are covered by the SSR checks, never unit-tested here.
 
 type Messages = Record<string, unknown>;
 
@@ -170,10 +169,9 @@ describe('legal page consumes the new legal.seo.* editorial keys', () => {
   });
 });
 
-// hreflang: emitted automatically by @nuxtjs/i18n + @nuxtjs/seo
-// per the verified module API , no wiring
+// hreflang: emitted automatically by @nuxtjs/i18n + @nuxtjs/seo, no wiring
 // exists to unit-test. Presence of EN/FR/x-default <link rel="alternate"
-// hreflang> in the served HTML head is proven by the SSR barrier (task 3.8).
+// hreflang> in the served HTML head is covered by the SSR checks.
 
 // Mounting blog/[slug].vue requires the full content-collection/TOC harness;
 // invoked here the same way the page does instead: no `image` option passed

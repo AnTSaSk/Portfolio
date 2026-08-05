@@ -87,7 +87,7 @@ describe('app.vue', () => {
   });
 
   // a WebSite node (name, url, inLanguage) alongside Person, no
-  // fabricated SearchAction (no real site search exists per GAP-4).
+  // fabricated SearchAction (no real site search exists).
   it('passes a WebSite node with name, url and an EN/FR inLanguage indication', async () => {
     await mountApp();
 

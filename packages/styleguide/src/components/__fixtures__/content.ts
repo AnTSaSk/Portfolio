@@ -3,9 +3,8 @@
  * shows invented projects or hotlinked visuals. Values are copied from
  * packages/website: i18n locales, content/ frontmatter and constants/links.ts.
  *
- * Articles #1 and #2 are not written yet: their title and description come from
- * the editorial bank (docs/reference/editorial-strategy.md, rows 9 and 6).
- * Replace those two entries with the real frontmatter once published.
+ * Articles #1 and #2 are not written yet: their title and description are
+ * planned entries. Replace them with the real frontmatter once published.
  */
 
 export const LINKS = {

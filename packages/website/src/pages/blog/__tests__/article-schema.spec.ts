@@ -290,7 +290,7 @@ describe('blog/[slug].vue, generic Article schema', () => {
 // the detail page invokes the generic route-derived breadcrumb
 // mechanism (useBreadcrumbItems, auto-imported @nuxtjs/seo) instead of
 // hand-wiring a per-page BreadcrumbList. Real SSR presence/validity of the
-// resulting JSON-LD is proven by the SSR barrier (plan task 3.8), not here.
+// resulting JSON-LD is covered by the SSR checks, not here.
 describe('blog/[slug].vue, generic BreadcrumbList wiring', () => {
   it('calls useBreadcrumbItems so the route-derived BreadcrumbList is generated', async () => {
     useBreadcrumbItemsMock.mockClear();

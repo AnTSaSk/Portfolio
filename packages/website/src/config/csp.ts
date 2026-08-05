@@ -14,8 +14,8 @@ interface BuildCspOptions {
   sentryDsn?: string;
 }
 
-// Report-Only CSP (ADR-0039): inline script/style allowed by hash, never
-// unsafe-inline. Third-party origins added only when configured.
+// Report-Only CSP: inline script/style allowed by hash, never unsafe-inline.
+// Third-party origins added only when configured.
 export const buildCsp = ({
   inline,
   umamiSrc,
