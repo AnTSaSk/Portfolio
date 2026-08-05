@@ -37,20 +37,22 @@ RUN rm /etc/nginx/conf.d/default.conf
 COPY --from=builder /app/packages/styleguide/storybook-static /usr/share/nginx/html
 
 # Minimal nginx config: serve static files on port 8080 (non-root compatible)
-RUN printf 'server {\n\
-    listen 8080;\n\
-    server_name _;\n\
-    root /usr/share/nginx/html;\n\
-    index index.html;\n\
-    location / {\n\
-        try_files $uri $uri/ /index.html;\n\
-    }\n\
-    location /health {\n\
-        access_log off;\n\
-        return 200 "ok";\n\
-        add_header Content-Type text/plain;\n\
-    }\n\
-}\n' > /etc/nginx/conf.d/storybook.conf
+COPY <<'NGINX' /etc/nginx/conf.d/storybook.conf
+server {
+    listen 8080;
+    server_name _;
+    root /usr/share/nginx/html;
+    index index.html;
+    location / {
+        try_files $uri $uri/ /index.html;
+    }
+    location /health {
+        access_log off;
+        return 200 "ok";
+        add_header Content-Type text/plain;
+    }
+}
+NGINX
 
 EXPOSE 8080
 
