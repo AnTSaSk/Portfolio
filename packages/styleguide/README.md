@@ -46,7 +46,7 @@ The package exposes the component barrel plus individual CSS layers, importable 
 | Command | Description |
 |---------|-------------|
 | `dev` | Start Storybook on port 6006 |
-| `build` | Type-check, emit types, and build Storybook to `dist/styleguide` |
+| `build` | Type-check, emit types, and build Storybook to `storybook-static` |
 | `build:types` | Emit `.d.ts` declarations (used by the website before its build) |
 | `generate:icons` | Rebuild the SVG sprite from source icons |
 | `lint` | ESLint |

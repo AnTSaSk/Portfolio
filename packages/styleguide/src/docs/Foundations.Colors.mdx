@@ -1,0 +1,38 @@
+import { Meta, ColorPalette, ColorItem } from '@storybook/addon-docs/blocks';
+
+<Meta title="Design System/Foundations/Colors" />
+
+# Colors
+
+<ColorPalette>
+  <ColorItem
+    title="Brand"
+    subtitle="Accents only — links, focus, active, wordmark"
+    colors={{ 'jungle-green': '#30bf75', elm: '#1e9782', shadow: '#30bf8c' }}
+  />
+  <ColorItem
+    title="Brand gradient"
+    subtitle="Wordmark / pill accents only, never on text or large surfaces"
+    colors={{
+      Brand: 'linear-gradient(109.14deg, #30bf75 -1.67%, #1e9782 115.85%)',
+      Reverse: 'linear-gradient(109.14deg, #1e9782 -1.67%, #30bf75 115.85%)',
+    }}
+  />
+  <ColorItem
+    title="Functional"
+    subtitle="Only inside a tag.functional variant"
+    colors={{ info: '#1dbf6a', warning: '#f2660c', error: '#bf2d1d' }}
+  />
+  <ColorItem
+    title="Neutrals"
+    subtitle="Base palette backing every semantic token"
+    colors={{
+      woodsmoke: '#111315',
+      shark: '#313335',
+      'shuttle-gray': '#616365',
+      iron: '#d9dcdf',
+      'athens-gray': '#f2f5f7',
+      white: '#ffffff',
+    }}
+  />
+</ColorPalette>

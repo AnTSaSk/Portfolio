@@ -61,8 +61,8 @@ INTERVIEW.md
 STATE.md
 
 # Internal docs
-docs/
-tasks/
+/docs/
+/tasks/
 
 # Test coverage
 coverage/

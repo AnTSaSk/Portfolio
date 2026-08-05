@@ -138,8 +138,8 @@ jobs:
           build-args: |
             SENTRY_RELEASE=${{ github.sha }}
             SENTRY_ENVIRONMENT=production
-            SENTRY_ORG=${{ secrets.SENTRY_ORG }}
-            SENTRY_PROJECT=${{ secrets.SENTRY_PROJECT }}
+            SENTRY_ORG=${{ vars.SENTRY_ORG }}
+            SENTRY_PROJECT=${{ vars.SENTRY_PROJECT }}
             SENTRY_AUTH_TOKEN=${{ secrets.SENTRY_AUTH_TOKEN }}
             NUXT_PUBLIC_SENTRY_DSN=${{ vars.NUXT_PUBLIC_SENTRY_DSN }}
             NUXT_PUBLIC_UMAMI_SRC=${{ vars.NUXT_PUBLIC_UMAMI_SRC }}

@@ -26,7 +26,7 @@
     "lint:style": "stylelint src/**/*.css",
     "lint:markup": "vue-tsc --noEmit",
     "build:types": "vue-tsc --emitDeclarationOnly -p tsconfig.build.json && tsc-alias -p tsconfig.build.json",
-    "build": "pnpm lint:markup && pnpm build:types && storybook build -o ../../dist/styleguide",
+    "build": "pnpm lint:markup && pnpm build:types && storybook build",
     "test": "vitest run",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage"

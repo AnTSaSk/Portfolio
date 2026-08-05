@@ -50,7 +50,7 @@ Each package has its own README:
 - Git hooks: Husky + lint-staged on every commit, Commitlint on messages
 - Type checking: `vue-tsc` across the packages
 - Testing: unit and component tests with Vitest + Vue Test Utils
-- CI/CD: GitHub Actions pipeline (lint, type-check, audit, build, deploy)
+- CI/CD: GitHub Actions pipeline (lint, type-check, tests and Lighthouse performance budget in parallel, then build and deploy)
 
 ## Getting Started
 

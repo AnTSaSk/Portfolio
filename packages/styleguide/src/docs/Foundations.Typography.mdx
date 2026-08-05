@@ -1,0 +1,26 @@
+import { Meta, Typeset } from '@storybook/addon-docs/blocks';
+
+<Meta title="Design System/Foundations/Typography" />
+
+# Typography
+
+## Headings
+
+_Fluid tokens (var(--fs-h1..h5), clamp mobile → desktop). Sizes below are the
+desktop upper bounds of the ramp._
+
+<Typeset
+  fontSizes={[48, 36, 28, 24, 20]}
+  fontWeight={600}
+  sampleText="Design System"
+  fontFamily="var(--font-display)"
+/>
+
+## Body
+
+<Typeset
+  fontSizes={[16, 12]}
+  fontWeight={400}
+  sampleText="Body text sample"
+  fontFamily="var(--font-body)"
+/>
