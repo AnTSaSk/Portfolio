@@ -1,0 +1,83 @@
+// Montserrat
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 400;
+  src: url('../assets/fonts/Montserrat/Montserrat-Regular.woff2')
+    format('woff2');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 500;
+  src: url('../assets/fonts/Montserrat/Montserrat-Medium.woff2') format('woff2');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 600;
+  src: url('../assets/fonts/Montserrat/Montserrat-SemiBold.woff2')
+    format('woff2');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Montserrat';
+  font-style: normal;
+  font-weight: 700;
+  src: url('../assets/fonts/Montserrat/Montserrat-Bold.woff2') format('woff2');
+  font-display: swap;
+}
+
+// Noto Sans
+@font-face {
+  font-family: 'Noto Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: url('../assets/fonts/NotoSans/NotoSans-Regular.woff2') format('woff2');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Noto Sans';
+  font-style: normal;
+  font-weight: 500;
+  src: url('../assets/fonts/NotoSans/NotoSans-Medium.woff2') format('woff2');
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Noto Sans';
+  font-style: normal;
+  font-weight: 600;
+  src: url('../assets/fonts/NotoSans/NotoSans-SemiBold.woff2') format('woff2');
+  font-display: swap;
+}
+
+// Reset
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+}
+
+html {
+  color: $woodsmoke;
+  font-family: $text-font;
+  background-color: $athens-gray;
+}
+
+body {
+  min-height: 100vh;
+}
+
+@import 'base';
+@import 'header';
+@import 'sections';
+@import 'print';

@@ -1,0 +1,64 @@
+// Header — logo + identity block — ABEM prefix: t-cv
+
+.t-cv__header {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+  padding-bottom: 12px;
+  margin-bottom: 12px;
+  border-bottom: 1px solid $elm-green;
+}
+
+.t-cv__logo {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  padding: 5px;
+  width: 108px;
+  height: 100px;
+  color: $woodsmoke;
+
+  svg {
+    display: block;
+  }
+}
+
+.t-cv__identity {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+}
+
+.t-cv__name {
+  display: block;
+  width: fit-content;
+  color: transparent;
+  font-family: $montserrat;
+  font-size: 9cqw;
+  font-weight: 700;
+  line-height: 0.9;
+  text-transform: uppercase;
+  background: $gradient;
+  -webkit-background-clip: text;
+  background-clip: text;
+}
+
+.t-cv__role {
+  display: block;
+  color: $woodsmoke;
+  font-family: $montserrat;
+  font-size: 4.2cqw;
+  font-weight: 700;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.t-cv__pitch {
+  display: block;
+  color: $shuttle-gay;
+  font-family: $noto;
+  font-size: 1.5cqw;
+  font-weight: 300;
+  line-height: 1.4;
+}

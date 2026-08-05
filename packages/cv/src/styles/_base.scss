@@ -1,0 +1,20 @@
+// Base layout — ABEM prefix: t-cv
+
+.t-cv {
+  container-type: inline-size;
+  display: block;
+  padding: 0 10px 10px;
+  margin-right: auto;
+  margin-left: auto;
+  width: 210mm;
+  color: $woodsmoke;
+  font-family: $noto;
+  background-color: $white;
+}
+
+@media screen {
+  .t-cv {
+    height: 297mm;
+    box-shadow: 0 4px 24px rgba(17, 19, 21, 0.12);
+  }
+}

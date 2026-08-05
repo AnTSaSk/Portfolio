@@ -1,0 +1,328 @@
+// Sections — skills/contact + experience/education — ABEM prefix: t-cv
+
+// ---------------------------------------------------------------------------
+// Main grid — skills/contact row + full-width experience + education
+// ---------------------------------------------------------------------------
+
+.t-cv__main {
+  display: grid;
+  grid-template-areas:
+    'skills contact'
+    'experience experience'
+    'education education'
+    'interest interest';
+  grid-template-rows: auto auto auto;
+  grid-template-columns: 4fr 3fr;
+}
+
+// ---------------------------------------------------------------------------
+// Section title — default (skills/contact size), overridden per section
+// ---------------------------------------------------------------------------
+
+.t-cv__section-title {
+  // width fit-content keeps the gradient clipped to the text only;
+  // a full-width box leaks the gradient as a rectangle in print.
+  display: block;
+  margin-bottom: 8px;
+  width: fit-content;
+  color: transparent;
+  font-family: $montserrat;
+  font-size: 2.35cqw;
+  font-weight: 700;
+  line-height: 1.2;
+  text-transform: uppercase;
+  background: $reverse-gradient;
+  -webkit-background-clip: text;
+  background-clip: text;
+
+  .t-cv__section:not(.-skills, .-contact) & {
+    padding-left: 42px;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Section base + ABEM modifiers
+// ---------------------------------------------------------------------------
+
+.t-cv__section {
+  &.-skills {
+    grid-area: skills;
+    padding-right: 24px;
+  }
+
+  &.-contact {
+    grid-area: contact;
+  }
+
+  &.-experience,
+  &.-education,
+  &.-interests {
+    position: relative;
+    grid-area: experience;
+    margin-top: 8px;
+
+    .t-cv__section-title {
+      font-size: 3cqw;
+    }
+  }
+
+  &.-experience {
+    padding-top: 12px;
+    border-top: 1px solid $elm-green;
+
+    html[lang='en'] & .t-cv__section-title {
+      padding-left: 0;
+    }
+  }
+
+  &.-education {
+    grid-area: education;
+  }
+
+  &.-interests {
+    grid-area: interest;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Skills list
+// ---------------------------------------------------------------------------
+
+.t-cv__skills-list {
+  display: block;
+}
+
+.t-cv__skill-row {
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  gap: 4px;
+  align-items: baseline;
+  padding-bottom: 6px;
+}
+
+.t-cv__skill-label {
+  color: $woodsmoke;
+  font-family: $noto;
+  font-size: 1.51cqw;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+.t-cv__skill-value {
+  color: $shark;
+  font-family: $noto;
+  font-size: 1.39cqw;
+  font-weight: 300;
+  line-height: 1.5;
+}
+
+// ---------------------------------------------------------------------------
+// Contact list
+// ---------------------------------------------------------------------------
+
+.t-cv__contact-list {
+  display: block;
+}
+
+.t-cv__contact-row {
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  gap: 4px;
+  align-items: baseline;
+  padding-bottom: 6px;
+}
+
+.t-cv__contact-label {
+  color: $woodsmoke;
+  font-family: $noto;
+  font-size: 1.51cqw;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+.t-cv__contact-value {
+  color: $shark;
+  font-family: $noto;
+  font-size: 1.39cqw;
+  font-weight: 300;
+  line-height: 1.5;
+
+  a {
+    color: $shark;
+    text-decoration: none;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Experience entries — aside 160px | timeline (border-left on body) | content
+// ---------------------------------------------------------------------------
+
+.t-cv__experience {
+  display: grid;
+  grid-template-columns: 160px 1fr;
+}
+
+.t-cv__experience-aside {
+  display: flex;
+  flex-direction: column;
+  padding-right: 14px;
+  text-align: right;
+}
+
+.t-cv__experience-period {
+  display: block;
+  color: $shark;
+  font-family: $montserrat;
+  font-size: 1.76cqw;
+  font-weight: 700;
+  line-height: 1.5;
+  text-transform: uppercase;
+}
+
+.t-cv__experience-location {
+  display: block;
+  color: $shuttle-gay;
+  font-family: $montserrat;
+  font-size: 1.39cqw;
+  font-style: italic;
+  font-weight: 400;
+  line-height: 1.4;
+}
+
+.t-cv__experience-company {
+  display: block;
+  color: $elm-green;
+  font-family: $montserrat;
+  font-size: 1.76cqw;
+  font-weight: 700;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.t-cv__experience-body {
+  padding-bottom: 12px;
+  padding-left: 14px;
+  border-left: 1px solid $elm-green;
+}
+
+.t-cv__experience:last-child .t-cv__experience-body {
+  padding-bottom: 0;
+}
+
+.t-cv__experience-title {
+  color: $shark;
+  font-family: $montserrat;
+  font-size: 2.35cqw;
+  font-weight: 700;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.t-cv__experience-stack {
+  margin-bottom: 4px;
+  color: $woodsmoke;
+  font-family: $noto;
+  font-size: 1.39cqw;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+.t-cv__experience-achievements,
+.t-cv__interests-list {
+  padding-left: 16px;
+
+  li {
+    color: $shuttle-gay;
+    font-family: $noto;
+    font-size: 1.51cqw;
+    font-weight: 400;
+    line-height: 1.4;
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Education entries — aside 160px | timeline (border-left on body) | content
+// ---------------------------------------------------------------------------
+
+.t-cv__education {
+  display: grid;
+  grid-template-columns: 160px 1fr;
+}
+
+.t-cv__education-aside {
+  display: flex;
+  flex-direction: column;
+  padding-right: 14px;
+  text-align: right;
+}
+
+.t-cv__education-body {
+  padding-left: 14px;
+  border-left: 1px solid $elm-green;
+}
+
+.t-cv__education-period {
+  display: block;
+  color: $shark;
+  font-family: $montserrat;
+  font-size: 1.76cqw;
+  font-weight: 700;
+  line-height: 1.5;
+  text-transform: uppercase;
+}
+
+.t-cv__education-school {
+  display: block;
+  color: $elm-green;
+  font-family: $montserrat;
+  font-size: 1.76cqw;
+  font-weight: 700;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.t-cv__education-location {
+  display: block;
+  color: $shuttle-gay;
+  font-family: $montserrat;
+  font-size: 1.39cqw;
+  font-style: italic;
+  font-weight: 400;
+  line-height: 1.4;
+}
+
+.t-cv__education-item {
+  padding-bottom: 16px;
+
+  &:last-child {
+    padding-bottom: 0;
+  }
+}
+
+.t-cv__education-title {
+  color: $shark;
+  font-family: $montserrat;
+  font-size: 2.35cqw;
+  font-weight: 700;
+  line-height: 1.2;
+  text-transform: uppercase;
+}
+
+.t-cv__education-period {
+  color: $shuttle-gay;
+  font-family: $noto;
+  font-size: 1.51cqw;
+  font-weight: 300;
+  line-height: 1.5;
+}
+
+// ---------------------------------------------------------------------------
+// Interests list — timeline look kept without the old empty aside/body divs:
+// the 160px offset + left border reproduce the other sections' gutter
+// ---------------------------------------------------------------------------
+
+.t-cv__interests-list {
+  padding-left: 30px;
+  margin-left: 160px;
+  border-left: 1px solid $elm-green;
+}

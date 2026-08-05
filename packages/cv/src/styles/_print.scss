@@ -1,0 +1,108 @@
+// Print A4 — ABEM prefix: t-cv
+
+// Emulates the title gradient with per-letter solid colors (ADR-0042):
+// spans are colored step by step between the two gradient ends.
+@mixin letter-gradient($n, $from, $to) {
+  @for $i from 1 through $n {
+    span:nth-child(#{$i}) {
+      color: color.mix($to, $from, math.div(100% * ($i - 1), $n - 1));
+    }
+  }
+}
+
+@page {
+  size: A4 portrait;
+  margin: 0;
+}
+
+@media print {
+  body,
+  .t-cv {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  body {
+    display: block;
+    margin: 0;
+    // min-height: 100vh equals exactly one page in print: any sub-pixel
+    // rounding spills a blank second page
+    min-height: auto;
+    background-color: $white;
+  }
+
+  .t-cv {
+    margin: 0 auto;
+    width: 210mm;
+    box-shadow: none;
+
+    // fi/fl ligature glyphs print with a broken ToUnicode mapping,
+    // corrupting ATS text extraction
+    font-variant-ligatures: none;
+  }
+
+  .t-cv__experience,
+  .t-cv__education-item {
+    break-inside: avoid;
+  }
+
+  // background-clip: text still paints an opaque box over the glyphs in
+  // print (ADR-0042, re-measured 2026-08-05): neutralize it and render the
+  // gradient through the per-letter spans instead. The parent color only
+  // paints the space text nodes.
+  .t-cv__name,
+  .t-cv__section-title {
+    color: $elm-green;
+    background: none;
+    -webkit-background-clip: border-box;
+    background-clip: border-box;
+  }
+
+  .t-cv__name {
+    @include letter-gradient(12, $jungle-green, $elm-green);
+  }
+
+  html[lang='en'] {
+    .t-cv__section.-skills .t-cv__section-title {
+      @include letter-gradient(6, $elm-green, $jungle-green);
+    }
+
+    .t-cv__section.-contact .t-cv__section-title {
+      @include letter-gradient(18, $elm-green, $jungle-green);
+    }
+
+    .t-cv__section.-experience .t-cv__section-title {
+      @include letter-gradient(14, $elm-green, $jungle-green);
+    }
+
+    .t-cv__section.-education .t-cv__section-title {
+      @include letter-gradient(9, $elm-green, $jungle-green);
+    }
+
+    .t-cv__section.-interests .t-cv__section-title {
+      @include letter-gradient(9, $elm-green, $jungle-green);
+    }
+  }
+
+  html[lang='fr'] {
+    .t-cv__section.-skills .t-cv__section-title {
+      @include letter-gradient(11, $elm-green, $jungle-green);
+    }
+
+    .t-cv__section.-contact .t-cv__section-title {
+      @include letter-gradient(7, $elm-green, $jungle-green);
+    }
+
+    .t-cv__section.-experience .t-cv__section-title {
+      @include letter-gradient(10, $elm-green, $jungle-green);
+    }
+
+    .t-cv__section.-education .t-cv__section-title {
+      @include letter-gradient(9, $elm-green, $jungle-green);
+    }
+
+    .t-cv__section.-interests .t-cv__section-title {
+      @include letter-gradient(16, $elm-green, $jungle-green);
+    }
+  }
+}
