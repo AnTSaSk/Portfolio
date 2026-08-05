@@ -184,7 +184,7 @@ jobs:
         uses: appleboy/scp-action@ff85246acaad7bdce478db94a363cd2bf7c90345 # v1.0.0
         with:
           host: ${{ secrets.VPS_HOST }}
-          username: deploy
+          username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           source: docker-compose.yml
           target: /opt/stacks/${{ vars.APP_NAME }}/
@@ -203,7 +203,7 @@ jobs:
           NUXT_PUBLIC_UMAMI_DOMAINS: ${{ vars.NUXT_PUBLIC_UMAMI_DOMAINS }}
         with:
           host: ${{ secrets.VPS_HOST }}
-          username: deploy
+          username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           envs: IMAGE_TAG,APP_NAME,APP_DOMAIN,GITHUB_REPOSITORY,NUXT_PUBLIC_SENTRY_DSN,SENTRY_RELEASE,NUXT_PUBLIC_UMAMI_SRC,NUXT_PUBLIC_UMAMI_WEBSITE_ID,NUXT_PUBLIC_UMAMI_DOMAINS
           script: |
@@ -242,7 +242,7 @@ jobs:
           APP_NAME: ${{ vars.APP_NAME }}
         with:
           host: ${{ secrets.VPS_HOST }}
-          username: deploy
+          username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           envs: APP_NAME
           script: |
@@ -271,7 +271,7 @@ jobs:
           APP_NAME: ${{ vars.APP_NAME }}
         with:
           host: ${{ secrets.VPS_HOST }}
-          username: deploy
+          username: ${{ secrets.SSH_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           envs: APP_NAME
           script: |

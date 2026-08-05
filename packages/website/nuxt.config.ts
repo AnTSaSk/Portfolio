@@ -247,7 +247,10 @@ export default defineNuxtConfig({
     project: process.env.SENTRY_PROJECT,
     authToken: process.env.SENTRY_AUTH_TOKEN,
     sourcemaps: {
-      filesToDeleteAfterUpload: ['.output/**/public/**/*.map'],
+      filesToDeleteAfterUpload: [
+        '.output/**/public/**/*.map',
+        '.output/server/**/*.map',
+      ],
     },
   },
 
@@ -266,7 +269,6 @@ export default defineNuxtConfig({
       {
         userAgent: ['*'],
         allow: ['/'],
-        disallow: ['/_nuxt/'],
       },
     ],
   },
