@@ -154,11 +154,12 @@ services:
         - 'traefik.http.middlewares.styleguide-security.headers.stsSeconds=63072000'
         - 'traefik.http.middlewares.styleguide-security.headers.stsIncludeSubdomains=true'
         - 'traefik.http.middlewares.styleguide-security.headers.contentTypeNosniff=true'
-        - 'traefik.http.middlewares.styleguide-security.headers.frameDeny=true'
+        # No frameDeny: Storybook renders every story in a same-origin iframe, and
+        # X-Frame-Options has no same-origin value here. frame-ancestors covers it.
         - 'traefik.http.middlewares.styleguide-security.headers.browserXssFilter=true'
         - 'traefik.http.middlewares.styleguide-security.headers.referrerPolicy=strict-origin-when-cross-origin'
         - 'traefik.http.middlewares.styleguide-security.headers.customResponseHeaders.X-Robots-Tag=noindex'
-        - "traefik.http.middlewares.styleguide-security.headers.contentSecurityPolicy=default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data:; connect-src 'self'; frame-ancestors 'none'; form-action 'self'; base-uri 'self'"
+        - "traefik.http.middlewares.styleguide-security.headers.contentSecurityPolicy=default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval'; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data:; connect-src 'self'; frame-ancestors 'self'; form-action 'self'; base-uri 'self'"
 
         # Middleware: Rate limiting
         - 'traefik.http.middlewares.styleguide-ratelimit.ratelimit.average=50'
