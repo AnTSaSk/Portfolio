@@ -25,7 +25,7 @@
         </li>
       </ul>
       <div class="o-hero__actions">
-        <Button variant="primary" :href="primaryHref">
+        <Button variant="primary" type="link" :href="primaryHref">
           {{ primaryLabel }}
         </Button>
         <Link

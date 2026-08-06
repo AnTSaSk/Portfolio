@@ -120,6 +120,8 @@ describe('Hero (actions compose Button/Link)', () => {
     expect(button.props('variant')).toBe('primary');
     expect(button.props('href')).toBe(baseProps.primaryHref);
     expect(button.text()).toContain(baseProps.primaryLabel);
+    expect(button.element.tagName).toBe('A');
+    expect(button.attributes('href')).toBe(baseProps.primaryHref);
   });
 
   it('composes the secondary action via the Link atom with the arrow variant, forwarding external, without a reinvented <a> or a hardcoded arrow glyph', () => {
@@ -133,8 +135,10 @@ describe('Hero (actions compose Button/Link)', () => {
     expect(link.props('external')).toBe(true);
     expect(link.text()).toContain(baseProps.secondaryLabel);
 
-    // Only the Link atom may render an <a>; Hero must not add its own.
-    expect(actions.findAll('a')).toHaveLength(1);
+    // Only the Link atom may render the secondary <a>; Hero must not add its own.
+    expect(
+      actions.findAll(`a[href="${baseProps.secondaryHref}"]`),
+    ).toHaveLength(1);
     // The arrow glyph is owned by the Link atom's own template; Hero must not duplicate it.
     const arrowGlyphCount = (actions.text().match(/→/g) ?? []).length;
 
