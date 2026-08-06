@@ -54,6 +54,10 @@ server {
 }
 NGINX
 
+# A tmpfs inherits the mode of the directory it covers, never its owner, and
+# stack deploy drops the mount's own mode: the permission has to come from here.
+RUN chmod 1777 /var/cache/nginx /var/run
+
 EXPOSE 8080
 
 # Run as the image's own nginx user: the root entrypoint would chown the cache

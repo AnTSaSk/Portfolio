@@ -172,23 +172,22 @@ services:
     cap_drop:
       - ALL
     read_only: true
-    # service-level `tmpfs:` is silently dropped by `docker stack deploy`
+    # service-level `tmpfs:` is silently dropped by `docker stack deploy`.
+    # Write permission comes from the chmod in the styleguide Dockerfile: a `mode`
+    # here is dropped too, and a tmpfs inherits the mode of the directory it covers.
     volumes:
       - type: tmpfs
         target: /var/cache/nginx
         tmpfs:
           size: 33554432
-          mode: 1777
       - type: tmpfs
         target: /var/run
         tmpfs:
           size: 1048576
-          mode: 1777
       - type: tmpfs
         target: /tmp
         tmpfs:
           size: 16777216
-          mode: 1777
     healthcheck:
       test:
         ['CMD', 'wget', '-q', '-O', '/dev/null', 'http://127.0.0.1:8080/health']
