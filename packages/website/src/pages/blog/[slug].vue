@@ -45,7 +45,6 @@
             </div>
           </div>
         </article>
-        <p v-else class="a-prose">{{ t('error.description.default') }}</p>
       </div>
     </div>
 
@@ -185,7 +184,7 @@
   // related list in one pass.
   // Awaited: the schema-org graph freezes at setup in SSR prod, so the
   // article must be resolved before useSchemaOrg reads it.
-  const { data } = await useAsyncData(
+  const { data, error } = await useAsyncData(
     `blog-article-${slug.value}`,
     async () => {
       const found = (await queryCollection(collection.value)
@@ -215,6 +214,12 @@
     },
     { watch: [collection] },
   );
+
+  // useAsyncData captures a handler throw in `error` instead of propagating it:
+  // without this re-throw the 404 never reaches Nuxt and the page renders a 200.
+  if (error.value) {
+    throw error.value;
+  }
 
   const article = computed<BlogArticle | null>(
     () => data.value?.article ?? null,

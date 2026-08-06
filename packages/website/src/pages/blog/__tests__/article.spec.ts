@@ -1,26 +1,9 @@
-import { flushPromises, mount } from '@vue/test-utils';
+import { flushPromises } from '@vue/test-utils';
 import { describe, expect, it, vi } from 'vitest';
-import {
-  type Component,
-  defineComponent,
-  h,
-  ref,
-  Suspense,
-  toValue,
-} from 'vue';
+import { defineComponent, h, ref, toValue } from 'vue';
 
 import { createT } from '../../__tests__/__stubs__/createT';
-
-// The page has an async setup (awaited useAsyncData); VTU 2.x only resolves
-// it when mounted under a Suspense boundary, mirroring Nuxt's own runtime.
-function mountSuspended(component: Component): ReturnType<typeof mount> {
-  const Host = defineComponent({
-    setup: () => (): ReturnType<typeof h> =>
-      h(Suspense, null, { default: () => h(component) }),
-  });
-
-  return mount(Host);
-}
+import { mountSuspended } from '../../__tests__/__stubs__/mountSuspended';
 
 interface TocLinkFixture {
   id: string;
@@ -198,23 +181,29 @@ function stubEnv(
       // A real ref, like Nuxt's own return, so the page's computeds react
       // when the async data resolves.
       const data = ref<unknown>(null);
+      const error = ref<unknown>(null);
 
-      // Mirror Nuxt: a handler that throws (404 via createError) rejects into
-      // the error ref rather than surfacing as an unhandled rejection.
-      handler()
+      // Mirror Nuxt: a handler that throws (404 via createError) lands in the
+      // error ref and is never propagated to the caller.
+      const settled = handler()
         .then((result) => {
           data.value = result;
         })
-        .catch(() => {
-          data.value = null;
+        .catch((thrown: unknown) => {
+          error.value = thrown;
         });
 
-      return {
+      const state = {
         data,
         pending: ref(false),
-        error: ref(null),
+        error,
         refresh: vi.fn(),
       };
+
+      return Object.assign(
+        settled.then(() => state),
+        state,
+      );
     },
   );
   vi.stubGlobal('createError', createErrorMock);
@@ -378,7 +367,7 @@ describe('pages/blog/[slug].vue', () => {
     );
   });
 
-  it('renders a visible state instead of an empty page when the article is null', async () => {
+  it('renders nothing for an unknown slug, leaving Nuxt to serve the error page', async () => {
     stubEnv('en', 'unknown-slug', null);
     const BlogArticle = (await import('../[slug].vue')).default;
     const wrapper = mountSuspended(BlogArticle);
@@ -386,8 +375,6 @@ describe('pages/blog/[slug].vue', () => {
     await flushPromises();
 
     expect(wrapper.find('article').exists()).toBe(false);
-    expect(wrapper.find('p.a-prose').text()).toBe(
-      createT('en')('error.description.default'),
-    );
+    expect(wrapper.text()).toBe('');
   });
 });

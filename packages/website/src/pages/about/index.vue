@@ -5,7 +5,6 @@
       <div class="l-container__wrapper">
         <div class="l-page__note">
           <ContentRenderer v-if="doc" class="a-prose" :value="doc" />
-          <p v-else class="a-prose">{{ t('error.description.default') }}</p>
           <div class="l-page__legal">
             <Button type="link" variant="ghost" :href="legalHref">
               {{ t('about.legal') }}
@@ -45,7 +44,7 @@
 
   const aboutPath = computed(() => `/about/${locale.value}/about`);
 
-  const { data } = useAsyncData(
+  const { data, error } = await useAsyncData(
     'about',
     async () => {
       const found = (await queryCollection(collection.value)
@@ -64,6 +63,12 @@
     },
     { watch: [collection] },
   );
+
+  // useAsyncData captures a handler throw in `error` instead of propagating it:
+  // without this re-throw the 404 never reaches Nuxt and the page renders a 200.
+  if (error.value) {
+    throw error.value;
+  }
 
   const doc = computed<AboutDoc | null>(() => data.value ?? null);
 

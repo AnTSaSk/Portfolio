@@ -44,7 +44,6 @@
             :aria-label="t('projects.project.galleryAriaLabel')"
           />
         </article>
-        <p v-else class="a-prose">{{ t('error.description.default') }}</p>
       </div>
     </div>
   </div>
@@ -102,7 +101,7 @@
   const projectPath = computed(() => `/projects/${locale.value}/${slug.value}`);
   const backHref = computed(() => localePath('/projects'));
 
-  const { data } = useAsyncData(
+  const { data, error } = await useAsyncData(
     `project-${slug.value}`,
     async () => {
       const found = (await queryCollection(collection.value)
@@ -131,6 +130,12 @@
     },
     { watch: [collection] },
   );
+
+  // useAsyncData captures a handler throw in `error` instead of propagating it:
+  // without this re-throw the 404 never reaches Nuxt and the page renders a 200.
+  if (error.value) {
+    throw error.value;
+  }
 
   const project = computed<ProjectContent | null>(
     () => data.value?.project ?? null,

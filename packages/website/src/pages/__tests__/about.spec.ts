@@ -1,10 +1,11 @@
-import { flushPromises, mount } from '@vue/test-utils';
+import { flushPromises } from '@vue/test-utils';
 import { describe, expect, it, vi } from 'vitest';
 import { defineComponent, h, ref } from 'vue';
 
 import AtomButtonStub from './__stubs__/AtomButtonStub';
 import AtomWatermarkStub from './__stubs__/AtomWatermarkStub';
 import { createT } from './__stubs__/createT';
+import { mountSuspended } from './__stubs__/mountSuspended';
 
 import { definePageMetaMock } from '@/__tests__/setup/nuxt-macros';
 
@@ -75,21 +76,28 @@ function stubEnv(locale: 'en' | 'fr', match: AboutDoc | null): void {
     'useAsyncData',
     (_key: string, handler: () => Promise<unknown>) => {
       const data = ref<unknown>(null);
+      const error = ref<unknown>(null);
 
-      handler()
+      // Mirrors Nuxt: a handler throw lands in `error`, never propagates.
+      const settled = handler()
         .then((result) => {
           data.value = result;
         })
-        .catch(() => {
-          data.value = null;
+        .catch((thrown: unknown) => {
+          error.value = thrown;
         });
 
-      return {
+      const state = {
         data,
         pending: ref(false),
-        error: ref(null),
+        error,
         refresh: vi.fn(),
       };
+
+      return Object.assign(
+        settled.then(() => state),
+        state,
+      );
     },
   );
   vi.stubGlobal('createError', createErrorMock);
@@ -104,7 +112,7 @@ describe('pages/about/index.vue', () => {
   it('nests .l-page.-about > .l-container > .l-container__wrapper > .l-page__note', async () => {
     stubEnv('en', makeDoc());
     const AboutPage = (await import('../about/index.vue')).default;
-    const wrapper = mount(AboutPage, mountOptions);
+    const wrapper = mountSuspended(AboutPage, mountOptions);
 
     await flushPromises();
 
@@ -124,7 +132,7 @@ describe('pages/about/index.vue', () => {
 
     stubEnv('en', doc);
     const AboutPage = (await import('../about/index.vue')).default;
-    const wrapper = mount(AboutPage, mountOptions);
+    const wrapper = mountSuspended(AboutPage, mountOptions);
 
     await flushPromises();
 
@@ -139,7 +147,7 @@ describe('pages/about/index.vue', () => {
     stubEnv('en', makeDoc());
     const AboutPage = (await import('../about/index.vue')).default;
 
-    mount(AboutPage, mountOptions);
+    mountSuspended(AboutPage, mountOptions);
     await flushPromises();
 
     expect(queryCollectionMock).toHaveBeenCalledWith('aboutEn');
@@ -154,7 +162,7 @@ describe('pages/about/index.vue', () => {
     stubEnv('fr', makeDoc({ path: '/about/fr/about' }));
     const AboutPage = (await import('../about/index.vue')).default;
 
-    mount(AboutPage, mountOptions);
+    mountSuspended(AboutPage, mountOptions);
     await flushPromises();
 
     expect(queryCollectionMock).toHaveBeenCalledWith('aboutFr');
@@ -170,7 +178,7 @@ describe('pages/about/index.vue', () => {
     createErrorMock.mockClear();
     const AboutPage = (await import('../about/index.vue')).default;
 
-    mount(AboutPage, mountOptions);
+    mountSuspended(AboutPage, mountOptions);
     await flushPromises();
 
     expect(createErrorMock).toHaveBeenCalledWith(
@@ -178,23 +186,22 @@ describe('pages/about/index.vue', () => {
     );
   });
 
-  it('renders a visible state instead of an empty page when the document is null', async () => {
+  it('renders nothing when the document is missing, leaving Nuxt to serve the error page', async () => {
     stubEnv('en', null);
     const AboutPage = (await import('../about/index.vue')).default;
-    const wrapper = mount(AboutPage, mountOptions);
+    const wrapper = mountSuspended(AboutPage);
 
     await flushPromises();
 
-    expect(wrapper.find('p.a-prose').text()).toBe(
-      createT('en')('error.description.default'),
-    );
+    expect(wrapper.find('.l-page').exists()).toBe(false);
+    expect(wrapper.text()).toBe('');
   });
 
   it('passes the English about.marquee translation to Watermark', async () => {
     stubEnv('en', makeDoc());
     const t = createT('en');
     const AboutPage = (await import('../about/index.vue')).default;
-    const wrapper = mount(AboutPage, mountOptions);
+    const wrapper = mountSuspended(AboutPage, mountOptions);
 
     await flushPromises();
 
@@ -207,7 +214,7 @@ describe('pages/about/index.vue', () => {
     stubEnv('fr', makeDoc({ path: '/about/fr/about' }));
     const t = createT('fr');
     const AboutPage = (await import('../about/index.vue')).default;
-    const wrapper = mount(AboutPage, mountOptions);
+    const wrapper = mountSuspended(AboutPage, mountOptions);
 
     await flushPromises();
 
@@ -219,7 +226,7 @@ describe('pages/about/index.vue', () => {
   it('renders a ghost legal Button (type link) inside .l-page__note, pointing to the localized /legal route', async () => {
     stubEnv('en', makeDoc());
     const AboutPage = (await import('../about/index.vue')).default;
-    const wrapper = mount(AboutPage, mountOptions);
+    const wrapper = mountSuspended(AboutPage, mountOptions);
 
     await flushPromises();
 
@@ -241,7 +248,7 @@ describe('pages/about/index.vue', () => {
   it('localizes the legal Button route in French', async () => {
     stubEnv('fr', makeDoc({ path: '/about/fr/about' }));
     const AboutPage = (await import('../about/index.vue')).default;
-    const wrapper = mount(AboutPage, mountOptions);
+    const wrapper = mountSuspended(AboutPage, mountOptions);
 
     await flushPromises();
 
@@ -254,7 +261,7 @@ describe('pages/about/index.vue', () => {
   it('renders the radial decoration', async () => {
     stubEnv('en', makeDoc());
     const AboutPage = (await import('../about/index.vue')).default;
-    const wrapper = mount(AboutPage, mountOptions);
+    const wrapper = mountSuspended(AboutPage, mountOptions);
 
     await flushPromises();
 
@@ -266,7 +273,7 @@ describe('pages/about/index.vue', () => {
     definePageMetaMock.mockClear();
     const AboutPage = (await import('../about/index.vue')).default;
 
-    mount(AboutPage, mountOptions);
+    mountSuspended(AboutPage, mountOptions);
     await flushPromises();
 
     expect(definePageMetaMock).toHaveBeenCalledWith(

@@ -1,8 +1,9 @@
-import { flushPromises, mount } from '@vue/test-utils';
+import { flushPromises } from '@vue/test-utils';
 import { describe, expect, it, vi } from 'vitest';
 import { defineComponent, h, ref } from 'vue';
 
 import { createT } from '../../__tests__/__stubs__/createT';
+import { mountSuspended } from '../../__tests__/__stubs__/mountSuspended';
 
 interface ProjectLink {
   label: string;
@@ -209,23 +210,30 @@ function stubEnv(
     'useAsyncData',
     (_key: string, handler: () => Promise<unknown>) => {
       // A real ref, like Nuxt's own return, so the page's computeds react
-      // when the async data resolves.
+      // when the async data resolves. A handler throw lands in `error` and is
+      // never propagated, as Nuxt does.
       const data = ref<unknown>(null);
+      const error = ref<unknown>(null);
 
-      handler()
+      const settled = handler()
         .then((result) => {
           data.value = result;
         })
-        .catch(() => {
-          data.value = null;
+        .catch((thrown: unknown) => {
+          error.value = thrown;
         });
 
-      return {
+      const state = {
         data,
         pending: ref(false),
-        error: ref(null),
+        error,
         refresh: vi.fn(),
       };
+
+      return Object.assign(
+        settled.then(() => state),
+        state,
+      );
     },
   );
   vi.stubGlobal('createError', createErrorMock);
@@ -236,7 +244,7 @@ describe('pages/projects/[slug].vue', () => {
   it('composes Head(article) + MediaCover(poster) + MetaList + prose + Gallery, never Feature', async () => {
     stubEnv('en', 'design-system-tokens', makeProject({}));
     const CaseStudy = (await import('../[slug].vue')).default;
-    const wrapper = mount(CaseStudy);
+    const wrapper = mountSuspended(CaseStudy);
 
     await flushPromises();
 
@@ -263,7 +271,7 @@ describe('pages/projects/[slug].vue', () => {
 
     stubEnv('en', 'design-system-tokens', project);
     const CaseStudy = (await import('../[slug].vue')).default;
-    const wrapper = mount(CaseStudy);
+    const wrapper = mountSuspended(CaseStudy);
 
     await flushPromises();
 
@@ -286,7 +294,7 @@ describe('pages/projects/[slug].vue', () => {
 
     stubEnv('en', 'design-system-tokens', project);
     const CaseStudy = (await import('../[slug].vue')).default;
-    const wrapper = mount(CaseStudy);
+    const wrapper = mountSuspended(CaseStudy);
 
     await flushPromises();
 
@@ -314,7 +322,7 @@ describe('pages/projects/[slug].vue', () => {
 
     stubEnv('en', 'design-system-tokens', project);
     const CaseStudy = (await import('../[slug].vue')).default;
-    const wrapper = mount(CaseStudy);
+    const wrapper = mountSuspended(CaseStudy);
 
     await flushPromises();
 
@@ -340,7 +348,7 @@ describe('pages/projects/[slug].vue', () => {
   it('renders a placeholder gallery item when the project has no gallery images', async () => {
     stubEnv('en', 'design-system-tokens', makeProject({ gallery: undefined }));
     const CaseStudy = (await import('../[slug].vue')).default;
-    const wrapper = mount(CaseStudy);
+    const wrapper = mountSuspended(CaseStudy);
 
     await flushPromises();
 
@@ -357,7 +365,7 @@ describe('pages/projects/[slug].vue', () => {
 
     stubEnv('en', 'design-system-tokens', project);
     const CaseStudy = (await import('../[slug].vue')).default;
-    const wrapper = mount(CaseStudy);
+    const wrapper = mountSuspended(CaseStudy);
 
     await flushPromises();
 
@@ -374,7 +382,7 @@ describe('pages/projects/[slug].vue', () => {
   it('leaves the poster MediaCover image undefined (placeholder) when project.cover is absent', async () => {
     stubEnv('en', 'design-system-tokens', makeProject({ cover: undefined }));
     const CaseStudy = (await import('../[slug].vue')).default;
-    const wrapper = mount(CaseStudy);
+    const wrapper = mountSuspended(CaseStudy);
 
     await flushPromises();
 
@@ -388,7 +396,7 @@ describe('pages/projects/[slug].vue', () => {
 
     stubEnv('en', 'design-system-tokens', project);
     const CaseStudy = (await import('../[slug].vue')).default;
-    const wrapper = mount(CaseStudy);
+    const wrapper = mountSuspended(CaseStudy);
 
     await flushPromises();
 
@@ -401,7 +409,7 @@ describe('pages/projects/[slug].vue', () => {
   it('enables the poster MediaCover placeholderHeading for the project title', async () => {
     stubEnv('en', 'design-system-tokens', makeProject({}));
     const CaseStudy = (await import('../[slug].vue')).default;
-    const wrapper = mount(CaseStudy);
+    const wrapper = mountSuspended(CaseStudy);
 
     await flushPromises();
 
@@ -417,7 +425,7 @@ describe('pages/projects/[slug].vue', () => {
     createErrorMock.mockClear();
     const CaseStudy = (await import('../[slug].vue')).default;
 
-    mount(CaseStudy);
+    mountSuspended(CaseStudy);
     await flushPromises();
 
     expect(createErrorMock).toHaveBeenCalledWith(
@@ -425,16 +433,14 @@ describe('pages/projects/[slug].vue', () => {
     );
   });
 
-  it('renders a visible state instead of an empty page when the project is null', async () => {
+  it('renders nothing for an unknown slug, leaving Nuxt to serve the error page', async () => {
     stubEnv('en', 'unknown-slug', null);
     const CaseStudy = (await import('../[slug].vue')).default;
-    const wrapper = mount(CaseStudy);
+    const wrapper = mountSuspended(CaseStudy);
 
     await flushPromises();
 
     expect(wrapper.find('article').exists()).toBe(false);
-    expect(wrapper.find('p.a-prose').text()).toBe(
-      createT('en')('error.description.default'),
-    );
+    expect(wrapper.text()).toBe('');
   });
 });
