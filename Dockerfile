@@ -57,6 +57,12 @@ ENV NUXT_PUBLIC_UMAMI_SRC=$NUXT_PUBLIC_UMAMI_SRC \
 # production stage.
 ENV NUXT_CONTENT_DB=/app/.data/content/contents.sqlite
 
+# Generate image variants first, on a cache mount: COPY above is invalidated by
+# any source change, but variants are keyed on the hash of the images themselves,
+# so only new or modified visuals are re-encoded.
+RUN --mount=type=cache,target=/app/packages/website/.image-cache,sharing=locked \
+    pnpm --filter @antsask/website images:build
+
 # Regenerate Nuxt types (postinstall ran before source was available) then build
 RUN pnpm --filter @antsask/website exec nuxt prepare && pnpm build:website
 
