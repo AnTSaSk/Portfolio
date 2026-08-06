@@ -3,8 +3,6 @@ import { resolve } from 'node:path';
 
 import { describe, expect, it } from 'vitest';
 
-import { sha256Hash } from '../config/csp';
-
 const configPath = resolve(process.cwd(), 'nuxt.config.ts');
 const configSource = readFileSync(configPath, 'utf-8');
 
@@ -30,25 +28,23 @@ describe('nuxt.config.ts security headers', () => {
     expect(configSource).not.toContain('Content-Security-Policy-Report-Only');
   });
 
-  it('hashes the exact themeScript literal injected in app.head', () => {
-    const themeMatch = configSource.match(
-      /const themeScript\s*=\s*\n?\s*"([^"]*)";/,
+  it('applies the CSP to built output only, so the dev server keeps working', () => {
+    const cspLine = /'Content-Security-Policy':\s*([^,\n]*)/.exec(configSource);
+
+    expect(cspLine?.[1]).toBeTypeOf('string');
+    // An unconditional value would ship the CSP to the dev server, whose Vite
+    // client injects inline scripts the enforced policy cannot allow.
+    expect(cspLine?.[1]).not.toBe('contentSecurityPolicy');
+    // The guard must read the build mode: NODE_ENV is only set in the runtime
+    // stage of the Dockerfile, long after nuxt.config.ts has been evaluated.
+    expect(configSource).toMatch(/import\.meta\.dev|process\.env\.NODE_ENV/);
+    expect(configSource).not.toMatch(
+      /const isProduction = process\.env\.NODE_ENV/,
     );
+  });
 
-    const themeScript = themeMatch?.[1];
-
-    expect(themeScript).toBeTypeOf('string');
-
-    // Narrowed for the type checker; the assertion above fails first if absent.
-    if (typeof themeScript !== 'string') {
-      throw new Error('themeScript literal not found in nuxt.config.ts');
-    }
-
-    // The same literal must be injected as innerHTML and covered by the CSP
-    // hash; a divergence would silently invalidate the served hash.
-    expect(configSource).toContain(`innerHTML: themeScript,`);
-    expect(configSource).toMatch(/inline:\s*{\s*themeScript,\s*criticalStyle/);
-    expect(sha256Hash(themeScript)).toMatch(/^'sha256-[A-Za-z0-9+/]+=*'$/);
+  it('never allows inline code by hash, invalidated by the SSR minifier', () => {
+    expect(configSource).not.toContain('sha256');
   });
 });
 

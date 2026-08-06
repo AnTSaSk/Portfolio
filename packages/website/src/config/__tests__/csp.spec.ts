@@ -1,27 +1,10 @@
 import { describe, expect, it } from 'vitest';
 
-import { buildCsp, sha256Hash } from '../csp';
-
-describe('sha256Hash', () => {
-  it('produces a CSP-formatted sha256 source expression', () => {
-    const hash = sha256Hash('console.log(1)');
-
-    expect(hash).toMatch(/^'sha256-[A-Za-z0-9+/]+=*'$/);
-  });
-
-  it('is deterministic for the same input', () => {
-    expect(sha256Hash('x')).toBe(sha256Hash('x'));
-  });
-});
+import { buildCsp } from '../csp';
 
 describe('buildCsp', () => {
-  const inline = {
-    themeScript: 'document.documentElement',
-    criticalStyle: ':root{}',
-  };
-
   it('sets default-src, object-src none and base-uri self', () => {
-    const csp = buildCsp({ inline });
+    const csp = buildCsp({});
 
     expect(csp).toContain("default-src 'self'");
     expect(csp).toContain("object-src 'none'");
@@ -30,16 +13,28 @@ describe('buildCsp', () => {
     expect(csp).toContain("form-action 'self'");
   });
 
-  it('hashes the inline script and style instead of using unsafe-inline', () => {
-    const csp = buildCsp({ inline });
+  it('allows every inline script the SSR renderer emits, whatever its content', () => {
+    const csp = buildCsp({});
+    const scriptSrc = /script-src ([^;]*)/.exec(csp)?.[1] ?? '';
 
-    expect(csp).not.toContain("'unsafe-inline'");
-    expect(csp).toContain(sha256Hash(inline.themeScript));
-    expect(csp).toContain(sha256Hash(inline.criticalStyle));
+    expect(scriptSrc).toContain("'unsafe-inline'");
+  });
+
+  it('allows every inline style and style attribute the app emits', () => {
+    const csp = buildCsp({});
+    const styleSrc = /style-src ([^;]*)/.exec(csp)?.[1] ?? '';
+
+    // A style attribute (e.g. a dynamic custom property) is only ever allowed
+    // by 'unsafe-inline': a nonce cannot apply to an attribute.
+    expect(styleSrc).toContain("'unsafe-inline'");
+  });
+
+  it('never falls back to a hash allow-list, inoperative next to unsafe-inline', () => {
+    expect(buildCsp({})).not.toContain('sha256-');
   });
 
   it('allows WebAssembly compilation without allowing arbitrary eval', () => {
-    const csp = buildCsp({ inline });
+    const csp = buildCsp({});
 
     expect(csp).toMatch(/script-src[^;]*'wasm-unsafe-eval'/);
     // Anchored on the opening quote: 'wasm-unsafe-eval' contains the substring.
@@ -48,7 +43,6 @@ describe('buildCsp', () => {
 
   it('adds the umami origin to script-src and connect-src when provided', () => {
     const csp = buildCsp({
-      inline,
       umamiSrc: 'https://umami.example.com/script.js',
     });
 
@@ -57,8 +51,6 @@ describe('buildCsp', () => {
   });
 
   it('omits third-party origins when not configured', () => {
-    const csp = buildCsp({ inline });
-
-    expect(csp).not.toContain('umami');
+    expect(buildCsp({})).not.toContain('umami');
   });
 });

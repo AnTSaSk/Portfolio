@@ -27,13 +27,14 @@ const criticalCss =
     'utf-8',
   );
 
-// Same literal is injected in app.head.script and hashed for the CSP:
-// both must reference this constant so the sha256 matches the served inline.
 const themeScript =
   "(function(){try{var t=localStorage.getItem('ab-theme');if(t&&t!=='system')document.documentElement.setAttribute('data-theme',t);}catch(e){}})();";
 
+// Build-time flag: NODE_ENV is only set in the Dockerfile runtime stage, long
+// after this config has been evaluated, so it can never gate a route rule.
+const isBuild = !import.meta.dev;
+
 const contentSecurityPolicy = buildCsp({
-  inline: { themeScript, criticalStyle: criticalCss },
   umamiSrc: process.env.NUXT_PUBLIC_UMAMI_SRC,
   sentryDsn: process.env.NUXT_PUBLIC_SENTRY_DSN,
 });
@@ -118,7 +119,7 @@ export default defineNuxtConfig({
           src: process.env.NUXT_PUBLIC_UMAMI_SRC,
           websiteId: process.env.NUXT_PUBLIC_UMAMI_WEBSITE_ID,
           domains: process.env.NUXT_PUBLIC_UMAMI_DOMAINS,
-          isProduction: process.env.NODE_ENV === 'production',
+          isProduction: isBuild,
         }),
       ],
       style: [
@@ -160,7 +161,11 @@ export default defineNuxtConfig({
         'X-Frame-Options': 'SAMEORIGIN',
         'Strict-Transport-Security': 'max-age=31536000; includeSubDomains',
         'Permissions-Policy': 'geolocation=(), camera=(), microphone=()',
-        'Content-Security-Policy': contentSecurityPolicy,
+        // Built output only: in dev the Vite client injects the app CSS through
+        // inline scripts an enforced policy refuses, breaking the whole page.
+        ...(isBuild
+          ? { 'Content-Security-Policy': contentSecurityPolicy }
+          : {}),
       },
     },
     '/': { sitemap: { priority: 1, changefreq: 'weekly' } },
