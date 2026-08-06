@@ -2,10 +2,9 @@
   .o-hero {
     position: relative;
     display: flex;
-    flex: 1 0 auto;
+    flex: 1 1 auto;
     align-items: center;
-    overflow: hidden;
-    min-block-size: 100%;
+    overflow-x: clip;
     padding-block: clamp(12px, 2.5vh, 40px) clamp(64px, 11vh, 110px);
   }
 
@@ -83,6 +82,7 @@
   .o-hero__watermark {
     position: absolute;
     bottom: 0;
+    line-height: 1;
     transform: translateX(-50%);
     z-index: var(--z-base);
     inset-inline-start: 50%;

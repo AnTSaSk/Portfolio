@@ -287,6 +287,14 @@ describe('utilities.css : u-noise (verbatim from atom-noise-overlay.html)', () =
   it('u-radial base class is defined in utilities.css', () => {
     expect(utilitiesCss).toMatch(/\.u-radial\s*{/);
   });
+
+  it('anchors the radial glow to the viewport so it never adds page scroll', () => {
+    const rule = utilitiesCss.match(/\.u-radial\s*\{[^}]*\}/)?.[0] ?? '';
+
+    // Fixed keeps it out of the flow: a 1100px absolute decoration inside a
+    // shorter block overflows downwards and lengthens the document.
+    expect(rule).toMatch(/position:\s*fixed/);
+  });
 });
 
 describe('tokens.css : z-index scale', () => {

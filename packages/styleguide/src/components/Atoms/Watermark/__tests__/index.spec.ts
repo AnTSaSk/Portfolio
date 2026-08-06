@@ -69,4 +69,13 @@ describe('Watermark', () => {
     expect(fontSize).not.toMatch(/\*\s*0?\.62\s*\)/);
     expect(fontSize).toMatch(/\/\s*0?\.62\s*\)/);
   });
+
+  it('keeps its box tight around the glyph, so it adds no page scroll', () => {
+    const rule = styleCss.match(/\.a-watermark\s*\{[^}]*\}/)?.[0] ?? '';
+
+    // At this font-size the line box overflows the element by ~11px even with
+    // line-height: 1, which lengthens any page hosting it unclipped.
+    expect(rule).toMatch(/line-height:\s*1\b/);
+    expect(rule).toMatch(/display:\s*block/);
+  });
 });

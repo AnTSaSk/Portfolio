@@ -7,12 +7,16 @@
      Written as sequential divisions (/ (len-0.667) / 0.62) rather than
      / ((len-0.667) * 0.62): the build CSS minifier removes the inner parens of
      the latter, and `/ (N) * 0.62` re-parses as `(vw/N)*0.62` (wrong). */
+  /* block + line-height 1: an inline-block box reserves descender space below
+     the baseline, overflowing the element by ~11px at this font-size and
+     lengthening any page that hosts it unclipped. */
   .a-watermark {
-    display: inline-block;
+    display: block;
     color: currentcolor;
     font-family: var(--font-display);
     font-size: calc(100vw / (var(--wm-chars, 12) - 0.667) / 0.62);
     font-weight: 700;
+    line-height: 1;
     white-space: nowrap;
     text-transform: uppercase;
     opacity: 0.03;

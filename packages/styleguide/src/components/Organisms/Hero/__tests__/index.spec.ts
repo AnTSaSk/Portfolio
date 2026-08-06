@@ -168,11 +168,19 @@ describe('Hero (Watermark placement owned by the organism)', () => {
 });
 
 describe('Hero (internal geometry only, no page-level sizing)', () => {
-  it('fills its parent height via min-block-size: 100% instead of page-viewport units', () => {
+  it('grows to fill the space its parent grants, never sizing itself on the viewport', () => {
     const css = readFileSync(STYLE_CSS_PATH, 'utf-8');
     const heroRule = css.match(/\.o-hero\s*\{[^}]*\}/)?.[0] ?? '';
 
-    expect(heroRule).toMatch(/min-block-size:\s*100%/);
+    // A percentage height collapses once the parent height is no longer fixed;
+    // growing as a flex item keeps the fill independent of the page frame.
+    expect(heroRule).toMatch(/flex:\s*1/);
+    expect(heroRule).not.toMatch(/min-block-size:\s*100%/);
+    // Horizontal only: the watermark glyph is wider than the viewport by design,
+    // and `hidden` would make the Hero a scroll container, leaving the page's
+    // sticky nav inert.
+    expect(heroRule).toMatch(/overflow-x:\s*clip/);
+    expect(heroRule).not.toMatch(/overflow:\s*hidden/);
     expect(heroRule).not.toMatch(/100svh/);
     expect(heroRule).not.toMatch(/100vh/);
     expect(heroRule).not.toMatch(/min-height\s*:/);

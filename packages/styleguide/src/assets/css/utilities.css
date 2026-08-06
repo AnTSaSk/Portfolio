@@ -94,10 +94,13 @@
 
 /* u-radial: decorative ambient glow behind hero content.
    Dark is the default intensity; light gets a softer glow (theme
-   override below), matching the u-noise blend-mode precedent. */
+   override below), matching the u-noise blend-mode precedent.
+   Fixed, not absolute: 1100px inside a shorter page block overflows below it
+   and lengthens the document, and clipping the block would cut the intended
+   top bleed with a visible hard edge. */
 .u-radial {
-  position: absolute;
-  inset-block-start: -20%;
+  position: fixed;
+  inset-block-start: -10%;
   inset-inline-end: 10%;
   inline-size: 1100px;
   block-size: 1100px;
