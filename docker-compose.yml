@@ -93,12 +93,11 @@ services:
           mode: 1777
       # must match NUXT_CONTENT_DB: @nuxt/content restores its SQLite dump here at
       # boot and creates tables lazily, so it stays written to for the process life
-      # `mode`/`uid` are dropped by `docker stack deploy`; the mount inherits the
-      # 1777 the Dockerfile sets on this directory
-      - type: tmpfs
+      # An empty named volume inherits owner and mode from the directory it covers
+      # only when it is first created; recreate it if the Dockerfile ones change.
+      - type: volume
+        source: content-db
         target: /app/.data/content
-        tmpfs:
-          size: 33554432
     healthcheck:
       test:
         ['CMD', 'wget', '-q', '-O', '/dev/null', 'http://127.0.0.1:3000/health']
@@ -200,3 +199,6 @@ services:
 networks:
   traefik-public:
     external: true
+
+volumes:
+  content-db:
