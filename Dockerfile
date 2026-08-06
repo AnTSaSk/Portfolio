@@ -9,7 +9,7 @@ WORKDIR /app
 # Skip husky install in Docker
 ENV HUSKY=0
 
-# libvips runtime for sharp (@nuxt/image IPX) on Alpine/musl
+# libvips for sharp, used by the build-time image variant generation on musl
 RUN apk add --no-cache vips=~8.18
 
 # Copy PNPM workspace config for layer caching
@@ -70,9 +70,6 @@ RUN pnpm --filter @antsask/website exec nuxt prepare && pnpm build:website
 FROM node:24-alpine AS production
 
 WORKDIR /app
-
-# libvips runtime for sharp (IPX image transforms at request time)
-RUN apk add --no-cache vips=~8.18
 
 # Create non-root user for security (matching infra-vps convention: UID 1001)
 RUN addgroup --system --gid 1001 nodejs && \

@@ -1,12 +1,18 @@
-import { markRaw } from 'vue';
-
 import type { Meta, StoryObj } from '@storybook/vue3-vite';
 
 import MediaCover from './index.vue';
-import StubNuxtImg from '../../../../.storybook/StubNuxtImg';
 import { VALHALLA } from '../../__fixtures__/content';
 
 const cover = VALHALLA.cover.src;
+const narrowCover = VALHALLA.gallery[1]?.src ?? cover;
+
+// Art direction over the two source images the repository actually tracks:
+// the build-time avif/webp variants are gitignored and never generated in the
+// styleguide image, so referencing them here would 404 on the public build.
+const COVER_SOURCES = [
+  { srcset: cover, media: '(min-width: 700px)' },
+  { srcset: narrowCover, media: '(max-width: 699px)' },
+];
 
 const meta: Meta<typeof MediaCover> = {
   title: 'Design System/Molecules/MediaCover',
@@ -71,15 +77,6 @@ export const ImageCover: Story = {
   }),
 };
 
-export const Poster: Story = {
-  args: { variant: 'poster' },
-  render: (args) => ({
-    components: { MediaCover },
-    setup: () => ({ args }),
-    template: posterTemplate,
-  }),
-};
-
 export const WithCaption: Story = {
   args: {
     image: { src: cover, alt: 'Couverture du projet Valhalla' },
@@ -93,35 +90,9 @@ export const WithCaption: Story = {
   }),
 };
 
-export const Light: Story = {
-  globals: {
-    theme: 'light',
-  },
-  args: {
-    image: { src: cover, alt: 'Couverture du projet Valhalla' },
-    caption: 'Valhalla, Breitling × Aston Martin',
-  },
-  render: (args) => ({
-    components: { MediaCover },
-    setup: () => ({ args }),
-    template: coverTemplate,
-  }),
-};
-
-export const Dark: Story = {
-  globals: {
-    theme: 'dark',
-  },
-  render: (args) => ({
-    components: { MediaCover },
-    setup: () => ({ args }),
-    template: coverTemplate,
-  }),
-};
-
-// Exercises the injected-image branch (AtomImage renders the injected
-// component) using the Storybook NuxtImg stub, without Nuxt.
-export const InjectedImage: Story = {
+// Exercises the <picture> branch. Resize the canvas across 700px to switch
+// between the wide and the narrow source.
+export const ResponsiveSources: Story = {
   args: {
     variant: 'poster',
     image: {
@@ -129,8 +100,8 @@ export const InjectedImage: Story = {
       alt: 'Couverture du projet Valhalla',
       width: 1200,
       height: 675,
+      sources: COVER_SOURCES,
     },
-    imageComponent: markRaw(StubNuxtImg),
   },
   render: (args) => ({
     components: { MediaCover },

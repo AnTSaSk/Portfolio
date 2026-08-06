@@ -1,16 +1,7 @@
 import { mount } from '@vue/test-utils';
 import { describe, expect, it } from 'vitest';
-import { defineComponent, h, markRaw } from 'vue';
 
 import CardArticle from '../index.vue';
-
-const ImgStub = markRaw(
-  defineComponent({
-    name: 'ImgStub',
-    props: { src: { type: String, required: true } },
-    setup: (props) => () => h('img', { src: props.src }),
-  }),
-);
 
 const baseProps = {
   href: '/blog/some-article',
@@ -129,17 +120,77 @@ describe('CardArticle', () => {
     expect(wrapper.findAll('ul.m-cardArticle__tags li')).toHaveLength(0);
   });
 
-  it('relays the injected image component to AtomImage', () => {
+  it('relays the pregenerated sources and srcset to AtomImage', () => {
+    const sources = [
+      { srcset: '/img/_gen/a-1280w.avif 1280w', type: 'image/avif' },
+      { srcset: '/img/_gen/a-1280w.webp 1280w', type: 'image/webp' },
+    ];
     const wrapper = mount(CardArticle, {
       props: {
         ...baseProps,
-        image: { src: '/a.webp', alt: 'A' },
-        imageComponent: ImgStub,
+        image: {
+          src: '/img/a.jpg',
+          alt: 'A',
+          sources,
+          srcset: '/img/_gen/a-1280w.webp 1280w',
+        },
       },
     });
+    const atom = wrapper.findComponent({ name: 'AtomImage' });
 
-    expect(
-      wrapper.findComponent({ name: 'AtomImage' }).props('imageComponent'),
-    ).toBe(ImgStub);
+    expect(atom.props('sources')).toEqual(sources);
+    expect(atom.props('srcset')).toBe('/img/_gen/a-1280w.webp 1280w');
+  });
+
+  it('renders a picture source per format when sources are provided', () => {
+    const wrapper = mount(CardArticle, {
+      props: {
+        ...baseProps,
+        image: {
+          src: '/img/a.jpg',
+          alt: 'A',
+          sources: [
+            { srcset: '/img/_gen/a-1280w.avif 1280w', type: 'image/avif' },
+            { srcset: '/img/_gen/a-1280w.webp 1280w', type: 'image/webp' },
+          ],
+        },
+      },
+    });
+    const rendered = wrapper.findAll('picture source');
+
+    expect(rendered).toHaveLength(2);
+    expect(rendered[0]?.attributes('type')).toBe('image/avif');
+  });
+
+  // Without sizes the browser assumes 100vw and downloads the widest variant
+  // for a card that never fills the viewport.
+  describe('rendered geometry', () => {
+    it('announces the card geometry on the img and on every source', () => {
+      const wrapper = mount(CardArticle, {
+        props: {
+          ...baseProps,
+          image: {
+            src: '/img/a.jpg',
+            alt: 'A',
+            sources: [
+              { srcset: '/img/_gen/a-1280w.avif 1280w', type: 'image/avif' },
+              { srcset: '/img/_gen/a-1280w.webp 1280w', type: 'image/webp' },
+            ],
+            srcset: '/img/_gen/a-1280w.webp 1280w',
+          },
+          sizes: '(min-width: 521px) 405px, 100vw',
+        },
+      });
+
+      const rendered = [
+        ...wrapper.findAll('source'),
+        wrapper.find('img.a-image'),
+      ].map((node) => node.attributes('sizes'));
+
+      expect(rendered).toHaveLength(3);
+      rendered.forEach((sizes) => {
+        expect(sizes).toBe('(min-width: 521px) 405px, 100vw');
+      });
+    });
   });
 });

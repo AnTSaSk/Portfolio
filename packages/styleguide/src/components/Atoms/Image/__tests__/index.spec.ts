@@ -1,35 +1,7 @@
 import { mount } from '@vue/test-utils';
 import { describe, expect, it } from 'vitest';
-import { defineComponent, h, nextTick, ref } from 'vue';
 
 import Image from '../index.vue';
-
-// Stub simulating NuxtImg's `custom` slot: exposes { src, isLoaded, imgAttrs }.
-const makeNuxtImgStub = (loaded = true): ReturnType<typeof defineComponent> =>
-  defineComponent({
-    name: 'NuxtImgStub',
-    props: {
-      src: { type: String, required: true },
-      sizes: { type: String, default: undefined },
-      densities: { type: String, default: undefined },
-      format: { type: String, default: undefined },
-      width: { type: [Number, String], default: undefined },
-      height: { type: [Number, String], default: undefined },
-      fetchpriority: { type: String, default: undefined },
-      loading: { type: String, default: undefined },
-    },
-    setup(props, { slots }) {
-      return () =>
-        slots.default?.({
-          src: props.src,
-          isLoaded: loaded,
-          imgAttrs: {
-            fetchpriority: props.fetchpriority,
-            loading: props.loading,
-          },
-        });
-    },
-  });
 
 describe('Image', () => {
   it('renders an img.a-image with src and alt', () => {
@@ -125,6 +97,49 @@ describe('Image', () => {
     expect(picture.find('img.a-image').exists()).toBe(true);
   });
 
+  it('marks the picture wrapper as the frame grid item in reveal mode', () => {
+    const wrapper = mount(Image, {
+      props: {
+        src: '/photo.jpg',
+        alt: 'A portrait',
+        reveal: true,
+        sources: [{ srcset: '/photo.avif', type: 'image/avif' }],
+      },
+      slots: { placeholder: '<div class="ph-marker">loading</div>' },
+    });
+
+    const frame = wrapper.find('.a-image__frame');
+    const picture = frame.find('picture');
+
+    expect(picture.classes()).toContain('a-image__picture');
+    expect(frame.element.children).toHaveLength(2);
+    expect(frame.element.children[1]).toBe(picture.element);
+    expect(picture.find('img.a-image.-reveal').exists()).toBe(true);
+  });
+
+  it('marks the picture wrapper outside reveal mode too', () => {
+    const wrapper = mount(Image, {
+      props: {
+        src: '/photo.jpg',
+        alt: 'A portrait',
+        sources: [{ srcset: '/photo.avif', type: 'image/avif' }],
+      },
+    });
+
+    expect(wrapper.find('picture').classes()).toContain('a-image__picture');
+  });
+
+  it('renders no picture wrapper class on the bare img branch', () => {
+    const wrapper = mount(Image, {
+      props: { src: '/photo.jpg', alt: 'A portrait', reveal: true },
+    });
+
+    expect(wrapper.find('.a-image__picture').exists()).toBe(false);
+    expect(wrapper.find('.a-image__frame > img.a-image.-reveal').exists()).toBe(
+      true,
+    );
+  });
+
   it('forwards media attribute on source elements when provided', () => {
     const wrapper = mount(Image, {
       props: {
@@ -136,6 +151,52 @@ describe('Image', () => {
 
     expect(wrapper.find('source').attributes('media')).toBe(
       '(max-width: 600px)',
+    );
+  });
+
+  it('mirrors sizes on every source so the w-descriptor srcset is not read as 100vw', () => {
+    const wrapper = mount(Image, {
+      props: {
+        src: '/photo.jpg',
+        alt: 'A portrait',
+        sizes: '(min-width: 1280px) 1280px, 100vw',
+        sources: [
+          { srcset: '/photo-1280w.avif 1280w', type: 'image/avif' },
+          { srcset: '/photo-1280w.webp 1280w', type: 'image/webp' },
+        ],
+      },
+    });
+
+    const sources = wrapper.findAll('source');
+
+    expect(sources).toHaveLength(2);
+    sources.forEach((source) => {
+      expect(source.attributes('sizes')).toBe(
+        '(min-width: 1280px) 1280px, 100vw',
+      );
+    });
+    expect(wrapper.find('img.a-image').attributes('sizes')).toBe(
+      '(min-width: 1280px) 1280px, 100vw',
+    );
+  });
+
+  it('mirrors sizes on every source in reveal mode too', () => {
+    const wrapper = mount(Image, {
+      props: {
+        src: '/photo.jpg',
+        alt: 'A portrait',
+        reveal: true,
+        sizes: '(min-width: 768px) 632px, 100vw',
+        sources: [{ srcset: '/photo-632w.avif 632w', type: 'image/avif' }],
+      },
+    });
+
+    expect(wrapper.find('.a-image__frame').exists()).toBe(true);
+    expect(wrapper.find('source').attributes('sizes')).toBe(
+      '(min-width: 768px) 632px, 100vw',
+    );
+    expect(wrapper.find('img.a-image.-reveal').attributes('sizes')).toBe(
+      '(min-width: 768px) 632px, 100vw',
     );
   });
 
@@ -248,71 +309,8 @@ describe('Image', () => {
     });
   });
 
-  describe('injected image component', () => {
-    it('renders the injected component and keeps the .a-image contract', () => {
-      const Stub = makeNuxtImgStub(true);
-      const wrapper = mount(Image, {
-        props: {
-          src: '/a.webp',
-          alt: 'A',
-          reveal: true,
-          imageComponent: Stub,
-          sizes: '100vw',
-          densities: 'x1 x2',
-          format: 'avif,webp',
-        },
-        slots: { placeholder: '<div class="u-placeholder" />' },
-      });
-
-      expect(wrapper.findComponent(Stub).exists()).toBe(true);
-      expect(wrapper.find('img.a-image').exists()).toBe(true);
-      expect(wrapper.find('.a-image__frame').exists()).toBe(true);
-      expect(wrapper.findComponent(Stub).props('sizes')).toBe('100vw');
-      expect(wrapper.findComponent(Stub).props('densities')).toBe('x1 x2');
-      expect(wrapper.findComponent(Stub).props('format')).toBe('avif,webp');
-    });
-
-    it('renders the native img when no image component is injected', () => {
-      const wrapper = mount(Image, { props: { src: '/a.webp', alt: 'A' } });
-
-      expect(wrapper.find('img.a-image').exists()).toBe(true);
-      expect(wrapper.find('img.a-image').attributes('src')).toBe('/a.webp');
-    });
-
-    it('reveals via the custom slot isLoaded flag when injected', async () => {
-      const isLoaded = ref(false);
-      const Stub = defineComponent({
-        name: 'ControlledStub',
-        props: { src: { type: String, required: true } },
-        setup(props, { slots }) {
-          return () =>
-            slots.default?.({
-              src: props.src,
-              isLoaded: isLoaded.value,
-              imgAttrs: {},
-            });
-        },
-      });
-
-      const wrapper = mount(Image, {
-        props: { src: '/a.webp', alt: 'A', reveal: true, imageComponent: Stub },
-        slots: { placeholder: h('div', { class: 'u-placeholder' }) },
-      });
-
-      expect(wrapper.find('.a-image__frame').classes()).not.toContain(
-        '-revealed',
-      );
-
-      isLoaded.value = true;
-      await nextTick();
-
-      expect(wrapper.find('.a-image__frame').classes()).toContain('-revealed');
-    });
-  });
-
-  // fetchpriority is passed through to the rendered img / injected component.
   describe('fetchpriority passthrough', () => {
-    it('forwards fetchpriority to the native img in house mode', () => {
+    it('forwards fetchpriority to the native img', () => {
       const wrapper = mount(Image, {
         props: { src: '/photo.jpg', alt: 'A portrait', fetchpriority: 'high' },
       });
@@ -322,33 +320,9 @@ describe('Image', () => {
       );
     });
 
-    it('forwards fetchpriority to the injected image component', () => {
-      const Stub = makeNuxtImgStub(true);
+    it('forwards loading to the native img', () => {
       const wrapper = mount(Image, {
-        props: {
-          src: '/a.webp',
-          alt: 'A',
-          imageComponent: Stub,
-          fetchpriority: 'high',
-        },
-      });
-
-      // NuxtImg's custom slot composes fallthrough attrs (fetchpriority,
-      // loading) into imgAttrs; the atom binds imgAttrs onto the final <img>.
-      expect(wrapper.find('img.a-image').attributes('fetchpriority')).toBe(
-        'high',
-      );
-    });
-
-    it('forwards loading to the injected image component', () => {
-      const Stub = makeNuxtImgStub(true);
-      const wrapper = mount(Image, {
-        props: {
-          src: '/a.webp',
-          alt: 'A',
-          imageComponent: Stub,
-          loading: 'eager',
-        },
+        props: { src: '/a.webp', alt: 'A', loading: 'eager' },
       });
 
       expect(wrapper.find('img.a-image').attributes('loading')).toBe('eager');

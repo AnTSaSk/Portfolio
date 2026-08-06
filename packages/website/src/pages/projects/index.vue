@@ -28,7 +28,7 @@
               :stack="visibleFeature.stack"
               :cta-label="t('projects.project.seeProject')"
               :image="projectImage(visibleFeature)"
-              :image-component="NuxtImg"
+              :sizes="FEATURE_SIZES"
             />
           </template>
 
@@ -51,7 +51,6 @@
               :stack="project.stack"
               :desc="project.shortDescription"
               :image="projectImage(project)"
-              :image-component="NuxtImg"
               :placeholder-variant="index % 2 === 1 ? '-topRight' : undefined"
               :sizes="CARD_SIZES"
               :fetchpriority="index === 0 ? 'high' : undefined"
@@ -65,11 +64,13 @@
 </template>
 
 <script setup lang="ts">
-  import { computed, ref, resolveComponent, type Component } from 'vue';
+  import { computed, ref } from 'vue';
 
   import { useLocaleContent } from '@/composables/useLocaleContent';
   import { useSeo } from '@/composables/useSeo';
   import { useTagFilters } from '@/composables/useTagFilters';
+
+  import { pictureSourcesFor, srcsetFor } from '@/utils/imageVariants';
 
   import {
     CardProject,
@@ -112,12 +113,13 @@
   const localePath = useLocalePath();
   const { collection } = useLocaleContent('projects');
 
-  const NuxtImg = resolveComponent('NuxtImg') as Component;
+  // Two columns from 768px, gap 32px, .l-container capped at 1280px
+  // -> (1280 - 32) / 2 = 624px.
+  const CARD_SIZES = '(min-width: 768px) 624px, 100vw';
 
-  // Listing switches to 2 columns at 721px (Organisms/Listing/style.css);
-  // nearest @nuxt/image breakpoint at/above that is md:768. Two columns,
-  // gap 32px, .l-container capped at 1280px -> (1280 - 32) / 2 = 624px.
-  const CARD_SIZES = '100vw md:624px';
+  // Feature cover takes the 0.95fr column of `1.05fr 0.95fr` from 901px
+  // -> 1280 * 0.95 / 2 = 608px.
+  const FEATURE_SIZES = '(min-width: 901px) 608px, 100vw';
 
   const projectHref = (project: Project): string => {
     const slug = project.path.split('/').filter(Boolean).pop() ?? '';
@@ -133,13 +135,24 @@
 
   const projectImage = (
     project: Project,
-  ): { src: string; alt: string; width: number; height: number } | undefined =>
+  ):
+    | {
+        src: string;
+        alt: string;
+        width: number;
+        height: number;
+        sources: Array<{ srcset: string; type: string }>;
+        srcset: string;
+      }
+    | undefined =>
     project.cover
       ? {
           src: project.cover.src,
           alt: project.title,
           width: project.cover.width,
           height: project.cover.height,
+          sources: pictureSourcesFor(project.cover.src, 'cover'),
+          srcset: srcsetFor(project.cover.src, 'cover', 'webp'),
         }
       : undefined;
 

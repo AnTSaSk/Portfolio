@@ -1,6 +1,5 @@
 import { mount } from '@vue/test-utils';
 import { describe, expect, it } from 'vitest';
-import { defineComponent, h, markRaw } from 'vue';
 
 import Heading from '../../../Atoms/Heading/index.vue';
 import Image from '../../../Atoms/Image/index.vue';
@@ -198,22 +197,78 @@ describe('Feature (a11y, single accessible link, no nested interactive elements)
     expect(accessibleName).toContain(baseProps.ctaLabel);
   });
 
-  it('relays the injected image component to AtomImage', () => {
-    const ImgStub = markRaw(
-      defineComponent({
-        name: 'ImgStub',
-        props: { src: { type: String, required: true } },
-        setup: (props) => () => h('img', { src: props.src }),
-      }),
-    );
+  it('relays the pregenerated sources and srcset to AtomImage', () => {
+    const sources = [
+      { srcset: '/img/_gen/a-1280w.avif 1280w', type: 'image/avif' },
+      { srcset: '/img/_gen/a-1280w.webp 1280w', type: 'image/webp' },
+    ];
     const wrapper = mount(Feature, {
       props: {
         ...baseProps,
-        image: { src: '/a.webp', alt: 'A' },
-        imageComponent: ImgStub,
+        image: {
+          src: '/img/a.jpg',
+          alt: 'A',
+          sources,
+          srcset: '/img/_gen/a-1280w.webp 1280w',
+        },
       },
     });
+    const atom = wrapper.findComponent(Image);
 
-    expect(wrapper.findComponent(Image).props('imageComponent')).toBe(ImgStub);
+    expect(atom.props('sources')).toEqual(sources);
+    expect(atom.props('srcset')).toBe('/img/_gen/a-1280w.webp 1280w');
+  });
+
+  it('renders a picture with one source per format when sources are provided', () => {
+    const wrapper = mount(Feature, {
+      props: {
+        ...baseProps,
+        image: {
+          src: '/img/a.jpg',
+          alt: 'A',
+          sources: [
+            { srcset: '/img/_gen/a-1280w.avif 1280w', type: 'image/avif' },
+            { srcset: '/img/_gen/a-1280w.webp 1280w', type: 'image/webp' },
+          ],
+        },
+      },
+    });
+    const rendered = wrapper.findAll('picture source');
+
+    expect(rendered).toHaveLength(2);
+    expect(rendered[0]?.attributes('type')).toBe('image/avif');
+    expect(rendered[1]?.attributes('type')).toBe('image/webp');
+  });
+
+  // Without sizes the browser assumes 100vw; the cover only ever fills the
+  // narrower of the two columns.
+  describe('rendered geometry', () => {
+    it('announces the cover geometry on the img and on every source', () => {
+      const wrapper = mount(Feature, {
+        props: {
+          ...baseProps,
+          image: {
+            src: '/img/a.jpg',
+            alt: 'A',
+            sources: [
+              { srcset: '/img/_gen/a-1280w.avif 1280w', type: 'image/avif' },
+              { srcset: '/img/_gen/a-1280w.webp 1280w', type: 'image/webp' },
+            ],
+            srcset: '/img/_gen/a-1280w.webp 1280w',
+          },
+          sizes: '(min-width: 901px) 608px, 100vw',
+        },
+      });
+
+      const rendered = [
+        ...wrapper.findAll('source'),
+        wrapper.find('img.a-image'),
+      ].map((node) => node.attributes('sizes'));
+
+      expect(rendered).toHaveLength(3);
+      rendered.forEach((sizes) => {
+        expect(sizes).toBe('(min-width: 901px) 608px, 100vw');
+      });
+    });
   });
 });

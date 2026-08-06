@@ -11,7 +11,7 @@
     "lint": "npx eslint .",
     "lint:style": "stylelint src/**/*.css",
     "prelint:markup": "pnpm --filter @antsask/styleguide run build:types",
-    "lint:markup": "vue-tsc --noEmit",
+    "lint:markup": "vue-tsc --noEmit && tsc --noEmit -p tsconfig.scripts.json",
     "prebuild": "pnpm --filter @antsask/styleguide run build:types",
     "build": "pnpm images:build && vue-tsc && nuxt build",
     "generate": "nuxt generate",
@@ -26,7 +26,6 @@
   "dependencies": {
     "@antsask/styleguide": "workspace:*",
     "@nuxt/content": "3.15.0",
-    "@nuxt/image": "2.0.0",
     "@sentry/nuxt": "10.65.0",
     "better-sqlite3": "12.11.1"
   },

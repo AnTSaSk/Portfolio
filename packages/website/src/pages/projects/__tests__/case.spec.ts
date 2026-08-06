@@ -316,7 +316,7 @@ describe('pages/projects/[slug].vue', () => {
     );
   });
 
-  it('maps project.gallery images onto Gallery items with variant styleA and the translated ariaLabel', async () => {
+  it('serves the gallery-sized variants (632w/1264w, avif before webp) for each gallery image', async () => {
     const project = makeProject({});
     const t = createT('en');
 
@@ -328,17 +328,77 @@ describe('pages/projects/[slug].vue', () => {
 
     const gallery = wrapper.findComponent({ name: 'MoleculeGallery' });
 
-    expect(gallery.props('items')).toEqual(
-      project.gallery?.map((g) => ({
+    expect(gallery.props('items')).toEqual([
+      {
         image: {
-          src: g.src,
-          alt: g.caption ?? project.title,
-          width: g.width,
-          height: g.height,
+          src: '/img/projects/g1.webp',
+          alt: 'Hero shot',
+          width: 2560,
+          height: 1440,
+          sources: [
+            {
+              srcset:
+                '/img/projects/_gen/g1-632w.avif 632w, /img/projects/_gen/g1-1264w.avif 1264w',
+              type: 'image/avif',
+            },
+            {
+              srcset:
+                '/img/projects/_gen/g1-632w.webp 632w, /img/projects/_gen/g1-1264w.webp 1264w',
+              type: 'image/webp',
+            },
+          ],
+          srcset:
+            '/img/projects/_gen/g1-632w.webp 632w, /img/projects/_gen/g1-1264w.webp 1264w',
         },
-        caption: g.caption,
-      })),
-    );
+        caption: 'Hero shot',
+      },
+      {
+        image: {
+          src: '/img/projects/g2.webp',
+          alt: 'Detail · component',
+          width: 1600,
+          height: 1200,
+          sources: [
+            {
+              srcset:
+                '/img/projects/_gen/g2-632w.avif 632w, /img/projects/_gen/g2-1264w.avif 1264w',
+              type: 'image/avif',
+            },
+            {
+              srcset:
+                '/img/projects/_gen/g2-632w.webp 632w, /img/projects/_gen/g2-1264w.webp 1264w',
+              type: 'image/webp',
+            },
+          ],
+          srcset:
+            '/img/projects/_gen/g2-632w.webp 632w, /img/projects/_gen/g2-1264w.webp 1264w',
+        },
+        caption: 'Detail · component',
+      },
+      {
+        image: {
+          src: '/img/projects/g3.webp',
+          alt: project.title,
+          width: 1600,
+          height: 1200,
+          sources: [
+            {
+              srcset:
+                '/img/projects/_gen/g3-632w.avif 632w, /img/projects/_gen/g3-1264w.avif 1264w',
+              type: 'image/avif',
+            },
+            {
+              srcset:
+                '/img/projects/_gen/g3-632w.webp 632w, /img/projects/_gen/g3-1264w.webp 1264w',
+              type: 'image/webp',
+            },
+          ],
+          srcset:
+            '/img/projects/_gen/g3-632w.webp 632w, /img/projects/_gen/g3-1264w.webp 1264w',
+        },
+        caption: undefined,
+      },
+    ]);
     expect(gallery.props('variant')).toBe('styleA');
     expect(gallery.props('ariaLabel')).toBe(
       t('projects.project.galleryAriaLabel'),
@@ -372,10 +432,24 @@ describe('pages/projects/[slug].vue', () => {
     expect(
       wrapper.findComponent({ name: 'MoleculeMediaCover' }).props('image'),
     ).toEqual({
-      src: project.cover?.src,
+      src: '/img/projects/cover.webp',
       alt: project.title,
-      width: project.cover?.width,
-      height: project.cover?.height,
+      width: 2560,
+      height: 1440,
+      sources: [
+        {
+          srcset:
+            '/img/projects/_gen/cover-1280w.avif 1280w, /img/projects/_gen/cover-2560w.avif 2560w',
+          type: 'image/avif',
+        },
+        {
+          srcset:
+            '/img/projects/_gen/cover-1280w.webp 1280w, /img/projects/_gen/cover-2560w.webp 2560w',
+          type: 'image/webp',
+        },
+      ],
+      srcset:
+        '/img/projects/_gen/cover-1280w.webp 1280w, /img/projects/_gen/cover-2560w.webp 2560w',
     });
   });
 

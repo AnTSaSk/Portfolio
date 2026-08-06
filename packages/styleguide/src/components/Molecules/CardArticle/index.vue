@@ -4,11 +4,11 @@
       <Image
         v-if="image"
         reveal
-        :image-component="imageComponent"
         :src="image.src"
         :alt="image.alt"
-        densities="x1 x2"
-        format="avif,webp"
+        :sources="image.sources"
+        :srcset="image.srcset"
+        :sizes="sizes"
       >
         <template #placeholder>
           <div
@@ -61,10 +61,8 @@
 </template>
 
 <script setup lang="ts">
-  import { type Component } from 'vue';
-
   import Heading from '../../Atoms/Heading/index.vue';
-  import Image from '../../Atoms/Image/index.vue';
+  import Image, { type ImageSource } from '../../Atoms/Image/index.vue';
   import Tag from '../../Atoms/Tag/index.vue';
   import Text from '../../Atoms/Text/index.vue';
 
@@ -73,6 +71,8 @@
   export interface CardArticleImage {
     src: string;
     alt: string;
+    sources?: ImageSource[];
+    srcset?: string;
   }
 
   export interface Props {
@@ -82,8 +82,8 @@
     excerpt: string;
     tags: string[];
     image?: CardArticleImage;
-    imageComponent?: Component;
     placeholderVariant?: CardArticlePlaceholderVariant;
+    sizes?: string;
   }
 
   defineOptions({ name: 'MoleculeCardArticle' });
@@ -95,8 +95,8 @@
     excerpt,
     tags,
     image = undefined,
-    imageComponent = undefined,
     placeholderVariant = undefined,
+    sizes = undefined,
   } = defineProps<Props>();
 </script>
 

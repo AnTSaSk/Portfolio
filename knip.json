@@ -24,7 +24,8 @@
         "server/**/*.ts",
         "i18n.config.ts",
         "src/constants/**/*.ts",
-        "src/utils/**/*.ts"
+        "src/utils/**/*.ts",
+        "scripts/**/*.ts"
       ],
       "paths": {
         "@/*": ["src/*"],

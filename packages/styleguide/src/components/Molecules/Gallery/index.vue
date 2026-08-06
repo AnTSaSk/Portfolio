@@ -5,13 +5,13 @@
         <Image
           v-if="item.image"
           reveal
-          :image-component="imageComponent"
           :src="item.image.src"
           :alt="item.image.alt"
+          :sources="item.image.sources"
+          :srcset="item.image.srcset"
           :width="item.image.width"
           :height="item.image.height"
           :sizes="sizesForIndex(index)"
-          format="avif,webp"
         >
           <template #placeholder>
             <div class="u-placeholder" />
@@ -28,9 +28,9 @@
 </template>
 
 <script setup lang="ts">
-  import { computed, type Component } from 'vue';
+  import { computed } from 'vue';
 
-  import Image from '../../Atoms/Image/index.vue';
+  import Image, { type ImageSource } from '../../Atoms/Image/index.vue';
   import Text from '../../Atoms/Text/index.vue';
 
   export type GalleryVariant = 'styleA' | 'threeUp';
@@ -40,6 +40,8 @@
     alt: string;
     width?: number;
     height?: number;
+    sources?: ImageSource[];
+    srcset?: string;
   }
 
   export interface GalleryItem {
@@ -51,7 +53,6 @@
     items: GalleryItem[];
     ariaLabel?: string;
     variant?: GalleryVariant;
-    imageComponent?: Component;
   }
 
   defineOptions({ name: 'MoleculeGallery' });
@@ -60,16 +61,14 @@
     items,
     ariaLabel = 'Project gallery',
     variant = 'styleA',
-    imageComponent = undefined,
   } = defineProps<Props>();
 
   const variantModifier = computed(() =>
     variant === 'threeUp' ? '-threeUp' : undefined,
   );
 
-  // @nuxt/image `sizes` syntax (breakpoint prefixes), not CSS media queries.
-  const HERO_SIZES = '100vw xl:1280px';
-  const TILE_SIZES = '100vw md:632px';
+  const HERO_SIZES = '(min-width: 1280px) 1280px, 100vw';
+  const TILE_SIZES = '(min-width: 768px) 632px, 100vw';
 
   // First item is the hero (full-width 16/9), the rest are tiles.
   const sizesForIndex = (index: number): string =>

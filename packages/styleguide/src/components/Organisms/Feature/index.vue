@@ -22,11 +22,11 @@
       <Image
         v-if="image"
         reveal
-        :image-component="imageComponent"
         :src="image.src"
         :alt="image.alt"
-        densities="x1 x2"
-        format="avif,webp"
+        :sources="image.sources"
+        :srcset="image.srcset"
+        :sizes="sizes"
       >
         <template #placeholder>
           <div class="u-placeholder -big" aria-hidden="true">
@@ -42,10 +42,8 @@
 </template>
 
 <script setup lang="ts">
-  import { type Component } from 'vue';
-
   import Heading from '../../Atoms/Heading/index.vue';
-  import Image from '../../Atoms/Image/index.vue';
+  import Image, { type ImageSource } from '../../Atoms/Image/index.vue';
   import Link from '../../Atoms/Link/index.vue';
   import Tag from '../../Atoms/Tag/index.vue';
   import Text from '../../Atoms/Text/index.vue';
@@ -53,6 +51,8 @@
   export interface FeatureImage {
     src: string;
     alt: string;
+    sources?: ImageSource[];
+    srcset?: string;
   }
 
   export interface Props {
@@ -64,7 +64,7 @@
     stack: string[];
     ctaLabel: string;
     image?: FeatureImage;
-    imageComponent?: Component;
+    sizes?: string;
   }
 
   defineOptions({ name: 'OrganismFeature' });
@@ -78,7 +78,7 @@
     stack,
     ctaLabel,
     image = undefined,
-    imageComponent = undefined,
+    sizes = undefined,
   } = defineProps<Props>();
 </script>
 

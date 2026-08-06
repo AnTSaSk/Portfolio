@@ -34,12 +34,6 @@ export const useI18nMock = vi.fn(() => ({
   locale: ref('en'),
   t: (key: string) => key,
 }));
-export const useImageMock = vi.fn(
-  () =>
-    (src: string, mods?: Record<string, unknown>): string =>
-      `/_ipx/${mods?.fit ?? 'x'}_${mods?.width ?? 0}x${mods?.height ?? 0}_${mods?.format ?? 'orig'}${src}`,
-);
-
 vi.stubGlobal('definePageMeta', definePageMetaMock);
 vi.stubGlobal('useSeoMeta', useSeoMetaMock);
 vi.stubGlobal('useHead', useHeadMock);
@@ -53,4 +47,3 @@ vi.stubGlobal('definePerson', definePersonMock);
 vi.stubGlobal('useSchemaOrg', useSchemaOrgMock);
 vi.stubGlobal('useBreadcrumbItems', useBreadcrumbItemsMock);
 vi.stubGlobal('useI18n', useI18nMock);
-vi.stubGlobal('useImage', useImageMock);

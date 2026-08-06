@@ -1,43 +1,121 @@
-import { readFileSync } from 'node:fs';
-import { resolve } from 'node:path';
+// @vitest-environment node
+// nuxt.config.ts resolves sibling files through `import.meta.url`, which the
+// jsdom environment does not expose as a file: URL.
+import { createRequire } from 'node:module';
+import { pathToFileURL } from 'node:url';
 
-import { describe, expect, it } from 'vitest';
+import { beforeAll, describe, expect, it, vi } from 'vitest';
 
-const configPath = resolve(process.cwd(), 'nuxt.config.ts');
-const configSource = readFileSync(configPath, 'utf-8');
+// nuxt.config.ts calls the auto-imported `defineNuxtConfig` macro, which has no
+// runtime outside the Nuxt build: stubbing it to identity yields the raw config.
+vi.stubGlobal('defineNuxtConfig', (config: unknown) => config);
 
-describe('nuxt.config.ts cache headers', () => {
-  it('keeps /_nuxt/** at 1 year immutable (hashed assets)', () => {
-    const ruleMatch = configSource.match(/'\/_nuxt\/\*\*':\s*{[^}]*}/s);
+interface RouteRule {
+  headers?: Record<string, string>;
+}
 
-    expect(ruleMatch).not.toBeNull();
-    expect(ruleMatch?.[0]).toContain(
-      "'Cache-Control': 'public, max-age=31536000, immutable'",
+// Nitro resolves route rules through rou3, a transitive dependency reachable
+// only from the nuxt package.
+const requireFromNuxt = createRequire(
+  createRequire(`${process.cwd()}/index.js`).resolve('nuxt/package.json'),
+);
+
+type Rou3 = {
+  createRouter: () => object;
+  addRoute: (
+    router: object,
+    method: string,
+    path: string,
+    data: RouteRule,
+  ) => void;
+  findAllRoutes: (
+    router: object,
+    method: string,
+    path: string,
+  ) => Array<{ data: RouteRule }>;
+};
+
+let resolveHeaders: (url: string) => Record<string, string>;
+
+beforeAll(async () => {
+  const { createRouter, addRoute, findAllRoutes } = (await import(
+    pathToFileURL(requireFromNuxt.resolve('rou3')).href
+  )) as Rou3;
+
+  const { routeRules } = (await import('../../nuxt.config')).default as {
+    routeRules: Record<string, RouteRule>;
+  };
+
+  const router = createRouter();
+
+  for (const [pattern, rule] of Object.entries(routeRules)) {
+    addRoute(router, '', pattern, rule);
+  }
+
+  // findAllRoutes returns matches from least to most specific; Nitro merges
+  // them in that order, so the most specific rule wins.
+  resolveHeaders = (url) =>
+    findAllRoutes(router, '', url).reduce<Record<string, string>>(
+      (headers, match) => ({ ...headers, ...match.data.headers }),
+      {},
+    );
+});
+
+describe('cache headers served for static assets', () => {
+  it('serves hashed build assets with a one-year immutable cache', () => {
+    expect(resolveHeaders('/_nuxt/entry.B3xK9dQz.js')['Cache-Control']).toBe(
+      'public, max-age=31536000, immutable',
     );
   });
 
-  it.each(['/_ipx/**', '/fonts/**'])(
-    'declares a 30-day non-immutable Cache-Control for %s',
-    (routePattern) => {
-      const ruleMatch = configSource.match(
-        new RegExp(`'${routePattern.replace(/\*/g, '\\*')}':\\s*{[^}]*}`, 's'),
-      );
+  it.each([
+    '/img/Projects/_gen/Arneo_Cover-1280w.avif',
+    '/img/Projects/_gen/Arneo_Gallery_Hero-632w.webp',
+    '/img/Blog/_gen/author-600w.webp',
+    '/img/_gen/og-default-1200w.avif',
+  ])('serves the generated image variant %s with a 30-day cache', (url) => {
+    expect(resolveHeaders(url)['Cache-Control']).toBe(
+      'public, max-age=2592000',
+    );
+  });
 
-      expect(ruleMatch).not.toBeNull();
-      expect(ruleMatch?.[0]).toContain(
-        "'Cache-Control': 'public, max-age=2592000'",
-      );
-      expect(ruleMatch?.[0]).not.toContain('immutable');
-    },
-  );
+  it('serves fonts with a 30-day cache', () => {
+    expect(
+      resolveHeaders('/fonts/inter-latin-400-normal.woff2')['Cache-Control'],
+    ).toBe('public, max-age=2592000');
+  });
 
-  it('does not add immutable caching for /_ipx/** or /fonts/**', () => {
-    for (const routePattern of ['/_ipx/**', '/fonts/**']) {
-      const ruleMatch = configSource.match(
-        new RegExp(`'${routePattern.replace(/\*/g, '\\*')}':\\s*{[^}]*}`, 's'),
-      );
+  it.each([
+    '/img/Projects/_gen/Arneo_Cover-1280w.avif',
+    '/fonts/inter-latin-400-normal.woff2',
+  ])('keeps %s revalidatable, so a regenerated asset can replace it', (url) => {
+    expect(resolveHeaders(url)['Cache-Control']).not.toContain('immutable');
+  });
 
-      expect(ruleMatch?.[0]).not.toContain('immutable');
-    }
+  it('leaves HTML pages uncached so content updates are picked up', () => {
+    expect(resolveHeaders('/blog/design-systems-101')['Cache-Control']).toBe(
+      undefined,
+    );
+  });
+
+  it('applies the baseline security headers to every URL', () => {
+    expect(
+      resolveHeaders('/img/Projects/_gen/Arneo_Cover-1280w.avif'),
+    ).toMatchObject({ 'X-Content-Type-Options': 'nosniff' });
+    expect(resolveHeaders('/blog')).toMatchObject({
+      'X-Content-Type-Options': 'nosniff',
+    });
+  });
+});
+
+describe('image runtime configuration', () => {
+  it('does not route requests through the IPX runtime transformer', async () => {
+    const config = (await import('../../nuxt.config')).default as {
+      routeRules: Record<string, RouteRule>;
+      modules: string[];
+    };
+
+    expect(Object.keys(config.routeRules)).not.toContain('/_ipx/**');
+    expect(config.modules).not.toContain('@nuxt/image');
   });
 });

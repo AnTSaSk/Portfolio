@@ -80,10 +80,7 @@ const CardArticleStub = defineComponent({
     date: { type: [String, Date], default: '' },
     tags: { type: Array, default: () => [] },
     image: { type: Object, default: undefined },
-    imageComponent: {
-      type: [Object, String, Function],
-      default: undefined,
-    },
+    sizes: { type: String, default: undefined },
   },
   setup: (props) => () => h('a', { class: 'm-article-card' }, props.title),
 });
@@ -281,9 +278,43 @@ describe('pages/blog/index.vue', () => {
     expect(cards[0]?.props('image')).toMatchObject({
       src: '/img/Blog/N0_Cover.jpg',
       alt: 'Covered',
+      sources: [
+        {
+          srcset:
+            '/img/Blog/_gen/N0_Cover-1280w.avif 1280w, /img/Blog/_gen/N0_Cover-2560w.avif 2560w',
+          type: 'image/avif',
+        },
+        {
+          srcset:
+            '/img/Blog/_gen/N0_Cover-1280w.webp 1280w, /img/Blog/_gen/N0_Cover-2560w.webp 2560w',
+          type: 'image/webp',
+        },
+      ],
+      srcset:
+        '/img/Blog/_gen/N0_Cover-1280w.webp 1280w, /img/Blog/_gen/N0_Cover-2560w.webp 2560w',
     });
-    expect(cards[0]?.props('imageComponent')).toBeTruthy();
     expect(cards[1]?.props('image')).toBeUndefined();
+  });
+
+  // A card never fills the viewport: without sizes the browser would fetch the
+  // 2560w variant for a ~405px slot.
+  it('tells each CardArticle the width its cover actually occupies in the grid', async () => {
+    const covered = makeArticle({
+      title: 'Covered',
+      path: '/blog/en/covered',
+      date: '2026-02-01',
+      cover: { src: '/img/Blog/N0_Cover.jpg', width: 2560, height: 1440 },
+    });
+
+    stubEnv('en', [covered]);
+    const BlogListing = (await import('../index.vue')).default;
+    const wrapper = mount(BlogListing);
+
+    await flushPromises();
+
+    expect(
+      wrapper.findComponent({ name: 'MoleculeCardArticle' }).props('sizes'),
+    ).toBe('(min-width: 521px) 405px, 100vw');
   });
 
   it('filters the rendered CardArticle set to the tag selected via Filter', async () => {

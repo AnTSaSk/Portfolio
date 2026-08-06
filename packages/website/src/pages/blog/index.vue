@@ -35,7 +35,7 @@
               :excerpt="article.description"
               :tags="article.tags"
               :image="articleImage(article)"
-              :image-component="NuxtImg"
+              :sizes="CARD_SIZES"
             />
           </template>
 
@@ -57,13 +57,14 @@
 </template>
 
 <script setup lang="ts">
-  import { computed, ref, resolveComponent, type Component } from 'vue';
+  import { computed, ref } from 'vue';
 
   import { useLocaleContent } from '@/composables/useLocaleContent';
   import { useSeo } from '@/composables/useSeo';
   import { useTagFilters } from '@/composables/useTagFilters';
 
   import { formatDate } from '@/utils/formatDate';
+  import { pictureSourcesFor, srcsetFor } from '@/utils/imageVariants';
 
   import {
     CardArticle,
@@ -82,6 +83,10 @@
 
   const PAGE_SIZE = 6;
 
+  // auto-fill minmax(340px, 1fr) from 521px, gap 32px, .l-container capped at
+  // 1280px -> 3 columns of (1280 - 2 * 32) / 3 = 405px.
+  const CARD_SIZES = '(min-width: 521px) 405px, 100vw';
+
   interface BlogArticle {
     title: string;
     description: string;
@@ -93,12 +98,24 @@
     cover?: { src: string; width: number; height: number };
   }
 
-  const NuxtImg = resolveComponent('NuxtImg') as Component;
-
   const articleImage = (
     article: BlogArticle,
-  ): { src: string; alt: string } | undefined =>
-    article.cover ? { src: article.cover.src, alt: article.title } : undefined;
+  ):
+    | {
+        src: string;
+        alt: string;
+        sources: Array<{ srcset: string; type: string }>;
+        srcset: string;
+      }
+    | undefined =>
+    article.cover
+      ? {
+          src: article.cover.src,
+          alt: article.title,
+          sources: pictureSourcesFor(article.cover.src, 'cover'),
+          srcset: srcsetFor(article.cover.src, 'cover', 'webp'),
+        }
+      : undefined;
 
   const { t, locale } = useI18n();
   const localePath = useLocalePath();

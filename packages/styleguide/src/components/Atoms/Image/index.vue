@@ -3,40 +3,14 @@
     <div class="a-image__ph">
       <slot name="placeholder" />
     </div>
-    <component
-      :is="imageComponent"
-      v-if="imageComponent"
-      :src="src"
-      :alt="alt"
-      :sizes="sizes"
-      :densities="densities"
-      :format="format"
-      :width="width"
-      :height="height"
-      :fetchpriority="fetchpriority"
-      :loading="loading"
-      custom
-    >
-      <template #default="{ src: resolvedSrc, isLoaded, imgAttrs }">
-        <RevealBridge :loaded="isLoaded" @reveal="revealed = true" />
-        <img
-          ref="imgEl"
-          class="a-image -reveal"
-          :class="fitModifier"
-          v-bind="imgAttrs"
-          :src="resolvedSrc"
-          :alt="alt"
-          @error="onError($event)"
-        />
-      </template>
-    </component>
-    <picture v-else-if="sources && sources.length > 0">
+    <picture v-if="sources && sources.length > 0" class="a-image__picture">
       <source
         v-for="source in sources"
         :key="source.srcset"
         :srcset="source.srcset"
         :type="source.type"
         :media="source.media"
+        :sizes="sizes"
       />
       <img
         ref="imgEl"
@@ -75,38 +49,14 @@
   </div>
 
   <template v-else>
-    <component
-      :is="imageComponent"
-      v-if="imageComponent"
-      :src="src"
-      :alt="alt"
-      :sizes="sizes"
-      :densities="densities"
-      :format="format"
-      :width="width"
-      :height="height"
-      :fetchpriority="fetchpriority"
-      :loading="loading"
-      custom
-    >
-      <template #default="{ src: resolvedSrc, imgAttrs }">
-        <img
-          class="a-image"
-          :class="fitModifier"
-          v-bind="imgAttrs"
-          :src="resolvedSrc"
-          :alt="alt"
-          @error="emit('error', $event)"
-        />
-      </template>
-    </component>
-    <picture v-else-if="sources && sources.length > 0">
+    <picture v-if="sources && sources.length > 0" class="a-image__picture">
       <source
         v-for="source in sources"
         :key="source.srcset"
         :srcset="source.srcset"
         :type="source.type"
         :media="source.media"
+        :sizes="sizes"
       />
       <img
         class="a-image"
@@ -143,34 +93,7 @@
 </template>
 
 <script setup lang="ts">
-  import {
-    computed,
-    defineComponent,
-    onMounted,
-    ref,
-    watch,
-    type Component,
-  } from 'vue';
-
-  // Bridges NuxtImg's `custom` slot `isLoaded` (a slot-scope value, not
-  // reachable by a setup watcher) to the reveal state.
-  const RevealBridge = defineComponent({
-    name: 'RevealBridge',
-    props: { loaded: { type: Boolean, required: true } },
-    emits: { reveal: null },
-    setup(props, { emit }) {
-      watch(
-        () => props.loaded,
-        (value) => {
-          if (value) {
-            emit('reveal');
-          }
-        },
-        { immediate: true },
-      );
-      return () => null;
-    },
-  });
+  import { computed, onMounted, ref, watch } from 'vue';
 
   export interface ImageSource {
     srcset: string;
@@ -193,9 +116,6 @@
     sources?: ImageSource[];
     fit?: ImageFit;
     reveal?: boolean;
-    imageComponent?: Component;
-    densities?: string;
-    format?: string;
   }
 
   defineOptions({ name: 'AtomImage' });
@@ -216,9 +136,6 @@
     sources: undefined,
     fit: 'cover',
     reveal: false,
-    imageComponent: undefined,
-    densities: undefined,
-    format: undefined,
   });
 
   const fitModifier = computed(() =>

@@ -1,16 +1,7 @@
 import { mount } from '@vue/test-utils';
 import { describe, expect, it } from 'vitest';
-import { defineComponent, h, markRaw } from 'vue';
 
 import CardProject from '../index.vue';
-
-const ImgStub = markRaw(
-  defineComponent({
-    name: 'ImgStub',
-    props: { src: { type: String, required: true } },
-    setup: (props) => () => h('img', { src: props.src }),
-  }),
-);
 
 const baseProps = {
   href: '/projects/design-system',
@@ -142,18 +133,46 @@ describe('CardProject', () => {
     });
   });
 
-  it('relays the injected image component to AtomImage', () => {
+  it('relays the pregenerated sources and srcset to AtomImage', () => {
+    const sources = [
+      { srcset: '/img/_gen/a-1280w.avif 1280w', type: 'image/avif' },
+      { srcset: '/img/_gen/a-1280w.webp 1280w', type: 'image/webp' },
+    ];
     const wrapper = mount(CardProject, {
       props: {
         ...baseProps,
-        image: { src: '/a.webp', alt: 'A' },
-        imageComponent: ImgStub,
+        image: {
+          src: '/img/a.jpg',
+          alt: 'A',
+          sources,
+          srcset: '/img/_gen/a-1280w.webp 1280w',
+        },
       },
     });
+    const atom = wrapper.findComponent({ name: 'AtomImage' });
 
-    expect(
-      wrapper.findComponent({ name: 'AtomImage' }).props('imageComponent'),
-    ).toBe(ImgStub);
+    expect(atom.props('sources')).toEqual(sources);
+    expect(atom.props('srcset')).toBe('/img/_gen/a-1280w.webp 1280w');
+  });
+
+  it('renders a picture source per format when sources are provided', () => {
+    const wrapper = mount(CardProject, {
+      props: {
+        ...baseProps,
+        image: {
+          src: '/img/a.jpg',
+          alt: 'A',
+          sources: [
+            { srcset: '/img/_gen/a-1280w.avif 1280w', type: 'image/avif' },
+            { srcset: '/img/_gen/a-1280w.webp 1280w', type: 'image/webp' },
+          ],
+        },
+      },
+    });
+    const rendered = wrapper.findAll('picture source');
+
+    expect(rendered).toHaveLength(2);
+    expect(rendered[0]?.attributes('type')).toBe('image/avif');
   });
 
   // CardProject relays sizes + width/height so the srcset resolves a slot-sized variant.
@@ -163,13 +182,44 @@ describe('CardProject', () => {
         props: {
           ...baseProps,
           image: { src: '/cover.jpg', alt: 'Cover alt text' },
-          sizes: '100vw md:632px',
+          sizes: '(min-width: 768px) 632px, 100vw',
         },
       });
 
       expect(wrapper.findComponent({ name: 'AtomImage' }).props('sizes')).toBe(
-        '100vw md:632px',
+        '(min-width: 768px) 632px, 100vw',
       );
+    });
+
+    it('renders sizes as a valid HTML attribute on the img and every source', () => {
+      const wrapper = mount(CardProject, {
+        props: {
+          ...baseProps,
+          image: {
+            src: '/cover.jpg',
+            alt: 'Cover alt text',
+            sources: [
+              { srcset: '/cover-624w.avif 624w', type: 'image/avif' },
+              { srcset: '/cover-624w.webp 624w', type: 'image/webp' },
+            ],
+            srcset: '/cover-624w.webp 624w',
+          },
+          sizes: '(min-width: 768px) 624px, 100vw',
+        },
+      });
+
+      const rendered = [
+        ...wrapper.findAll('source'),
+        wrapper.find('img.a-image'),
+      ].map((node) => node.attributes('sizes'));
+
+      expect(rendered).toHaveLength(3);
+      rendered.forEach((sizes) => {
+        expect(sizes).toBe('(min-width: 768px) 624px, 100vw');
+        expect(sizes?.split(',').map((entry) => entry.trim())[0]).toMatch(
+          /^\(min-width:\s*768px\)\s+624px$/,
+        );
+      });
     });
 
     it('relays width and height from the image prop to AtomImage', () => {
@@ -189,20 +239,6 @@ describe('CardProject', () => {
 
       expect(image.props('width')).toBe(1600);
       expect(image.props('height')).toBe(1200);
-    });
-
-    it('does not pass densities to AtomImage when sizes is provided (mutual exclusivity)', () => {
-      const wrapper = mount(CardProject, {
-        props: {
-          ...baseProps,
-          image: { src: '/cover.jpg', alt: 'Cover alt text' },
-          sizes: '100vw md:632px',
-        },
-      });
-
-      expect(
-        wrapper.findComponent({ name: 'AtomImage' }).props('densities'),
-      ).toBeUndefined();
     });
 
     it('relays fetchpriority and loading to AtomImage when provided', () => {

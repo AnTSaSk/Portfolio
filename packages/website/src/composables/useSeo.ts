@@ -1,5 +1,7 @@
 import { isRef, toValue, type MaybeRefOrGetter } from 'vue';
 
+import { socialVariantPath } from '@/utils/imageVariants';
+
 const BRAND_ALT = 'Alexis Besson, portfolio';
 const DEFAULT_OG_IMAGE_PATH = '/img/og-default.jpg';
 
@@ -19,19 +21,13 @@ export const useSeo = (options: UseSeoOptions): void => {
   const { title, description, type = 'website', image } = options;
   const { locale } = useI18n();
   const siteConfig = useSiteConfig();
-  const img = useImage();
 
   // Getters (not resolved once): image/title resolve asynchronously on
   // [slug] pages, whose useAsyncData is not awaited before useSeo runs.
   const ogImageGetter = (): string => {
     const resolvedImage = toValue(image);
     const path = resolvedImage?.src
-      ? img(resolvedImage.src, {
-          width: 1200,
-          height: 630,
-          fit: 'cover',
-          format: 'jpeg',
-        })
+      ? socialVariantPath(resolvedImage.src)
       : DEFAULT_OG_IMAGE_PATH;
 
     return new URL(path, siteConfig.url).href;

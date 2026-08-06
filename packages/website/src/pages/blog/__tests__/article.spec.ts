@@ -95,7 +95,10 @@ const TOCStub = defineComponent({
 
 const AuthorStub = defineComponent({
   name: 'MoleculeAuthor',
-  props: { name: { type: String, default: '' } },
+  props: {
+    name: { type: String, default: '' },
+    photo: { type: Object, default: undefined },
+  },
   setup: (): (() => ReturnType<typeof h>) => () =>
     h('aside', { class: 'm-author' }),
 });
@@ -222,6 +225,51 @@ describe('pages/blog/[slug].vue', () => {
 
     expect(cover.props('caption')).toBe('A caption for the cover.');
     expect(cover.attributes('title')).toBe('A caption for the cover.');
+  });
+
+  it('serves the cover-sized variants (1280w/2560w, avif before webp) for the article cover', async () => {
+    stubEnv('en', 'design-systems-101', makeArticle({}));
+    const BlogArticle = (await import('../[slug].vue')).default;
+    const wrapper = mountSuspended(BlogArticle);
+
+    await flushPromises();
+
+    expect(
+      wrapper.findComponent({ name: 'MoleculeMediaCover' }).props('image'),
+    ).toEqual({
+      src: '/img/cover.jpg',
+      alt: 'Design systems 101',
+      width: 2560,
+      height: 1440,
+      sources: [
+        {
+          srcset:
+            '/img/_gen/cover-1280w.avif 1280w, /img/_gen/cover-2560w.avif 2560w',
+          type: 'image/avif',
+        },
+        {
+          srcset:
+            '/img/_gen/cover-1280w.webp 1280w, /img/_gen/cover-2560w.webp 2560w',
+          type: 'image/webp',
+        },
+      ],
+      srcset:
+        '/img/_gen/cover-1280w.webp 1280w, /img/_gen/cover-2560w.webp 2560w',
+    });
+  });
+
+  // The 128px avatar is cropped from a 104 kB full-size JPEG: it must request
+  // the smallest generated variant, not the source file.
+  it('serves the 600w variant for the author avatar', async () => {
+    stubEnv('en', 'design-systems-101', makeArticle({}));
+    const BlogArticle = (await import('../[slug].vue')).default;
+    const wrapper = mountSuspended(BlogArticle);
+
+    await flushPromises();
+
+    expect(
+      wrapper.findComponent({ name: 'MoleculeAuthor' }).props('photo'),
+    ).toEqual({ src: '/img/Blog/_gen/author-600w.webp' });
   });
 
   it('omits the caption when the cover declares none', async () => {

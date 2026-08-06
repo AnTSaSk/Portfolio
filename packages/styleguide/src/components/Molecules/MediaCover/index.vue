@@ -4,15 +4,15 @@
       <Image
         v-if="image"
         reveal
-        :image-component="imageComponent"
         :src="image.src"
         :alt="image.alt"
+        :sources="image.sources"
+        :srcset="image.srcset"
         :width="image.width"
         :height="image.height"
         :sizes="POSTER_SIZES"
         :fetchpriority="fetchpriority"
         :loading="loading"
-        format="avif,webp"
       >
         <template #placeholder>
           <div class="u-placeholder" :class="placeholderClasses">
@@ -41,9 +41,9 @@
 </template>
 
 <script setup lang="ts">
-  import { computed, type Component } from 'vue';
+  import { computed } from 'vue';
 
-  import Image from '../../Atoms/Image/index.vue';
+  import Image, { type ImageSource } from '../../Atoms/Image/index.vue';
   import Text from '../../Atoms/Text/index.vue';
 
   export type MediaCoverVariant = 'cover' | 'poster';
@@ -55,12 +55,13 @@
     alt: string;
     width?: number;
     height?: number;
+    sources?: ImageSource[];
+    srcset?: string;
   }
 
   export interface Props {
     variant?: MediaCoverVariant;
     image?: MediaCoverImage;
-    imageComponent?: Component;
     placeholderVariant?: MediaCoverPlaceholderVariant;
     placeholderHeading?: boolean;
     ratio?: MediaCoverRatio;
@@ -76,7 +77,6 @@
   const {
     variant = 'cover',
     image = undefined,
-    imageComponent = undefined,
     placeholderVariant = 'topLeft',
     placeholderHeading = false,
     ratio = undefined,
@@ -87,8 +87,7 @@
     loading = undefined,
   } = defineProps<Props>();
 
-  // @nuxt/image `sizes` syntax (breakpoint prefixes), not CSS media queries.
-  const POSTER_SIZES = '100vw xl:1280px';
+  const POSTER_SIZES = '(min-width: 1280px) 1280px, 100vw';
 
   const ratioClasses: Record<MediaCoverRatio, string> = {
     '16x9': '-ratio16x9',

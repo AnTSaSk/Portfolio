@@ -1,19 +1,21 @@
 import { mount } from '@vue/test-utils';
 import { describe, expect, it } from 'vitest';
-import { defineComponent, h, markRaw } from 'vue';
 
 import MediaCover, { type MediaCoverRatio } from '../index.vue';
 
-const ImgStub = markRaw(
-  defineComponent({
-    name: 'ImgStub',
-    props: {
-      src: { type: String, required: true },
-      sizes: { type: String, default: undefined },
-    },
-    setup: (props) => () => h('img', { src: props.src }),
-  }),
-);
+// A source-size list is `<media-condition> <length>` pairs then a bare default:
+// the @nuxt/image shorthand (`100vw xl:1280px`) is not valid HTML and collapses
+// the whole attribute to 100vw in the browser.
+const expectValidSizes = (value: string | undefined): void => {
+  expect(value).toBeDefined();
+  const entries = (value ?? '').split(',').map((entry) => entry.trim());
+
+  expect(entries.length).toBeGreaterThan(1);
+  entries.slice(0, -1).forEach((entry) => {
+    expect(entry).toMatch(/^\((?:min|max)-width:\s*\d+px\)\s+\S+$/);
+  });
+  expect(entries.at(-1)).toMatch(/^\S+$/);
+};
 
 describe('MediaCover', () => {
   it('renders a figure.m-mediaCover as root', () => {
@@ -200,21 +202,80 @@ describe('MediaCover', () => {
     expect(captionText.text()).toContain('A view over the valley');
   });
 
-  it('relays the injected image component and the poster sizes to AtomImage', () => {
+  it('relays the pregenerated sources/srcset and the poster sizes to AtomImage', () => {
+    const sources = [
+      { srcset: '/img/_gen/a-1280w.avif 1280w', type: 'image/avif' },
+      { srcset: '/img/_gen/a-1280w.webp 1280w', type: 'image/webp' },
+    ];
     const wrapper = mount(MediaCover, {
       props: {
         variant: 'poster',
-        image: { src: '/a.webp', alt: 'A', width: 1200, height: 675 },
-        imageComponent: ImgStub,
+        image: {
+          src: '/img/a.jpg',
+          alt: 'A',
+          width: 1200,
+          height: 675,
+          sources,
+          srcset: '/img/_gen/a-1280w.webp 1280w',
+        },
       },
     });
 
     const atom = wrapper.findComponent({ name: 'AtomImage' });
 
-    expect(atom.props('imageComponent')).toBe(ImgStub);
-    expect(atom.props('sizes')).toBe('100vw xl:1280px');
+    expect(atom.props('sources')).toEqual(sources);
+    expect(atom.props('srcset')).toBe('/img/_gen/a-1280w.webp 1280w');
+    expect(atom.props('sizes')).toBe('(min-width: 1280px) 1280px, 100vw');
     expect(atom.props('width')).toBe(1200);
     expect(atom.props('height')).toBe(675);
+  });
+
+  it('renders the poster sizes as a valid HTML sizes attribute on the img and every source', () => {
+    const wrapper = mount(MediaCover, {
+      props: {
+        variant: 'poster',
+        image: {
+          src: '/img/a.jpg',
+          alt: 'A',
+          sources: [
+            { srcset: '/img/_gen/a-1280w.avif 1280w', type: 'image/avif' },
+            { srcset: '/img/_gen/a-1280w.webp 1280w', type: 'image/webp' },
+          ],
+          srcset: '/img/_gen/a-1280w.webp 1280w',
+        },
+      },
+    });
+
+    const rendered = [
+      ...wrapper.findAll('source'),
+      wrapper.find('img.a-image'),
+    ].map((node) => node.attributes('sizes'));
+
+    expect(rendered).toHaveLength(3);
+    rendered.forEach((sizes) => {
+      expect(sizes).toBe('(min-width: 1280px) 1280px, 100vw');
+      expectValidSizes(sizes);
+    });
+  });
+
+  it('renders a picture source per format when sources are provided', () => {
+    const wrapper = mount(MediaCover, {
+      props: {
+        variant: 'poster',
+        image: {
+          src: '/img/a.jpg',
+          alt: 'A',
+          sources: [
+            { srcset: '/img/_gen/a-1280w.avif 1280w', type: 'image/avif' },
+            { srcset: '/img/_gen/a-1280w.webp 1280w', type: 'image/webp' },
+          ],
+        },
+      },
+    });
+    const rendered = wrapper.findAll('picture source');
+
+    expect(rendered).toHaveLength(2);
+    expect(rendered[0]?.attributes('type')).toBe('image/avif');
   });
 
   it('relays fetchpriority and loading to AtomImage when provided', () => {

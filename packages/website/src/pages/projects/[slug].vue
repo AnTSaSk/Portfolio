@@ -15,7 +15,6 @@
           <MediaCover
             variant="poster"
             :image="coverImage"
-            :image-component="NuxtImg"
             :category="project.title"
             placeholder-heading
             fetchpriority="high"
@@ -40,7 +39,6 @@
           <Gallery
             :items="galleryItems"
             variant="styleA"
-            :image-component="NuxtImg"
             :aria-label="t('projects.project.galleryAriaLabel')"
           />
         </article>
@@ -50,14 +48,14 @@
 </template>
 
 <script setup lang="ts">
-  import { computed, resolveComponent, type Component } from 'vue';
+  import { computed } from 'vue';
 
   import { useLocaleContent } from '@/composables/useLocaleContent';
   import { useSeo } from '@/composables/useSeo';
 
-  import { Gallery, Head, MediaCover, MetaList } from '@antsask/styleguide';
+  import { pictureSourcesFor, srcsetFor } from '@/utils/imageVariants';
 
-  const NuxtImg = resolveComponent('NuxtImg') as Component;
+  import { Gallery, Head, MediaCover, MetaList } from '@antsask/styleguide';
 
   /* global queryCollection, createError */
   interface ProjectLink {
@@ -162,11 +160,15 @@
       return undefined;
     }
 
+    const { src, width, height } = project.value.cover;
+
     return {
-      src: project.value.cover.src,
+      src,
       alt: project.value.title,
-      width: project.value.cover.width,
-      height: project.value.cover.height,
+      width,
+      height,
+      sources: pictureSourcesFor(src, 'cover'),
+      srcset: srcsetFor(src, 'cover', 'webp'),
     };
   });
 
@@ -178,6 +180,8 @@
           alt: g.caption ?? project.value?.title ?? '',
           width: g.width,
           height: g.height,
+          sources: pictureSourcesFor(g.src, 'gallery'),
+          srcset: srcsetFor(g.src, 'gallery', 'webp'),
         },
         caption: g.caption,
       }));

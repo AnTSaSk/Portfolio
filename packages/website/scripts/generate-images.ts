@@ -11,12 +11,8 @@ import { dirname, join, resolve } from 'node:path';
 
 import sharp from 'sharp';
 
-import {
-  buildManifest,
-  RESPONSIVE_FORMATS,
-  SOCIAL_VARIANT,
-  type ManifestEntry,
-} from '../src/utils/imageManifest';
+import { buildManifest, type ManifestEntry } from './lib/imageManifest';
+import { RESPONSIVE_FORMATS, SOCIAL_VARIANT } from '../src/utils/imageVariants';
 
 const ROOT = resolve(import.meta.dirname, '..');
 const PUBLIC_DIR = join(ROOT, 'public');

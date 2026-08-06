@@ -41,6 +41,7 @@ const FeatureStub = defineComponent({
     stack: { type: Array, default: () => [] },
     ctaLabel: { type: String, default: '' },
     image: { type: Object, default: undefined },
+    sizes: { type: String, default: undefined },
   },
   setup: (props) => () => h('a', { class: 'o-feature' }, props.title),
 });
@@ -377,6 +378,20 @@ describe('pages/projects/index.vue', () => {
     expect(feature.props('href')).toBe('/projects/aurora-platform');
   });
 
+  // The Feature cover only fills the narrower of its two columns: without
+  // sizes the browser would assume 100vw and fetch the widest variant.
+  it('tells the Feature the width its cover actually occupies', async () => {
+    stubEnv('en', PROJECTS);
+    const ProjectsListing = (await import('../index.vue')).default;
+    const wrapper = mount(ProjectsListing);
+
+    await flushPromises();
+
+    expect(
+      wrapper.findComponent({ name: 'OrganismFeature' }).props('sizes'),
+    ).toBe('(min-width: 901px) 608px, 100vw');
+  });
+
   it('renders no Feature when no project is highlighted', async () => {
     const noHighlight = PROJECTS.filter((project) => !project.highlight);
 
@@ -678,6 +693,30 @@ describe('pages/projects/index.vue', () => {
 
         expect(image?.width).toBeTruthy();
         expect(image?.height).toBeTruthy();
+      });
+    });
+
+    // The @nuxt/image shorthand (`100vw md:624px`) is not a valid source-size
+    // list: the browser drops the attribute and falls back to 100vw.
+    it('passes a sizes value the browser can parse, not the @nuxt/image shorthand', async () => {
+      stubEnv('en', PROJECTS);
+      const ProjectsListing = (await import('../index.vue')).default;
+      const wrapper = mount(ProjectsListing);
+
+      await flushPromises();
+
+      const cards = wrapper.findAllComponents({ name: 'MoleculeCardProject' });
+
+      expect(cards.length).toBeGreaterThan(0);
+      cards.forEach((card) => {
+        const sizes = card.props('sizes') as string;
+        const entries = sizes.split(',').map((entry) => entry.trim());
+
+        expect(entries.length).toBeGreaterThan(1);
+        entries.slice(0, -1).forEach((entry) => {
+          expect(entry).toMatch(/^\((?:min|max)-width:\s*\d+px\)\s+\S+$/);
+        });
+        expect(entries.at(-1)).toBe('100vw');
       });
     });
 

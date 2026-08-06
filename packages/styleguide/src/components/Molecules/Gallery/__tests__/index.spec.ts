@@ -1,16 +1,21 @@
 import { mount } from '@vue/test-utils';
 import { describe, expect, it } from 'vitest';
-import { defineComponent, h, markRaw } from 'vue';
 
 import Gallery from '../index.vue';
 
-const ImgStub = markRaw(
-  defineComponent({
-    name: 'ImgStub',
-    props: { src: { type: String, required: true } },
-    setup: (props) => () => h('img', { src: props.src }),
-  }),
-);
+// A source-size list is `<media-condition> <length>` pairs then a bare default:
+// the @nuxt/image shorthand (`100vw xl:1280px`) is not valid HTML and collapses
+// the whole attribute to 100vw in the browser.
+const expectValidSizes = (value: string | undefined): void => {
+  expect(value).toBeDefined();
+  const entries = (value ?? '').split(',').map((entry) => entry.trim());
+
+  expect(entries.length).toBeGreaterThan(1);
+  entries.slice(0, -1).forEach((entry) => {
+    expect(entry).toMatch(/^\((?:min|max)-width:\s*\d+px\)\s+\S+$/);
+  });
+  expect(entries.at(-1)).toMatch(/^\S+$/);
+};
 
 const withImage = {
   image: { src: '/gallery-1.jpg', alt: 'First shot' },
@@ -141,26 +146,90 @@ describe('Gallery', () => {
     expect(figure.find('.u-placeholder').exists()).toBe(true);
   });
 
-  it('relays the injected component and applies hero/tile sizes per index', () => {
+  it('relays pregenerated sources/srcset and applies hero/tile sizes per index', () => {
+    const heroSources = [
+      { srcset: '/img/_gen/h-632w.avif 632w', type: 'image/avif' },
+      { srcset: '/img/_gen/h-632w.webp 632w', type: 'image/webp' },
+    ];
     const hero = {
-      image: { src: '/h.webp', alt: 'Hero', width: 1280, height: 720 },
+      image: {
+        src: '/img/h.jpg',
+        alt: 'Hero',
+        width: 1280,
+        height: 720,
+        sources: heroSources,
+        srcset: '/img/_gen/h-632w.webp 632w',
+      },
     };
     const tile = {
-      image: { src: '/t.webp', alt: 'Tile', width: 632, height: 474 },
+      image: { src: '/img/t.jpg', alt: 'Tile', width: 632, height: 474 },
     };
     const wrapper = mount(Gallery, {
-      props: {
-        items: [hero, tile],
-        ariaLabel: 'Project gallery',
-        imageComponent: ImgStub,
-      },
+      props: { items: [hero, tile], ariaLabel: 'Project gallery' },
     });
 
     const atoms = wrapper.findAllComponents({ name: 'AtomImage' });
 
     expect(atoms).toHaveLength(2);
-    expect(atoms[0]?.props('imageComponent')).toBe(ImgStub);
-    expect(atoms[0]?.props('sizes')).toBe('100vw xl:1280px');
-    expect(atoms[1]?.props('sizes')).toBe('100vw md:632px');
+    expect(atoms[0]?.props('sources')).toEqual(heroSources);
+    expect(atoms[0]?.props('srcset')).toBe('/img/_gen/h-632w.webp 632w');
+    expect(atoms[0]?.props('sizes')).toBe('(min-width: 1280px) 1280px, 100vw');
+    expect(atoms[1]?.props('sizes')).toBe('(min-width: 768px) 632px, 100vw');
+  });
+
+  it('renders hero/tile sizes as valid HTML sizes attributes on img and sources', () => {
+    const hero = {
+      image: {
+        src: '/img/h.jpg',
+        alt: 'Hero',
+        sources: [
+          { srcset: '/img/_gen/h-1280w.avif 1280w', type: 'image/avif' },
+          { srcset: '/img/_gen/h-1280w.webp 1280w', type: 'image/webp' },
+        ],
+        srcset: '/img/_gen/h-1280w.webp 1280w',
+      },
+    };
+    const tile = { image: { src: '/img/t.jpg', alt: 'Tile' } };
+    const wrapper = mount(Gallery, { props: { items: [hero, tile] } });
+
+    const figures = wrapper.findAll('figure.m-gallery__fig');
+    const heroSizes = [
+      ...(figures[0]?.findAll('source') ?? []),
+      figures[0]?.find('img.a-image'),
+    ].map((node) => node?.attributes('sizes'));
+
+    expect(heroSizes).toHaveLength(3);
+    heroSizes.forEach((sizes) => {
+      expect(sizes).toBe('(min-width: 1280px) 1280px, 100vw');
+      expectValidSizes(sizes);
+    });
+
+    const tileSizes = figures[1]?.find('img.a-image').attributes('sizes');
+
+    expect(tileSizes).toBe('(min-width: 768px) 632px, 100vw');
+    expectValidSizes(tileSizes);
+  });
+
+  it('renders a picture source per format for the item that carries sources', () => {
+    const wrapper = mount(Gallery, {
+      props: {
+        items: [
+          {
+            image: {
+              src: '/img/h.jpg',
+              alt: 'Hero',
+              sources: [
+                { srcset: '/img/_gen/h-632w.avif 632w', type: 'image/avif' },
+                { srcset: '/img/_gen/h-632w.webp 632w', type: 'image/webp' },
+              ],
+            },
+          },
+        ],
+      },
+    });
+    const rendered = wrapper.findAll('picture source');
+
+    expect(rendered).toHaveLength(2);
+    expect(rendered[0]?.attributes('type')).toBe('image/avif');
   });
 });

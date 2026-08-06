@@ -190,10 +190,10 @@ describe('useSeo', () => {
       const call = lastCall();
 
       expect(resolveValue(call.ogImage)).toBe(
-        'https://alexisbesson.fr/_ipx/cover_1200x630_jpeg/img/Projects/Arneo_Cover.jpg',
+        'https://alexisbesson.fr/img/Projects/_gen/Arneo_Cover-og.jpg',
       );
       expect(resolveValue(call.twitterImage)).toBe(
-        'https://alexisbesson.fr/_ipx/cover_1200x630_jpeg/img/Projects/Arneo_Cover.jpg',
+        'https://alexisbesson.fr/img/Projects/_gen/Arneo_Cover-og.jpg',
       );
       expect(call.ogImageWidth).toBe(1200);
       expect(call.ogImageHeight).toBe(630);
@@ -293,7 +293,7 @@ describe('useSeo', () => {
       const afterCall = lastCall();
 
       expect(resolveValue(afterCall.ogImage)).toBe(
-        'https://alexisbesson.fr/_ipx/cover_1200x630_jpeg/img/Projects/Arneo_Cover.jpg',
+        'https://alexisbesson.fr/img/Projects/_gen/Arneo_Cover-og.jpg',
       );
     });
 
@@ -314,7 +314,7 @@ describe('useSeo', () => {
       const call = lastCall();
 
       expect(resolveValue(call.ogImage)).toBe(
-        'https://alexisbesson.fr/_ipx/cover_1200x630_jpeg/img/Projects/Arneo_Cover.jpg',
+        'https://alexisbesson.fr/img/Projects/_gen/Arneo_Cover-og.jpg',
       );
     });
 
@@ -338,7 +338,7 @@ describe('useSeo', () => {
       const call = lastCall();
 
       expect(resolveValue(call.ogImage)).toBe(
-        'https://alexisbesson.fr/_ipx/cover_1200x630_jpeg/img/Projects/Arneo_Cover.jpg',
+        'https://alexisbesson.fr/img/Projects/_gen/Arneo_Cover-og.jpg',
       );
       expect(resolveValue(call.ogImageAlt)).toBe('Project title');
     });

@@ -3,11 +3,11 @@ import { resolve } from 'node:path';
 import { describe, expect, it } from 'vitest';
 
 import {
-  buildManifest,
   socialVariantPath,
   variantPath,
   WIDTHS_BY_ROLE,
-} from '../imageManifest';
+} from '../../../src/utils/imageVariants';
+import { buildManifest } from '../imageManifest';
 
 const CONTENT_ROOT = resolve(process.cwd(), 'content');
 const CODE_ASSETS = ['/img/og-default.jpg', '/img/Blog/author.jpg'];

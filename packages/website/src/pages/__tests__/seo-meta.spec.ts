@@ -241,10 +241,10 @@ describe('detail page with a resolved cover emits the recadrée og:image variant
       typeof value === 'function' ? (value as () => unknown)() : value;
 
     expect(resolveValue(call!.ogImage)).toBe(
-      'https://alexisbesson.fr/_ipx/cover_1200x630_jpeg/img/Projects/Arneo_Cover.jpg',
+      'https://alexisbesson.fr/img/Projects/_gen/Arneo_Cover-og.jpg',
     );
     expect(resolveValue(call!.twitterImage)).toBe(
-      'https://alexisbesson.fr/_ipx/cover_1200x630_jpeg/img/Projects/Arneo_Cover.jpg',
+      'https://alexisbesson.fr/img/Projects/_gen/Arneo_Cover-og.jpg',
     );
     expect(resolveValue(call!.ogImageAlt)).toBe('Portfolio v2');
   });

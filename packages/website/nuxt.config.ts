@@ -148,7 +148,7 @@ export default defineNuxtConfig({
     '/_nuxt/**': {
       headers: { 'Cache-Control': 'public, max-age=31536000, immutable' },
     },
-    '/_ipx/**': {
+    '/img/**/_gen/**': {
       headers: { 'Cache-Control': 'public, max-age=2592000' },
     },
     '/fonts/**': {
@@ -231,18 +231,8 @@ export default defineNuxtConfig({
     '@nuxtjs/i18n',
     '@nuxtjs/seo',
     '@nuxt/content',
-    '@nuxt/image',
     '@sentry/nuxt/module',
   ],
-
-  // Image (IPX runtime provider, SSR Nitro node, not SSG).
-  // No `densities`: content images use the `sizes` prop, which already emits
-  // width-descriptor variants (incl. 2x widths); combining the two produces
-  // spurious 1px/2px density variants.
-  image: {
-    format: ['avif', 'webp'],
-    quality: 72,
-  },
 
   // Sentry: DSN via NUXT_PUBLIC_SENTRY_DSN env var (no-op without it).
   // Source map upload: env-only credentials, never committed. Undefined values

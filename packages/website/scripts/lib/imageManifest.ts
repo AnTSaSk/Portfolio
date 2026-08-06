@@ -1,7 +1,14 @@
 import { readdirSync, readFileSync, statSync } from 'node:fs';
-import { join, extname, dirname, basename } from 'node:path';
+import { join } from 'node:path';
 
-export type ImageRole = 'cover' | 'gallery' | 'prose' | 'social';
+import {
+  RESPONSIVE_FORMATS,
+  SOCIAL_VARIANT,
+  socialVariantPath,
+  variantPath,
+  widthsForRole,
+  type ImageRole,
+} from '../../src/utils/imageVariants';
 
 export type ImageVariant = {
   width: number;
@@ -13,47 +20,6 @@ export type ManifestEntry = {
   source: string;
   role: ImageRole;
   variants: ImageVariant[];
-};
-
-export const GENERATED_DIR = '_gen';
-
-// Widths mirror the rendered geometry of each placement, at 1x and 2x.
-export const WIDTHS_BY_ROLE: Record<Exclude<ImageRole, 'social'>, number[]> = {
-  cover: [1280, 2560],
-  gallery: [632, 1264],
-  prose: [600, 1200],
-};
-
-export const SOCIAL_VARIANT = {
-  width: 1200,
-  height: 630,
-  format: 'jpeg' as const,
-};
-
-export const RESPONSIVE_FORMATS = ['avif', 'webp'] as const;
-
-/**
- * `<base>-<width>w.<ext>` for responsive variants, `<base>-og.jpg` for the social
- * one, mirrored under `_gen/`. Consumers rebuild these URLs by convention, so
- * the pattern cannot change without updating them.
- */
-export const variantPath = (
-  source: string,
-  width: number,
-  format: string,
-): string => {
-  const dir = dirname(source);
-  const base = basename(source, extname(source));
-  const ext = format === 'jpeg' ? 'jpg' : format;
-
-  return join(dir, GENERATED_DIR, `${base}-${width}w.${ext}`);
-};
-
-export const socialVariantPath = (source: string): string => {
-  const dir = dirname(source);
-  const base = basename(source, extname(source));
-
-  return join(dir, GENERATED_DIR, `${base}-og.jpg`);
 };
 
 const collectMarkdown = (root: string): string[] => {
@@ -130,7 +96,7 @@ export const buildManifest = (
       source,
       role,
       variants: [
-        ...WIDTHS_BY_ROLE[role === 'social' ? 'prose' : role].flatMap((width) =>
+        ...widthsForRole(role).flatMap((width) =>
           RESPONSIVE_FORMATS.map((format) => ({
             width,
             format,

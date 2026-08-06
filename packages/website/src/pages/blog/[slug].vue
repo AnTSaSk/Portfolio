@@ -18,7 +18,6 @@
             v-if="coverImage"
             variant="poster"
             :image="coverImage"
-            :image-component="NuxtImg"
             :category="article.tags?.[0]"
             :caption="article.cover?.caption"
             :title="article.cover?.caption"
@@ -67,7 +66,7 @@
 </template>
 
 <script setup lang="ts">
-  import { computed, resolveComponent, type Component } from 'vue';
+  import { computed } from 'vue';
 
   import { useLocaleContent } from '@/composables/useLocaleContent';
   import { useSeo } from '@/composables/useSeo';
@@ -81,6 +80,11 @@
   } from '@/constants/links';
 
   import { formatDate } from '@/utils/formatDate';
+  import {
+    pictureSourcesFor,
+    srcsetFor,
+    variantPath,
+  } from '@/utils/imageVariants';
   import { readingTime } from '@/utils/readingTime';
 
   import {
@@ -91,10 +95,6 @@
     Related,
     TOC,
   } from '@antsask/styleguide';
-
-  // resolveComponent is typed to also return the raw name string; NuxtImg is a
-  // globally registered component, so narrow it to Component for the DS prop.
-  const NuxtImg = resolveComponent('NuxtImg') as Component;
 
   /* global queryCollection, createError, useBreadcrumbItems */
 
@@ -150,7 +150,6 @@
   const route = useRoute();
   const { t, locale } = useI18n();
   const siteConfig = useSiteConfig();
-  const img = useImage();
   const localePath = useLocalePath();
   const { collection } = useLocaleContent('blog');
 
@@ -269,18 +268,23 @@
       return undefined;
     }
 
+    const { src, width, height } = article.value.cover;
+
     return {
-      src: article.value.cover.src,
+      src,
       alt: article.value.title,
-      width: article.value.cover.width,
-      height: article.value.cover.height,
+      width,
+      height,
+      sources: pictureSourcesFor(src, 'cover'),
+      srcset: srcsetFor(src, 'cover', 'webp'),
     };
   });
 
   const authorName = computed(() => article.value?.author ?? t('home.name'));
 
+  // Smallest prose variant: the source is a 104 kB full-size JPEG for a 128px avatar.
   const authorPhoto = {
-    src: img(AUTHOR_PHOTO_PATH, { width: 128, height: 128, fit: 'cover' }),
+    src: variantPath(AUTHOR_PHOTO_PATH, 600, 'webp'),
   };
 
   const authorInitials = computed(() =>

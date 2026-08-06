@@ -26,7 +26,14 @@
     height: 100%;
   }
 
+  .a-image__picture {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
   .a-image__frame > .a-image__ph,
+  .a-image__frame > .a-image__picture,
   .a-image__frame > .a-image.-reveal {
     grid-area: 1 / 1;
     width: 100%;
@@ -40,6 +47,10 @@
   .a-image.-reveal {
     opacity: 0;
     transition: opacity 320ms var(--ease-standard);
+    z-index: 2;
+  }
+
+  .a-image__frame > .a-image__picture {
     z-index: 2;
   }
 

@@ -16,13 +16,17 @@ export default defineConfig({
   },
   test: {
     environment: 'jsdom',
-    include: ['src/**/*.spec.ts'],
+    include: ['src/**/*.spec.ts', 'scripts/**/*.spec.ts'],
     setupFiles: ['./src/__tests__/setup/nuxt-macros.ts'],
     coverage: {
       provider: 'v8',
       reporter: ['text', 'lcov', 'json-summary'],
       reportsDirectory: './coverage',
-      include: ['src/composables/**/*.ts', 'src/utils/**/*.ts'],
+      include: [
+        'src/composables/**/*.ts',
+        'src/utils/**/*.ts',
+        'scripts/lib/**/*.ts',
+      ],
       exclude: ['**/*.d.ts'],
       thresholds: {
         branches: 80,
