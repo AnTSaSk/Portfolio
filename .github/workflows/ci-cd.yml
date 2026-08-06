@@ -234,7 +234,7 @@ jobs:
             sleep 15
 
             # Verify deployment
-            docker service ls --filter "name=${APP_NAME}_app"
+            docker stack services "${APP_NAME}"
 
       - name: Verify deployment
         uses: appleboy/ssh-action@0ff4204d59e8e51228ff73bce53f80d53301dee2 # v1.2.5
@@ -246,51 +246,76 @@ jobs:
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           envs: APP_NAME
           script: |
-            # Compare running replicas against the desired count declared by the
-            # stack, so the check survives a change of scale.
-            for i in {1..20}; do
-              REPLICAS=$(docker service ls --filter "name=${APP_NAME}_app" --format "{{.Replicas}}")
-              RUNNING="${REPLICAS%%/*}"
-              DESIRED="${REPLICAS##*/}"
-              DESIRED="${DESIRED%% *}"
+            # Every service of the stack is checked, discovered dynamically so a
+            # newly added one is covered without editing this workflow.
+            SERVICES=$(docker stack services "${APP_NAME}" --format '{{.Name}}')
 
-              if [[ -n "$RUNNING" && "$RUNNING" == "$DESIRED" && "$RUNNING" != "0" ]]; then
-                # A converged count can still include a task about to fail its
-                # healthcheck, so require the update itself to be complete.
-                STATE=$(docker service inspect "${APP_NAME}_app" \
-                  --format '{{if .UpdateStatus}}{{.UpdateStatus.State}}{{else}}none{{end}}' 2>/dev/null || echo "none")
+            if [[ -z "$SERVICES" ]]; then
+              echo "No service found in stack ${APP_NAME}"
+              exit 1
+            fi
 
-                if [[ "$STATE" == "none" || "$STATE" == "completed" ]]; then
-                  echo "Deployment successful: $REPLICAS (update state: $STATE)"
+            echo "Services to verify:"
+            echo "$SERVICES"
 
-                  echo "=== Recent logs ==="
-                  docker service logs --tail 30 "${APP_NAME}_app" 2>&1 | grep -E "(ready|listening|started|error)" | tail -10 || true
-                  exit 0
+            FAILED=""
+
+            for SERVICE in $SERVICES; do
+              CONVERGED=0
+
+              # Compare running replicas against the desired count declared by
+              # the stack, so the check survives a change of scale.
+              for i in {1..20}; do
+                REPLICAS=$(docker service ls --filter "name=${SERVICE}" --format "{{.Replicas}}")
+                RUNNING="${REPLICAS%%/*}"
+                DESIRED="${REPLICAS##*/}"
+                DESIRED="${DESIRED%% *}"
+
+                if [[ -n "$RUNNING" && "$RUNNING" == "$DESIRED" && "$RUNNING" != "0" ]]; then
+                  # A converged count can still include a task about to fail its
+                  # healthcheck, so require the update itself to be complete.
+                  STATE=$(docker service inspect "${SERVICE}" \
+                    --format '{{if .UpdateStatus}}{{.UpdateStatus.State}}{{else}}none{{end}}' 2>/dev/null || echo "none")
+
+                  if [[ "$STATE" == "none" || "$STATE" == "completed" ]]; then
+                    echo "${SERVICE} deployed: $REPLICAS (update state: $STATE)"
+                    CONVERGED=1
+                    break
+                  fi
+
+                  # Only states known to be terminal fail the service; anything
+                  # else is treated as still in flight so an unknown value cannot
+                  # trigger a false rollback.
+                  case "$STATE" in
+                    paused|rollback_started|rollback_paused|rollback_completed)
+                      echo "${SERVICE} update failed on the server (state: $STATE)"
+                      break
+                      ;;
+                  esac
+
+                  echo "Waiting for ${SERVICE} update to complete... ($REPLICAS, state: $STATE)"
+                  sleep 5
+                  continue
                 fi
 
-                # Only states known to be terminal fail the step; anything else
-                # is treated as still in flight so an unknown value cannot
-                # trigger a false rollback.
-                case "$STATE" in
-                  paused|rollback_started|rollback_paused|rollback_completed)
-                    echo "Update failed on the server (state: $STATE)"
-                    docker service ps --no-trunc "${APP_NAME}_app" 2>&1 | head -20 || true
-                    exit 1
-                    ;;
-                esac
-
-                echo "Waiting for update to complete... ($REPLICAS, state: $STATE)"
+                echo "Waiting for ${SERVICE}... ($REPLICAS)"
                 sleep 5
-                continue
-              fi
+              done
 
-              echo "Waiting for deployment... ($REPLICAS)"
-              sleep 5
+              if [[ "$CONVERGED" != "1" ]]; then
+                FAILED="${FAILED} ${SERVICE}"
+                echo "=== ${SERVICE} did not converge ==="
+                docker service ps --no-trunc "${SERVICE}" 2>&1 | head -20 || true
+                docker service logs --tail 50 "${SERVICE}" 2>&1 | tail -50 || true
+              fi
             done
-            echo "Deployment timeout"
-            docker service ps --no-trunc "${APP_NAME}_app" 2>&1 | head -20 || true
-            docker service logs --tail 50 "${APP_NAME}_app" 2>&1 || true
-            exit 1
+
+            if [[ -n "$FAILED" ]]; then
+              echo "Deployment failed for:${FAILED}"
+              exit 1
+            fi
+
+            echo "All services deployed successfully"
 
       - name: Rollback on failure
         if: failure()
@@ -304,7 +329,22 @@ jobs:
           envs: APP_NAME
           script: |
             echo "Rolling back deployment..."
-            docker service rollback "${APP_NAME}_app" || true
+
+            SERVICES=$(docker stack services "${APP_NAME}" --format '{{.Name}}')
+
+            for SERVICE in $SERVICES; do
+              REPLICAS=$(docker service ls --filter "name=${SERVICE}" --format "{{.Replicas}}")
+              RUNNING="${REPLICAS%%/*}"
+              DESIRED="${REPLICAS##*/}"
+              DESIRED="${DESIRED%% *}"
+
+              if [[ -n "$RUNNING" && "$RUNNING" == "$DESIRED" && "$RUNNING" != "0" ]]; then
+                continue
+              fi
+
+              echo "Rolling back ${SERVICE} ($REPLICAS)"
+              docker service rollback "${SERVICE}" || true
+            done
 
   lighthouse:
     name: Lighthouse CI
