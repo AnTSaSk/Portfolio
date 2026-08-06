@@ -53,7 +53,6 @@
 .l-page__error {
   position: relative;
   z-index: var(--z-content);
-  max-inline-size: 54ch;
 }
 
 .l-page__errorEyebrow {
