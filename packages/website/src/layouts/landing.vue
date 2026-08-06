@@ -1,5 +1,5 @@
 <template>
-  <div class="l-layoutLanding -locked">
+  <div class="l-layoutLanding -fullscreen">
     <Header
       :scrolled="isScrolled"
       :theme="resolvedTheme"

@@ -1,5 +1,5 @@
 <template>
-  <div class="l-layoutError -locked">
+  <div class="l-layoutError -fullscreen">
     <Header
       :scrolled="isScrolled"
       :theme="resolvedTheme"

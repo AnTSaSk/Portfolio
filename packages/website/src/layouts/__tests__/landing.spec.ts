@@ -88,18 +88,20 @@ describe('layouts/landing.vue', () => {
     ]);
   });
 
-  it('applies a locked-viewport ABEM camelCase class on its root element', async () => {
+  it('carries its viewport mode as an ABEM camelCase modifier on the root element', async () => {
     const LandingLayout = (await import('../landing.vue')).default;
     const wrapper = mount(LandingLayout, {
       slots: { default: '<div />' },
     });
 
     const rootClasses = wrapper.classes();
-    const lockedClass = rootClasses.find((cls) => /lock/i.test(cls));
 
-    expect(lockedClass).toBeDefined();
-    expect(lockedClass).not.toMatch(/^t-locked$/);
-    expect(lockedClass).not.toMatch(/-[a-z]+-[a-z]+/);
+    expect(rootClasses).toContain('l-layoutLanding');
+
+    const modifier = rootClasses.find((cls) => cls.startsWith('-'));
+
+    expect(modifier).toBeDefined();
+    expect(modifier).not.toMatch(/-[a-z]+-[a-z]+/);
   });
 
   it('does not set overflow-x hidden inline on its root element', async () => {

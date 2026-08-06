@@ -1,9 +1,5 @@
 <template>
-  <div
-    aria-hidden="true"
-    style="position: absolute; width: 0; height: 0; overflow: hidden"
-    v-html="sprite"
-  />
+  <div aria-hidden="true" class="l-spriteHost" v-html="sprite" />
   <NuxtLayout>
     <NuxtPage />
   </NuxtLayout>

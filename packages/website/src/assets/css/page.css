@@ -1,17 +1,15 @@
 .l-page.-home {
   position: relative;
   display: flex;
-  flex: 1 0 auto;
-  min-block-size: 100%;
+  flex: 1 1 auto;
 }
 
 .l-page.-about {
   position: relative;
   display: flex;
-  flex: 1 0 auto;
+  flex: 1 1 auto;
   align-items: center;
   justify-content: center;
-  min-block-size: 100%;
 }
 
 .l-page__note {
@@ -42,9 +40,8 @@
 .l-page.-error {
   position: relative;
   display: flex;
-  flex: 1 0 auto;
+  flex: 1 1 auto;
   align-items: center;
-  min-block-size: 100%;
 }
 
 .l-page.-error .l-container {

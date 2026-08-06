@@ -87,6 +87,84 @@ describe('website socle CSS', () => {
     );
   });
 
+  describe('sprite host : symbol store, never part of the layout', () => {
+    it('takes no space and is anchored, so it cannot lengthen the document', () => {
+      const rule =
+        readCss('layout.css').match(/\.l-spriteHost\s*\{[^}]*\}/)?.[0] ?? '';
+
+      expect(rule).toMatch(/position:\s*absolute/);
+      expect(rule).toMatch(/width:\s*0/);
+      expect(rule).toMatch(/height:\s*0/);
+      expect(rule).toMatch(/overflow:\s*hidden/);
+      // Without an offset an absolute box keeps its static position and still
+      // occupies a line in the flow.
+      expect(rule).toMatch(/top:\s*0/);
+      expect(rule).toMatch(/left:\s*0/);
+    });
+  });
+
+  describe('fullscreen layouts : content fills, scroll only when it overflows', () => {
+    const fullscreenRule = (): string =>
+      readCss('layout.css').match(
+        /\.l-layoutLanding\.-fullscreen[^{]*\{[^}]*\}/,
+      )?.[0] ?? '';
+
+    it('sizes every layout frame as a minimum, so real content can grow past it', () => {
+      const layoutCss = readCss('layout.css');
+
+      expect(layoutCss).toMatch(/min-block-size:\s*100dvh/);
+      expect(layoutCss).not.toMatch(/block-size:\s*100svh/);
+      // 100vh counts the mobile browser bars, guaranteeing an overflow.
+      expect(layoutCss).not.toMatch(/:\s*100vh/);
+    });
+
+    it('never traps the overflow, so the page scrolls when content exceeds the viewport', () => {
+      const rule = fullscreenRule();
+
+      expect(rule).not.toMatch(/overflow-y:\s*hidden/);
+      // Horizontal clipping stays: the full-bleed watermark must not widen the page.
+      expect(rule).toMatch(/overflow-x:\s*clip/);
+    });
+
+    it('does not lock scrolling on html or body', () => {
+      const layoutCss = readCss('layout.css');
+
+      expect(layoutCss).not.toMatch(/html:has\(/);
+      expect(layoutCss).not.toMatch(/body:has\(/);
+    });
+
+    it('lets the content block grow instead of pinning it to a percentage height', () => {
+      const pageCss = readCss('page.css');
+
+      expect(pageCss).not.toMatch(/min-block-size:\s*100%/);
+    });
+
+    it('lets the content band breathe elastically so decorative margins alone never force a scroll', () => {
+      const rule =
+        readCss('layout.css').match(
+          /\.-fullscreen\s+\.l-container__wrapper\s*\{[^}]*\}/,
+        )?.[0] ?? '';
+
+      // Fixed 80px top+bottom margins overflow a viewport-height frame on their
+      // own; the band must shrink before the real content is pushed out.
+      expect(rule).toMatch(/margin-block:\s*clamp\(/);
+    });
+
+    it.each(['-home', '-about', '-error'])(
+      'never clips %s, whose decorations overflow it on purpose',
+      (page) => {
+        const rule =
+          readCss('page.css').match(
+            new RegExp(`\\.l-page\\.\\${page}\\s*\\{[^}]*\\}`),
+          )?.[0] ?? '';
+
+        // The radial glow reaches above the block by design; clipping the block
+        // would cut that bleed off with a visible hard edge.
+        expect(rule).not.toMatch(/overflow:/);
+      },
+    );
+  });
+
   describe('content-band wrapper composed, not re-authored', () => {
     it('layout.css does not define its own .container selector', () => {
       const layoutCss = readCss('layout.css');
