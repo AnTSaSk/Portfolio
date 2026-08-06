@@ -49,28 +49,6 @@ export const Default: Story = {
   }),
 };
 
-export const Light: Story = {
-  globals: {
-    theme: 'light',
-  },
-  render: (args) => ({
-    components: { TOC },
-    setup: () => ({ args }),
-    template,
-  }),
-};
-
-export const Dark: Story = {
-  globals: {
-    theme: 'dark',
-  },
-  render: (args) => ({
-    components: { TOC },
-    setup: () => ({ args }),
-    template,
-  }),
-};
-
 // Demonstrates activeId tracking a scroll position: an IntersectionObserver
 // watches the sections and updates activeId to the topmost visible one.
 // Clicking a TOC item scrolls its section into view.

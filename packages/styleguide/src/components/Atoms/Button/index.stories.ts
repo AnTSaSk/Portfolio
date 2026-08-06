@@ -94,25 +94,3 @@ export const AsStatic: Story = {
     template: `<Button v-bind="args">Static (span)</Button>`,
   }),
 };
-
-export const Light: Story = {
-  globals: {
-    theme: 'light',
-  },
-  render: (args) => ({
-    components: { Button },
-    setup: () => ({ args }),
-    template: `<Button v-bind="args">Send message</Button>`,
-  }),
-};
-
-export const Dark: Story = {
-  globals: {
-    theme: 'dark',
-  },
-  render: (args) => ({
-    components: { Button },
-    setup: () => ({ args }),
-    template: `<Button v-bind="args">Send message</Button>`,
-  }),
-};

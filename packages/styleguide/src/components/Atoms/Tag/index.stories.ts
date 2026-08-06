@@ -36,21 +36,7 @@ const variantsTemplate = `
   </div>
 `;
 
-export const VariantsLight: Story = {
-  globals: {
-    theme: 'light',
-  },
-  render: (args) => ({
-    components: { Tag },
-    setup: () => ({ args }),
-    template: variantsTemplate,
-  }),
-};
-
-export const VariantsDark: Story = {
-  globals: {
-    theme: 'dark',
-  },
+export const Variants: Story = {
   render: (args) => ({
     components: { Tag },
     setup: () => ({ args }),
@@ -72,21 +58,7 @@ const slotsTemplate = `
   </div>
 `;
 
-export const SlotsLight: Story = {
-  globals: {
-    theme: 'light',
-  },
-  render: (args) => ({
-    components: { Tag },
-    setup: () => ({ args }),
-    template: slotsTemplate,
-  }),
-};
-
-export const SlotsDark: Story = {
-  globals: {
-    theme: 'dark',
-  },
+export const Slots: Story = {
   render: (args) => ({
     components: { Tag },
     setup: () => ({ args }),
@@ -103,21 +75,7 @@ const statesTemplate = `
   </div>
 `;
 
-export const StatesLight: Story = {
-  globals: {
-    theme: 'light',
-  },
-  render: (args) => ({
-    components: { Tag },
-    setup: () => ({ args }),
-    template: statesTemplate,
-  }),
-};
-
-export const StatesDark: Story = {
-  globals: {
-    theme: 'dark',
-  },
+export const States: Story = {
   render: (args) => ({
     components: { Tag },
     setup: () => ({ args }),
@@ -132,21 +90,7 @@ const strongTemplate = `
   </div>
 `;
 
-export const StrongLight: Story = {
-  globals: {
-    theme: 'light',
-  },
-  render: (args) => ({
-    components: { Tag },
-    setup: () => ({ args }),
-    template: strongTemplate,
-  }),
-};
-
-export const StrongDark: Story = {
-  globals: {
-    theme: 'dark',
-  },
+export const Strong: Story = {
   render: (args) => ({
     components: { Tag },
     setup: () => ({ args }),

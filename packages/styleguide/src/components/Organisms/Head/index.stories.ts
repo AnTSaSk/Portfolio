@@ -46,15 +46,3 @@ export const Article: Story = {
     template,
   }),
 };
-
-export const ArticleDark: Story = {
-  globals: {
-    theme: 'dark',
-  },
-  args: Article.args,
-  render: (args) => ({
-    components: { Head },
-    setup: () => ({ args }),
-    template,
-  }),
-};

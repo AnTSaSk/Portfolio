@@ -48,28 +48,6 @@ export const Default: Story = {
   }),
 };
 
-export const Light: Story = {
-  globals: {
-    theme: 'light',
-  },
-  render: (args) => ({
-    components: { Author },
-    setup: () => ({ args }),
-    template,
-  }),
-};
-
-export const Dark: Story = {
-  globals: {
-    theme: 'dark',
-  },
-  render: (args) => ({
-    components: { Author },
-    setup: () => ({ args }),
-    template,
-  }),
-};
-
 export const Initials: Story = {
   args: {
     photo: undefined,

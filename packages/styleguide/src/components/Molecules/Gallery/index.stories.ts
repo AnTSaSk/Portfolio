@@ -62,25 +62,3 @@ export const ThreeUp: Story = {
     template,
   }),
 };
-
-export const Light: Story = {
-  globals: {
-    theme: 'light',
-  },
-  render: (args) => ({
-    components: { Gallery },
-    setup: () => ({ args }),
-    template,
-  }),
-};
-
-export const Dark: Story = {
-  globals: {
-    theme: 'dark',
-  },
-  render: (args) => ({
-    components: { Gallery },
-    setup: () => ({ args }),
-    template,
-  }),
-};

@@ -36,14 +36,3 @@ export const Default: Story = {
     template,
   }),
 };
-
-export const Dark: Story = {
-  globals: {
-    theme: 'dark',
-  },
-  render: (args) => ({
-    components: { Hero },
-    setup: () => ({ args }),
-    template,
-  }),
-};

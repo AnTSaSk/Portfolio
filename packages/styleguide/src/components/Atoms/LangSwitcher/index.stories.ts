@@ -49,28 +49,6 @@ export const EnglishTarget: Story = {
   }),
 };
 
-export const Light: Story = {
-  globals: {
-    theme: 'light',
-  },
-  render: (args) => ({
-    components: { LangSwitcher },
-    setup: () => ({ args }),
-    template: `<LangSwitcher v-bind="args" />`,
-  }),
-};
-
-export const Dark: Story = {
-  globals: {
-    theme: 'dark',
-  },
-  render: (args) => ({
-    components: { LangSwitcher },
-    setup: () => ({ args }),
-    template: `<LangSwitcher v-bind="args" />`,
-  }),
-};
-
 export const Interactive: Story = {
   render: () => ({
     components: { LangSwitcher },

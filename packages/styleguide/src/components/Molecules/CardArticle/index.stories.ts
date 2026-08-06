@@ -84,28 +84,3 @@ export const ImageCover: Story = {
     template,
   }),
 };
-
-export const Light: Story = {
-  globals: {
-    theme: 'light',
-  },
-  args: {
-    image: { src: cover, alt: 'Aston Martin x Breitling hero shot' },
-  },
-  render: (args) => ({
-    components: { CardArticle },
-    setup: () => ({ args }),
-    template,
-  }),
-};
-
-export const Dark: Story = {
-  globals: {
-    theme: 'dark',
-  },
-  render: (args) => ({
-    components: { CardArticle },
-    setup: () => ({ args }),
-    template,
-  }),
-};

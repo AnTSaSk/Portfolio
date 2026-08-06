@@ -90,25 +90,3 @@ export const WithCounts: Story = {
     template: `<Filter v-bind="args" :items="items" @toggle="toggle" />`,
   }),
 };
-
-export const Light: Story = {
-  globals: {
-    theme: 'light',
-  },
-  render: (args) => ({
-    components: { Filter },
-    setup: () => ({ args, ...useFilterState(args.items) }),
-    template: `<Filter v-bind="args" :items="items" @toggle="toggle" />`,
-  }),
-};
-
-export const Dark: Story = {
-  globals: {
-    theme: 'dark',
-  },
-  render: (args) => ({
-    components: { Filter },
-    setup: () => ({ args, ...useFilterState(args.items) }),
-    template: `<Filter v-bind="args" :items="items" @toggle="toggle" />`,
-  }),
-};

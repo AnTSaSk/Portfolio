@@ -18,31 +18,6 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
-  globals: {
-    theme: 'light',
-  },
-  render: (args) => ({
-    components: { Logo },
-    setup: () => ({ args }),
-    template: `<div style="width: 92px; color: var(--logo-fg);"><Logo v-bind="args" /></div>`,
-  }),
-};
-
-export const Light: Story = {
-  globals: {
-    theme: 'light',
-  },
-  render: (args) => ({
-    components: { Logo },
-    setup: () => ({ args }),
-    template: `<div style="width: 92px; color: var(--logo-fg);"><Logo v-bind="args" /></div>`,
-  }),
-};
-
-export const Dark: Story = {
-  globals: {
-    theme: 'dark',
-  },
   render: (args) => ({
     components: { Logo },
     setup: () => ({ args }),

@@ -34,31 +34,3 @@ export const Default: Story = {
     template: fullBleedTemplate,
   }),
 };
-
-export const Light: Story = {
-  globals: {
-    theme: 'light',
-  },
-  parameters: {
-    layout: 'fullscreen',
-  },
-  render: (args) => ({
-    components: { Watermark },
-    setup: () => ({ args }),
-    template: fullBleedTemplate,
-  }),
-};
-
-export const Dark: Story = {
-  globals: {
-    theme: 'dark',
-  },
-  parameters: {
-    layout: 'fullscreen',
-  },
-  render: (args) => ({
-    components: { Watermark },
-    setup: () => ({ args }),
-    template: fullBleedTemplate,
-  }),
-};

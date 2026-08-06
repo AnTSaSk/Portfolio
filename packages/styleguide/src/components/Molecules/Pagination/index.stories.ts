@@ -107,25 +107,3 @@ export const LastPage: Story = {
     template: `<Pagination v-bind="args" :current="current" :has-prev="hasPrev" :has-next="hasNext" @select="select" @prev="prev" @next="next" />`,
   }),
 };
-
-export const Light: Story = {
-  globals: {
-    theme: 'light',
-  },
-  render: (args) => ({
-    components: { Pagination },
-    setup: () => ({ args, ...usePaginationState(args.current, args.pages) }),
-    template: `<Pagination v-bind="args" :current="current" :has-prev="hasPrev" :has-next="hasNext" @select="select" @prev="prev" @next="next" />`,
-  }),
-};
-
-export const Dark: Story = {
-  globals: {
-    theme: 'dark',
-  },
-  render: (args) => ({
-    components: { Pagination },
-    setup: () => ({ args, ...usePaginationState(args.current, args.pages) }),
-    template: `<Pagination v-bind="args" :current="current" :has-prev="hasPrev" :has-next="hasNext" @select="select" @prev="prev" @next="next" />`,
-  }),
-};

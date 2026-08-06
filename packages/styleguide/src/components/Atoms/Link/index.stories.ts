@@ -38,21 +38,7 @@ const proseTemplate = `
   </p>
 `;
 
-export const ProseLight: Story = {
-  globals: {
-    theme: 'light',
-  },
-  render: (args) => ({
-    components: { Link },
-    setup: () => ({ args }),
-    template: proseTemplate,
-  }),
-};
-
-export const ProseDark: Story = {
-  globals: {
-    theme: 'dark',
-  },
+export const Prose: Story = {
   render: (args) => ({
     components: { Link },
     setup: () => ({ args }),
@@ -69,21 +55,7 @@ const statesTemplate = `
   </div>
 `;
 
-export const StatesLight: Story = {
-  globals: {
-    theme: 'light',
-  },
-  render: (args) => ({
-    components: { Link },
-    setup: () => ({ args }),
-    template: statesTemplate,
-  }),
-};
-
-export const StatesDark: Story = {
-  globals: {
-    theme: 'dark',
-  },
+export const States: Story = {
   render: (args) => ({
     components: { Link },
     setup: () => ({ args }),
@@ -101,21 +73,7 @@ const variantsTemplate = `
   </div>
 `;
 
-export const VariantsLight: Story = {
-  globals: {
-    theme: 'light',
-  },
-  render: (args) => ({
-    components: { Link },
-    setup: () => ({ args }),
-    template: variantsTemplate,
-  }),
-};
-
-export const VariantsDark: Story = {
-  globals: {
-    theme: 'dark',
-  },
+export const Variants: Story = {
   render: (args) => ({
     components: { Link },
     setup: () => ({ args }),
@@ -137,21 +95,7 @@ const iconTemplate = `
   </div>
 `;
 
-export const IconLight: Story = {
-  globals: {
-    theme: 'light',
-  },
-  render: (args) => ({
-    components: { Link, Icon },
-    setup: () => ({ args }),
-    template: iconTemplate,
-  }),
-};
-
-export const IconDark: Story = {
-  globals: {
-    theme: 'dark',
-  },
+export const IconOnly: Story = {
   render: (args) => ({
     components: { Link, Icon },
     setup: () => ({ args }),

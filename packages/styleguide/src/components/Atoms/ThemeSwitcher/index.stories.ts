@@ -51,7 +51,6 @@ export const Disabled: Story = {
   args: { disabled: true },
 };
 
-export const Dark: Story = {
+export const DarkThemeActive: Story = {
   args: { theme: 'dark' },
-  globals: { theme: 'dark' },
 };
