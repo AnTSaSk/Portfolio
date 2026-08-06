@@ -25,9 +25,9 @@ describe('nuxt.config.ts security headers', () => {
     expect(configSource).toMatch(/microphone=\(\)/);
   });
 
-  it('serves the CSP in report-only mode (ADR-0039)', () => {
-    expect(configSource).toContain('Content-Security-Policy-Report-Only');
-    expect(configSource).not.toContain("'Content-Security-Policy':");
+  it('serves the CSP as an enforced header, never report-only (ADR-0046)', () => {
+    expect(configSource).toContain("'Content-Security-Policy':");
+    expect(configSource).not.toContain('Content-Security-Policy-Report-Only');
   });
 
   it('hashes the exact themeScript literal injected in app.head', () => {

@@ -424,4 +424,17 @@ describe('pages/projects/[slug].vue', () => {
       expect.objectContaining({ statusCode: 404, fatal: true }),
     );
   });
+
+  it('renders a visible state instead of an empty page when the project is null', async () => {
+    stubEnv('en', 'unknown-slug', null);
+    const CaseStudy = (await import('../[slug].vue')).default;
+    const wrapper = mount(CaseStudy);
+
+    await flushPromises();
+
+    expect(wrapper.find('article').exists()).toBe(false);
+    expect(wrapper.find('p.a-prose').text()).toBe(
+      createT('en')('error.description.default'),
+    );
+  });
 });

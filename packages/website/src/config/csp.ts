@@ -14,8 +14,8 @@ interface BuildCspOptions {
   sentryDsn?: string;
 }
 
-// Report-Only CSP: inline script/style allowed by hash, never unsafe-inline.
-// Third-party origins added only when configured.
+// Enforced CSP, single source of truth for the app: inline script/style allowed
+// by hash, never unsafe-inline. Third-party origins added only when configured.
 export const buildCsp = ({
   inline,
   umamiSrc,
@@ -36,7 +36,13 @@ export const buildCsp = ({
   const umamiOrigin = origin(umamiSrc);
   const sentryOrigin = origin(sentryDsn);
 
-  const scriptSrc = ["'self'", sha256Hash(inline.themeScript), umamiOrigin];
+  // wasm-unsafe-eval: @nuxt/content runs a WASM-compiled SQLite in the browser.
+  const scriptSrc = [
+    "'self'",
+    "'wasm-unsafe-eval'",
+    sha256Hash(inline.themeScript),
+    umamiOrigin,
+  ];
   const styleSrc = ["'self'", sha256Hash(inline.criticalStyle)];
   const connectSrc = ["'self'", umamiOrigin, sentryOrigin];
 
@@ -50,6 +56,7 @@ export const buildCsp = ({
     ['object-src', ["'none'"]],
     ['base-uri', ["'self'"]],
     ['frame-ancestors', ["'self'"]],
+    ['form-action', ["'self'"]],
   ] as const;
 
   return directives

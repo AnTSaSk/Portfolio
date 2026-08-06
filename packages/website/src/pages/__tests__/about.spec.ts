@@ -178,6 +178,18 @@ describe('pages/about/index.vue', () => {
     );
   });
 
+  it('renders a visible state instead of an empty page when the document is null', async () => {
+    stubEnv('en', null);
+    const AboutPage = (await import('../about/index.vue')).default;
+    const wrapper = mount(AboutPage, mountOptions);
+
+    await flushPromises();
+
+    expect(wrapper.find('p.a-prose').text()).toBe(
+      createT('en')('error.description.default'),
+    );
+  });
+
   it('passes the English about.marquee translation to Watermark', async () => {
     stubEnv('en', makeDoc());
     const t = createT('en');

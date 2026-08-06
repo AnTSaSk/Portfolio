@@ -56,5 +56,9 @@ NGINX
 
 EXPOSE 8080
 
+# Run as the image's own nginx user: the root entrypoint would chown the cache
+# dirs to it, which cap_drop:[ALL] refuses (nginx exits [emerg] at boot).
+USER nginx
+
 HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
     CMD wget -q -O /dev/null http://127.0.0.1:8080/health || exit 1

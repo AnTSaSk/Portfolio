@@ -71,9 +71,7 @@ services:
         - 'traefik.http.middlewares.${APP_NAME:-portfolio}-security.headers.browserXssFilter=true'
         - 'traefik.http.middlewares.${APP_NAME:-portfolio}-security.headers.referrerPolicy=strict-origin-when-cross-origin'
         - 'traefik.http.middlewares.${APP_NAME:-portfolio}-security.headers.permissionsPolicy=accelerometer=(), ambient-light-sensor=(), autoplay=(), camera=(), document-domain=(), encrypted-media=(), fullscreen=(self), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), midi=(), payment=(), picture-in-picture=(), usb=()'
-        # CSP adapted for Nuxt 3 SSR (unsafe-inline required for Vue hydration scripts and styles)
-        # connect-src includes Sentry ingest endpoints for error reporting
-        - "traefik.http.middlewares.${APP_NAME:-portfolio}-security.headers.contentSecurityPolicy=default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data:; connect-src 'self' https://*.ingest.sentry.io https://*.sentry.io; frame-ancestors 'none'; form-action 'self'; base-uri 'self'"
+        # No CSP here: the app serves its own, derived from build-time inline hashes.
 
         # Middleware: Rate limiting
         - 'traefik.http.middlewares.${APP_NAME:-portfolio}-ratelimit.ratelimit.average=100'
@@ -168,6 +166,9 @@ services:
         - 'traefik.http.middlewares.styleguide-ratelimit.ratelimit.period=1s'
 
     # Security hardening: read_only requires tmpfs for nginx runtime dirs
+    # nginx uid from the base image: as root the entrypoint chowns the cache
+    # dirs, which cap_drop below refuses, and nginx exits [emerg] at boot.
+    user: '101:101'
     cap_drop:
       - ALL
     read_only: true

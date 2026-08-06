@@ -160,7 +160,7 @@ export default defineNuxtConfig({
         'X-Frame-Options': 'SAMEORIGIN',
         'Strict-Transport-Security': 'max-age=31536000; includeSubDomains',
         'Permissions-Policy': 'geolocation=(), camera=(), microphone=()',
-        'Content-Security-Policy-Report-Only': contentSecurityPolicy,
+        'Content-Security-Policy': contentSecurityPolicy,
       },
     },
     '/': { sitemap: { priority: 1, changefreq: 'weekly' } },

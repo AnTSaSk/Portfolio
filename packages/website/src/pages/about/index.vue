@@ -5,6 +5,7 @@
       <div class="l-container__wrapper">
         <div class="l-page__note">
           <ContentRenderer v-if="doc" class="a-prose" :value="doc" />
+          <p v-else class="a-prose">{{ t('error.description.default') }}</p>
           <div class="l-page__legal">
             <Button type="link" variant="ghost" :href="legalHref">
               {{ t('about.legal') }}

@@ -44,6 +44,7 @@
             :aria-label="t('projects.project.galleryAriaLabel')"
           />
         </article>
+        <p v-else class="a-prose">{{ t('error.description.default') }}</p>
       </div>
     </div>
   </div>

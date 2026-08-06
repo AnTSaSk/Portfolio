@@ -377,4 +377,17 @@ describe('pages/blog/[slug].vue', () => {
       expect.objectContaining({ statusCode: 404 }),
     );
   });
+
+  it('renders a visible state instead of an empty page when the article is null', async () => {
+    stubEnv('en', 'unknown-slug', null);
+    const BlogArticle = (await import('../[slug].vue')).default;
+    const wrapper = mountSuspended(BlogArticle);
+
+    await flushPromises();
+
+    expect(wrapper.find('article').exists()).toBe(false);
+    expect(wrapper.find('p.a-prose').text()).toBe(
+      createT('en')('error.description.default'),
+    );
+  });
 });
