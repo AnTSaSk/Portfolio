@@ -86,9 +86,9 @@ describe('app.vue', () => {
     );
   });
 
-  // a WebSite node (name, url, inLanguage) alongside Person, no
-  // fabricated SearchAction (no real site search exists).
-  it('passes a WebSite node with name, url and an EN/FR inLanguage indication', async () => {
+  // The schema-org module auto-emits the #website identity node; a manual
+  // WebSite here would duplicate it in the rendered @graph.
+  it('passes no manual WebSite node — Person is the only node', async () => {
     await mountApp();
 
     const { calls } = useSchemaOrgMock.mock;
@@ -96,27 +96,10 @@ describe('app.vue', () => {
     expect(calls[0]).toBeDefined();
 
     const [schemaNodes] = calls[0]! as [Array<Record<string, unknown>>];
-    const website = schemaNodes.find((node) => node['@type'] === 'WebSite');
 
-    expect(website).toBeDefined();
-    expect(website).toMatchObject({
-      name: 'Alexis Besson',
-      url: 'https://alexisbesson.fr',
-    });
-    expect(['en', 'fr']).toContain(website!.inLanguage);
-  });
-
-  it('never includes a potentialAction/SearchAction on the WebSite node', async () => {
-    await mountApp();
-
-    const { calls } = useSchemaOrgMock.mock;
-
-    expect(calls[0]).toBeDefined();
-
-    const [schemaNodes] = calls[0]! as [Array<Record<string, unknown>>];
-    const website = schemaNodes.find((node) => node['@type'] === 'WebSite');
-
-    expect(website).toBeDefined();
-    expect(website).not.toHaveProperty('potentialAction');
+    expect(schemaNodes).toHaveLength(1);
+    expect(
+      schemaNodes.find((node) => node['@type'] === 'WebSite'),
+    ).toBeUndefined();
   });
 });

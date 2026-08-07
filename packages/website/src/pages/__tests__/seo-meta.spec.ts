@@ -6,7 +6,7 @@ import { createT } from './__stubs__/createT';
 import en from '../../../i18n/locales/en.json';
 import fr from '../../../i18n/locales/fr.json';
 
-import { useSeoMetaMock } from '@/__tests__/setup/nuxt-macros';
+import { useHeadMock, useSeoMetaMock } from '@/__tests__/setup/nuxt-macros';
 
 // editorial per-page title/description meta, driven by i18n, with
 // EN/FR parity. hreflang alternates are emitted automatically by
@@ -112,6 +112,54 @@ describe('editorial per-page SEO meta keys exist with EN/FR parity', () => {
 
   it.each(editorialKeys)('%s is defined in fr.json', (key) => {
     expect(getByPath(fr as Messages, key)).toEqual(expect.any(String));
+  });
+});
+
+// The global @nuxtjs/seo titleTemplate appends "| Alexis Besson"; a brand
+// suffix inside the i18n value would render it twice.
+describe('static page titles carry no inline brand suffix', () => {
+  const staticTitleKeys = [
+    'about.seo.title',
+    'blog.seo.title',
+    'projects.seo.title',
+    'legal.seo.title',
+  ];
+
+  it.each(staticTitleKeys)('%s has no brand suffix in en.json', (key) => {
+    expect(getByPath(en as Messages, key)).not.toContain('Alexis Besson');
+  });
+
+  it.each(staticTitleKeys)('%s has no brand suffix in fr.json', (key) => {
+    expect(getByPath(fr as Messages, key)).not.toContain('Alexis Besson');
+  });
+});
+
+describe('homepage keeps its exact brand-first title', () => {
+  it('home.seo.title is the exact brand-first title in both locales', () => {
+    expect(getByPath(en as Messages, 'home.seo.title')).toBe(
+      "Alexis Besson {'|'} Lead Front-end Developer",
+    );
+    expect(getByPath(fr as Messages, 'home.seo.title')).toBe(
+      "Alexis Besson {'|'} Lead Développeur Front-end",
+    );
+  });
+
+  it('disables the global titleTemplate on the home page via useHead', async () => {
+    useHeadMock.mockClear();
+    stubEnv('en');
+
+    const HomePage = (await import('../home/index.vue')).default;
+
+    mount(HomePage);
+
+    const templateCall = useHeadMock.mock.calls.find(
+      (args) => 'titleTemplate' in ((args[0] ?? {}) as Record<string, unknown>),
+    );
+
+    expect(templateCall).toBeDefined();
+    expect(
+      (templateCall?.[0] as Record<string, unknown>).titleTemplate,
+    ).toBeNull();
   });
 });
 

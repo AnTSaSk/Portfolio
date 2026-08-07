@@ -4,7 +4,7 @@
     "marquee": "ABOUT ME",
     "seo": {
       "description": "A front-end developer for about ten years. How I work, and how I approach code quality and AI-assisted development.",
-      "title": "About {'|'} Alexis Besson"
+      "title": "About"
     }
   },
   "blog": {
@@ -37,7 +37,7 @@
     },
     "seo": {
       "description": "Articles on front-end development, Vue.js, TypeScript, design systems, and engineering.",
-      "title": "Blog {'|'} Alexis Besson"
+      "title": "Blog"
     }
   },
   "common": {
@@ -131,7 +131,7 @@
     "lastUpdated": "Last updated: {date}",
     "seo": {
       "description": "Legal notice, publisher and hosting information for the Alexis Besson portfolio website.",
-      "title": "Legal notice {'|'} Alexis Besson"
+      "title": "Legal notice"
     },
     "title": "Legal notice"
   },
@@ -170,7 +170,7 @@
     },
     "seo": {
       "description": "Selected projects by Alexis Besson: design systems, Vue.js applications, and front-end engineering.",
-      "title": "Projects {'|'} Alexis Besson"
+      "title": "Projects"
     }
   },
   "seo": {

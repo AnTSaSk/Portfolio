@@ -10,15 +10,15 @@
 
   import { AUTHOR_PHOTO_PATH } from '@/constants/assets';
 
-  const { url, name } = useSiteConfig();
-  const { locale } = useI18n();
+  const { url } = useSiteConfig();
 
   // i18n SEO tags (hreflang alternates, canonical, og:locale) for every route.
   const localeHead = useLocaleHead();
   useHead(localeHead);
 
   // Global Person: disambiguates the homonym-prone name across every page.
-  // WebSite: no potentialAction/SearchAction, no site search exists.
+  // WebSite comes from the schema-org module's auto #website node (no
+  // potentialAction/SearchAction, no site search exists).
   useSchemaOrg([
     {
       '@type': 'Person',
@@ -33,12 +33,6 @@
         'https://github.com/AnTSaSk',
         'https://x.com/AlexisBessonWeb',
       ],
-    },
-    {
-      '@type': 'WebSite',
-      name,
-      url,
-      inLanguage: locale.value,
     },
   ]);
 </script>

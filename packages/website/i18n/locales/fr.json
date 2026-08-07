@@ -4,7 +4,7 @@
     "marquee": "\u00c0 PROPOS",
     "seo": {
       "description": "D\u00e9veloppeur front depuis une dizaine d'ann\u00e9es. Ma fa\u00e7on de travailler, mon rapport \u00e0 la qualit\u00e9 et au d\u00e9veloppement assist\u00e9 par IA.",
-      "title": "\u00c0 propos {'|'} Alexis Besson"
+      "title": "\u00c0 propos"
     }
   },
   "blog": {
@@ -37,7 +37,7 @@
     },
     "seo": {
       "description": "Articles sur le développement front-end, Vue.js, TypeScript, les design systems et l'ingénierie.",
-      "title": "Blog {'|'} Alexis Besson"
+      "title": "Blog"
     }
   },
   "common": {
@@ -131,7 +131,7 @@
     "lastUpdated": "Dernière mise à jour : {date}",
     "seo": {
       "description": "Mentions légales, éditeur et hébergeur du portfolio d'Alexis Besson.",
-      "title": "Mentions légales {'|'} Alexis Besson"
+      "title": "Mentions légales"
     },
     "title": "Mentions légales"
   },
@@ -170,7 +170,7 @@
     },
     "seo": {
       "description": "Projets sélectionnés d'Alexis Besson : design systems, applications Vue.js et ingénierie front-end.",
-      "title": "Projets {'|'} Alexis Besson"
+      "title": "Projets"
     }
   },
   "seo": {

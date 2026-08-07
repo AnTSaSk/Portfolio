@@ -50,4 +50,8 @@
     title: t('home.seo.title'),
     description: t('home.seo.description'),
   });
+
+  // Brand-first home title: the global "%s | Alexis Besson" template would
+  // append the name a second time.
+  useHead({ titleTemplate: null });
 </script>
