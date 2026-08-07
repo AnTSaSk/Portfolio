@@ -221,6 +221,13 @@ export default defineNuxtConfig({
 
   srcDir: 'src/',
 
+  // Only .vue files are pages: colocated test helpers under src/pages/ were
+  // otherwise routed too, serving stub components at public URLs (and a 500
+  // for the ones exporting a plain function).
+  pages: {
+    pattern: ['**/*.vue', '!**/__tests__/**', '!**/*.spec.*'],
+  },
+
   // Typescript
   typescript: {
     // shim: false,
