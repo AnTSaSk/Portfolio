@@ -83,7 +83,7 @@ describe('arbitrated spacing values consume the scale', () => {
       'MainNav minified padding',
       'Organisms/MainNav/style.css',
       '.o-mainNav.-min',
-      'padding-block: var(--space-3);',
+      'padding: var(--space-3);',
     ],
     [
       'MetaList links gap',
