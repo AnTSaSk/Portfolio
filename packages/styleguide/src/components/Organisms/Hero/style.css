@@ -4,8 +4,8 @@
     display: flex;
     flex: 1 1 auto;
     align-items: center;
+    padding: clamp(12px, 2.5vh, 40px) var(--space-4) clamp(64px, 11vh, 110px);
     overflow-x: clip;
-    padding-block: clamp(12px, 2.5vh, 40px) clamp(64px, 11vh, 110px);
   }
 
   .o-hero__inner {
