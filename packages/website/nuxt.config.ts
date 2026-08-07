@@ -320,10 +320,27 @@ export default defineNuxtConfig({
     ],
     strategy: 'prefix_except_default',
     customRoutes: 'config',
+    // @nuxtjs/sitemap builds its route list exclusively from this table once it is non-empty
+    // (it drops the `nuxt:pages` source), so every indexable route must appear here or it is
+    // missing from sitemap.xml.
     pages: {
+      // `home/index.vue` forces `path: '/'` via definePageMeta, which i18n does not mirror
+      // into its own mapping: without these values the home resolves to /home, a 404.
+      'home/index': {
+        en: '/',
+        fr: '/',
+      },
       about: {
         en: '/about',
         fr: '/à-propos',
+      },
+      'blog/index': {
+        en: '/blog',
+        fr: '/blog',
+      },
+      'blog/[slug]': {
+        en: '/blog/[slug]',
+        fr: '/blog/[slug]',
       },
       'legal/index': {
         en: '/legal',

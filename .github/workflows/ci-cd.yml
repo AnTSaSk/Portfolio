@@ -79,6 +79,11 @@ jobs:
       - name: Lighthouse CI (perf budget)
         run: pnpm perf:audit
 
+      # Reuses the .output that perf:audit just built. Blocking: a draft URL reaching the
+      # sitemap must fail the pipeline.
+      - name: Verify sitemap (content URLs, no drafts)
+        run: pnpm --filter @antsask/website verify:sitemap
+
   build:
     name: Build & Push
     needs: [quality, lighthouse-budget]
