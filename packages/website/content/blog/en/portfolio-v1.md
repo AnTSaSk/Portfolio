@@ -1,17 +1,17 @@
 ---
-title: 'Portfolio v1: the launch, and what''s behind it'
+title: "Portfolio v1: the launch, and what's behind it"
 description: "The launch of my portfolio, a project I'd had in mind since 2023: what you'll find on it, why the design system is public, and the choices behind the site."
-date: 2026-08-07
+date: 2026-08-11
 tags:
-  - Nuxt
-  - Storybook
-  - Open-source
-  - Design System
+    - Nuxt
+    - Storybook
+    - Open-source
+    - Design System
 cover:
-  src: /img/Blog/N0_Cover.jpg
-  width: 2560
-  height: 1440
-  caption: "I put a photo of my cat here to boost this article's traffic."
+    src: /img/Blog/N0_Cover.jpg
+    width: 2560
+    height: 1440
+    caption: "I put a photo of my cat here to boost this article's traffic."
 author: Alexis Besson
 ---
 
