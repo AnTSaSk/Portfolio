@@ -1,17 +1,17 @@
 ---
-title: 'Portfolio v1 : le lancement, et ce qu''il y a derrière'
+title: "Portfolio v1 : le lancement, et ce qu'il y a derrière"
 description: "Le lancement de mon portfolio, un projet en tête depuis 2023 : ce qu'on y trouve, pourquoi le design system est public, et les choix derrière le site."
 date: 2026-08-07
 tags:
-  - Nuxt
-  - Storybook
-  - Open-source
-  - Design System
+    - Nuxt
+    - Storybook
+    - Open-source
+    - Design System
 cover:
-  src: /img/Blog/N0_Cover.jpg
-  width: 2560
-  height: 1440
-  caption: "J'ai mis une photo de mon chat pour augmenter le trafic de l'article."
+    src: /img/Blog/N0_Cover.jpg
+    width: 2560
+    height: 1440
+    caption: "J'ai mis une photo de mon chat pour augmenter le trafic de l'article."
 author: Alexis Besson
 ---
 
@@ -37,7 +37,7 @@ Le blog, c'est l'idée qui me trottait dans la tête depuis le plus longtemps. J
 
 ## La visite guidée
 
-Le résultat, c'est le site que vous lisez. Une vitrine, au sens complet : ce que je sais faire, mon expérience, les projets que j'ai portés en tant que Lead comme en tant que développeur, et les choses que je découvre en chemin. Côté projets, vous y trouverez entre autres [Breitling × Aston Martin](/fr/projects/valhalla-breitling-aston-martin), [Jaguar Land Rover](/fr/projects/jlr-cockpit), [Paper.club](/fr/projects/paper-club) ou encore [Emeis](/fr/projects/emeis). J'en suis d'autant plus fier que tous ces projets sont encore en production aujourd'hui, sans refonte (pour l'instant... je touche du bois). Les plus anciens, comme Jaguar Land Rover ou Paper.club, tournent depuis des années : la preuve que les choix front de l'époque étaient les « bons », et qu'ils tiennent dans la durée. La maintenance se fait sans accumuler de dette technique, les produits continuent d'évoluer avec de nouvelles features, et Paper.club a même traversé une migration de Vue 2 vers Vue 3 sans refonte.
+Le résultat, c'est le site que vous lisez. Une vitrine, au sens complet : ce que je sais faire, mon expérience, les projets que j'ai portés en tant que Lead comme en tant que développeur, et les choses que je découvre en chemin. Côté projets, vous y trouverez entre autres [Breitling × Aston Martin](/fr/projets/valhalla-breitling-aston-martin), [Jaguar Land Rover](/fr/projets/jlr-cockpit), [Paper.club](/fr/projets/paper-club) ou encore [Emeis](/fr/projets/emeis). J'en suis d'autant plus fier que tous ces projets sont encore en production aujourd'hui, sans refonte (pour l'instant... je touche du bois). Les plus anciens, comme Jaguar Land Rover ou Paper.club, tournent depuis des années : la preuve que les choix front de l'époque étaient les « bons », et qu'ils tiennent dans la durée. La maintenance se fait sans accumuler de dette technique, les produits continuent d'évoluer avec de nouvelles features, et Paper.club a même traversé une migration de Vue 2 vers Vue 3 sans refonte.
 
 ## Tout est public
 
