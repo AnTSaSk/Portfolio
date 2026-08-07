@@ -179,6 +179,7 @@ export default defineNuxtConfig({
       headers: { 'Cache-Control': 'public, max-age=2592000' },
     },
     '/**': {
+      swr: 3600,
       headers: {
         'X-Content-Type-Options': 'nosniff',
         'Referrer-Policy': 'strict-origin-when-cross-origin',
@@ -192,6 +193,9 @@ export default defineNuxtConfig({
           : {}),
       },
     },
+    // Health must reflect the live process, never a memoized response.
+    // `swr` is normalized to a `cache` rule, so only `cache: false` resets it.
+    '/health': { cache: false },
     '/': { sitemap: { priority: 1, changefreq: 'weekly' } },
     '/projects': { sitemap: { priority: 0.9, changefreq: 'weekly' } },
     '/blog': { sitemap: { priority: 0.7, changefreq: 'weekly' } },
