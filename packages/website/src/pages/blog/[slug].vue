@@ -190,7 +190,7 @@
         .where('path', '=', articlePath.value)
         .first()) as BlogArticle | null;
 
-      if (!found) {
+      if (!found || found.draft) {
         throw createError({
           statusCode: 404,
           statusMessage: 'Article not found',

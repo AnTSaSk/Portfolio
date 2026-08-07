@@ -69,21 +69,6 @@ function makeProject(overrides: Partial<ProjectFixture>): ProjectFixture {
   };
 }
 
-// Mixes a draft project with the highest year (must be excluded) and more
-// than 3 non-draft candidates (must be sliced to 3, ordered by year DESC).
-const RELATED_FIXTURES: ProjectFixture[] = [
-  makeProject({ title: 'Related A', year: 2024, path: '/projects/en/other-a' }),
-  makeProject({
-    title: 'Related B (draft)',
-    year: 2026,
-    draft: true,
-    path: '/projects/en/other-b',
-  }),
-  makeProject({ title: 'Related C', year: 2023, path: '/projects/en/other-c' }),
-  makeProject({ title: 'Related D', year: 2022, path: '/projects/en/other-d' }),
-  makeProject({ title: 'Related E', year: 2021, path: '/projects/en/other-e' }),
-];
-
 // --- Minimal structural stubs for the barrel components this page composes.
 // Aligned to the real DS prop APIs read this session (Head/MediaCover/
 // MetaList/Gallery/Related/CardProject) so the page's wiring is observable.
@@ -138,46 +123,17 @@ const GalleryStub = defineComponent({
     h('section', { class: 'm-gallery' }),
 });
 
-const CardProjectStub = defineComponent({
-  name: 'MoleculeCardProject',
-  props: {
-    href: { type: String, default: '' },
-    title: { type: String, default: '' },
-    meta: { type: String, default: '' },
-    stack: { type: Array, default: () => [] },
-    desc: { type: String, default: '' },
-    image: { type: Object, default: undefined },
-  },
-  setup: (props) => (): ReturnType<typeof h> =>
-    h('li', { class: 'm-project-card' }, props.title),
-});
-
-const RelatedStub = defineComponent({
-  name: 'OrganismRelated',
-  props: {
-    eyebrow: { type: String, default: '' },
-    ariaLabel: { type: String, default: '' },
-  },
-  setup:
-    (_props, { slots }) =>
-    (): ReturnType<typeof h> =>
-      h('section', { class: 'o-related' }, slots.default?.()),
-});
-
 vi.mock('@antsask/styleguide', () => ({
   Head: HeadStub,
   MediaCover: MediaCoverStub,
   MetaList: MetaListStub,
   Gallery: GalleryStub,
-  Related: RelatedStub,
-  CardProject: CardProjectStub,
 }));
 
 const createErrorMock = vi.fn((input: unknown) => input);
 
 function createQueryCollectionMock(
   match: ProjectFixture | null,
-  related: ProjectFixture[],
 ): Record<string, unknown> {
   const builder: Record<string, unknown> = {
     where: vi.fn(() => builder),
@@ -185,7 +141,6 @@ function createQueryCollectionMock(
     orWhere: vi.fn(() => builder),
     order: vi.fn(() => builder),
     limit: vi.fn(() => builder),
-    all: vi.fn(() => Promise.resolve(match ? related : [])),
     first: vi.fn(() => Promise.resolve(match)),
   };
 
@@ -196,7 +151,6 @@ function stubEnv(
   locale: 'en' | 'fr',
   slug: string,
   match: ProjectFixture | null,
-  related: ProjectFixture[] = RELATED_FIXTURES,
 ): void {
   const t = createT(locale);
 
@@ -204,7 +158,7 @@ function stubEnv(
   vi.stubGlobal('useRoute', () => ({ params: { slug } }));
   vi.stubGlobal(
     'queryCollection',
-    vi.fn(() => createQueryCollectionMock(match, related)),
+    vi.fn(() => createQueryCollectionMock(match)),
   );
   vi.stubGlobal(
     'useAsyncData',
@@ -516,5 +470,41 @@ describe('pages/projects/[slug].vue', () => {
 
     expect(wrapper.find('article').exists()).toBe(false);
     expect(wrapper.text()).toBe('');
+  });
+
+  it('triggers a fatal 404 createError when the matched project is a draft', async () => {
+    stubEnv('en', 'draft-project', makeProject({ draft: true }));
+    createErrorMock.mockClear();
+    const CaseStudy = (await import('../[slug].vue')).default;
+
+    mountSuspended(CaseStudy);
+    await flushPromises();
+
+    expect(createErrorMock).toHaveBeenCalledWith(
+      expect.objectContaining({ statusCode: 404, fatal: true }),
+    );
+  });
+
+  it('exposes no draft content, rendering the same empty page as an unknown slug', async () => {
+    stubEnv('en', 'draft-project', makeProject({ draft: true }));
+    const CaseStudy = (await import('../[slug].vue')).default;
+    const wrapper = mountSuspended(CaseStudy);
+
+    await flushPromises();
+
+    expect(wrapper.find('article').exists()).toBe(false);
+    expect(wrapper.text()).toBe('');
+  });
+
+  it('serves a published project without raising an error', async () => {
+    stubEnv('en', 'design-system-tokens', makeProject({}));
+    createErrorMock.mockClear();
+    const CaseStudy = (await import('../[slug].vue')).default;
+    const wrapper = mountSuspended(CaseStudy);
+
+    await flushPromises();
+
+    expect(createErrorMock).not.toHaveBeenCalled();
+    expect(wrapper.find('article').exists()).toBe(true);
   });
 });

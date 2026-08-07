@@ -17,6 +17,7 @@ interface ArticleFixture {
   date: string;
   tags: string[];
   cover?: { src: string; width: number; height: number; caption?: string };
+  draft?: boolean;
   path: string;
   body: { toc: { links: TocLinkFixture[] } };
 }
@@ -106,8 +107,23 @@ const AuthorStub = defineComponent({
 const RelatedStub = defineComponent({
   name: 'OrganismRelated',
   props: { items: { type: Array, default: () => [] } },
-  setup: (): (() => ReturnType<typeof h>) => () =>
-    h('section', { class: 'o-related' }),
+  setup:
+    (_props, { slots }): (() => ReturnType<typeof h>) =>
+    () =>
+      h('section', { class: 'o-related' }, slots.default?.()),
+});
+
+const CardArticleStub = defineComponent({
+  name: 'MoleculeCardArticle',
+  props: {
+    href: { type: String, default: '' },
+    title: { type: String, default: '' },
+    date: { type: String, default: '' },
+    excerpt: { type: String, default: '' },
+    tags: { type: Array, default: () => [] },
+  },
+  setup: (props) => (): ReturnType<typeof h> =>
+    h('article', { class: 'm-cardArticle' }, props.title),
 });
 
 vi.mock('@antsask/styleguide', () => ({
@@ -116,6 +132,7 @@ vi.mock('@antsask/styleguide', () => ({
   TOC: TOCStub,
   Author: AuthorStub,
   Related: RelatedStub,
+  CardArticle: CardArticleStub,
 }));
 
 const useTocTrackingMock = vi.fn(() => ({ activeId: ref('principles') }));
@@ -424,5 +441,67 @@ describe('pages/blog/[slug].vue', () => {
 
     expect(wrapper.find('article').exists()).toBe(false);
     expect(wrapper.text()).toBe('');
+  });
+
+  it('triggers a 404 createError when the matched article is a draft', async () => {
+    stubEnv('en', 'draft-article', makeArticle({ draft: true }));
+    createErrorMock.mockClear();
+    const BlogArticle = (await import('../[slug].vue')).default;
+
+    mountSuspended(BlogArticle);
+    await flushPromises();
+
+    expect(createErrorMock).toHaveBeenCalledWith(
+      expect.objectContaining({ statusCode: 404 }),
+    );
+  });
+
+  it('exposes no draft content, rendering the same empty page as an unknown slug', async () => {
+    stubEnv('en', 'draft-article', makeArticle({ draft: true }));
+    const BlogArticle = (await import('../[slug].vue')).default;
+    const wrapper = mountSuspended(BlogArticle);
+
+    await flushPromises();
+
+    expect(wrapper.find('article').exists()).toBe(false);
+    expect(wrapper.text()).toBe('');
+  });
+
+  it('serves a published article without raising an error', async () => {
+    stubEnv('en', 'design-systems-101', makeArticle({}));
+    createErrorMock.mockClear();
+    const BlogArticle = (await import('../[slug].vue')).default;
+    const wrapper = mountSuspended(BlogArticle);
+
+    await flushPromises();
+
+    expect(createErrorMock).not.toHaveBeenCalled();
+    expect(wrapper.find('article').exists()).toBe(true);
+  });
+
+  it('excludes drafts from the related block without shrinking its three-item quota', async () => {
+    stubEnv('en', 'design-systems-101', makeArticle({}), [
+      makeArticle({
+        title: 'Draft related',
+        path: '/blog/en/draft-related',
+        draft: true,
+      }),
+      makeArticle({ title: 'Related one', path: '/blog/en/related-one' }),
+      makeArticle({ title: 'Related two', path: '/blog/en/related-two' }),
+      makeArticle({ title: 'Related three', path: '/blog/en/related-three' }),
+    ]);
+    const BlogArticle = (await import('../[slug].vue')).default;
+    const wrapper = mountSuspended(BlogArticle);
+
+    await flushPromises();
+
+    const related = wrapper.findAllComponents({ name: 'MoleculeCardArticle' });
+
+    expect(related).toHaveLength(3);
+    expect(related.map((card) => card.props('title'))).toEqual([
+      'Related one',
+      'Related two',
+      'Related three',
+    ]);
   });
 });

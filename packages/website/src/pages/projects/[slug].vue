@@ -106,7 +106,7 @@
         .where('path', '=', projectPath.value)
         .first()) as ProjectContent | null;
 
-      if (!found) {
+      if (!found || found.draft) {
         throw createError({
           statusCode: 404,
           statusMessage: 'Project not found',
@@ -114,17 +114,7 @@
         });
       }
 
-      const relatedAll = (await queryCollection(collection.value)
-        .where('path', '<>', found.path)
-        .all()) as ProjectContent[];
-
-      return {
-        project: found,
-        related: relatedAll
-          .filter((item) => !item.draft)
-          .sort((a, b) => b.year - a.year)
-          .slice(0, 3),
-      };
+      return found;
     },
     { watch: [collection] },
   );
@@ -135,9 +125,7 @@
     throw error.value;
   }
 
-  const project = computed<ProjectContent | null>(
-    () => data.value?.project ?? null,
-  );
+  const project = computed<ProjectContent | null>(() => data.value ?? null);
   const facts = computed(() => {
     if (!project.value) {
       return [];

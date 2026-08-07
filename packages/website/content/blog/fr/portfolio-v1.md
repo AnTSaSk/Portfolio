@@ -13,6 +13,7 @@ cover:
     height: 1440
     caption: "J'ai mis une photo de mon chat pour augmenter le trafic de l'article."
 author: Alexis Besson
+draft: true
 ---
 
 Il y a une page qui traîne en ligne depuis 2023. Une simple landing, « en attendant », posée là le temps de faire mieux (spoiler : l'attente a duré trois ans). Le mieux, je l'avais pourtant déjà en tête, et même déjà commencé sur Figma. Et puis beaucoup d'autres sujets sont devenus prioritaires, et le portfolio est resté en standby.

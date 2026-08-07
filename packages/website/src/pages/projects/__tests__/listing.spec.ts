@@ -457,9 +457,31 @@ describe('pages/projects/index.vue', () => {
 
     expect(cardTitles).not.toContain('Ghost Project');
     expect(filterIds).not.toContain('Ember');
-    expect(
-      wrapper.findComponent({ name: 'OrganismFeature' }).props('title'),
-    ).not.toBe('Ghost Project');
+  });
+
+  it('never features a draft project, even when it is the only highlighted one', async () => {
+    stubEnv('en', [
+      makeProject({
+        title: 'Phantom Highlight',
+        year: 2027,
+        stack: ['Ember'],
+        highlight: true,
+        draft: true,
+        path: '/projects/en/phantom-highlight',
+      }),
+      ...PROJECTS.filter((project) => !project.highlight),
+    ]);
+    const ProjectsListing = (await import('../index.vue')).default;
+    const wrapper = mount(ProjectsListing);
+
+    await flushPromises();
+
+    const feature = wrapper.findComponent({ name: 'OrganismFeature' });
+
+    expect(feature.exists() && feature.props('title')).not.toBe(
+      'Phantom Highlight',
+    );
+    expect(wrapper.text()).not.toContain('Phantom Highlight');
   });
 
   it('sorts projects by year descending regardless of collection order', async () => {
