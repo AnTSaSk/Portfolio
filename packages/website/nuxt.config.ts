@@ -14,18 +14,42 @@ const contentDbFile =
   process.env.NUXT_CONTENT_DB ??
   fileURLToPath(new URL('./.data/content/contents.sqlite', import.meta.url));
 
+const readStyleguideCss = (file: string): string =>
+  readFileSync(
+    fileURLToPath(
+      new URL(`../styleguide/src/assets/css/${file}`, import.meta.url),
+    ),
+    'utf-8',
+  );
+
+// The font preloads in app.head.link start downloading before the external
+// stylesheet declares any @font-face, so nothing claims the files and the
+// browser reports them as preloaded-but-unused. Inlining the declarations
+// makes them known at first paint. Read from source, never from the bundle:
+// Vite rewrites the src to `../fonts/...`, which is correct from /_nuxt/ but
+// would break inline on any nested route. base.css stays the single source.
+const fontFaces = (() => {
+  const base = readStyleguideCss('base.css');
+  const start = base.indexOf('@layer fonts {');
+  const end = base.indexOf('\n}', start);
+
+  if (start === -1 || end === -1) {
+    throw new Error('base.css: @layer fonts block not found');
+  }
+
+  // base.css is imported under layer(base), so the inline copy must nest the
+  // same way or it would win the cascade over the external stylesheet.
+  return `@layer base {\n${base.slice(start, end + 2)}\n}\n`;
+})();
+
 // Nuxt inlines only component SFC styles in the SSR head, never the global
 // `css:` entry, so the @layer order declaration + tokens would otherwise land
 // after the inlined `@layer components{}` and after an external stylesheet
 // and tokens available at first paint. tokens.css stays the single source.
 const criticalCss =
   '@layer base, components, layout, utilities;\n' +
-  readFileSync(
-    fileURLToPath(
-      new URL('../styleguide/src/assets/css/tokens.css', import.meta.url),
-    ),
-    'utf-8',
-  );
+  fontFaces +
+  readStyleguideCss('tokens.css');
 
 const themeScript =
   "(function(){try{var t=localStorage.getItem('ab-theme');if(t&&t!=='system')document.documentElement.setAttribute('data-theme',t);}catch(e){}})();";
