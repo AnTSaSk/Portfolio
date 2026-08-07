@@ -334,9 +334,11 @@ export default defineNuxtConfig({
         en: '/',
         fr: '/',
       },
+      // ASCII-only: a non-ASCII path is registered percent-encoded in the route
+      // table, which never matches the decoded incoming URL (404 on every form).
       about: {
         en: '/about',
-        fr: '/à-propos',
+        fr: '/a-propos',
       },
       'blog/index': {
         en: '/blog',
