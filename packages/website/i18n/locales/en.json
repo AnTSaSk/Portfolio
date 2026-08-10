@@ -40,6 +40,13 @@
       "title": "Blog"
     }
   },
+  "breadcrumb": {
+    "items": {
+      "home": {
+        "label": "Home"
+      }
+    }
+  },
   "common": {
     "locale": {
       "en": {
@@ -179,8 +186,8 @@
         "landing": "Alexis Besson, Lead Front-end Developer, ~10 years' experience including 6+ leading teams. JavaScript & TypeScript expert (Vue 3, Nuxt, Node.js), design systems, performance and AI-assisted development (Claude Code) in Paris."
       },
       "title": {
-        "generic": "Alexis Besson {'|'} Lead Front-end Developer \u00b7 Vue.js, TypeScript & Node.js",
-        "landing": "Alexis Besson {'|'} Lead Front-end Developer \u00b7 Vue.js, TypeScript & Node.js"
+        "generic": "Alexis Besson {'|'} Lead Front-end Developer · Vue.js, TypeScript & Node.js",
+        "landing": "Alexis Besson {'|'} Lead Front-end Developer · Vue.js, TypeScript & Node.js"
       },
       "variable": {
         "after": "{'|'} Alexis Besson",

@@ -1,10 +1,10 @@
 {
   "about": {
-    "legal": "Mentions l\u00e9gales",
-    "marquee": "\u00c0 PROPOS",
+    "legal": "Mentions légales",
+    "marquee": "À PROPOS",
     "seo": {
-      "description": "D\u00e9veloppeur front depuis une dizaine d'ann\u00e9es. Ma fa\u00e7on de travailler, mon rapport \u00e0 la qualit\u00e9 et au d\u00e9veloppement assist\u00e9 par IA.",
-      "title": "\u00c0 propos"
+      "description": "Développeur front depuis une dizaine d'années. Ma façon de travailler, mon rapport à la qualité et au développement assisté par IA.",
+      "title": "À propos"
     }
   },
   "blog": {
@@ -40,6 +40,13 @@
       "title": "Blog"
     }
   },
+  "breadcrumb": {
+    "items": {
+      "home": {
+        "label": "Accueil"
+      }
+    }
+  },
   "common": {
     "locale": {
       "en": {
@@ -47,34 +54,34 @@
         "short": "en"
       },
       "fr": {
-        "long": "Fran\u00e7ais",
+        "long": "Français",
         "short": "fr"
       }
     }
   },
   "easteregg": {
     "log": {
-      "message": "Vous ne trouverez rien ici, si ce n'est de merveilleux liens vers mes r\u00e9seaux sociaux :"
+      "message": "Vous ne trouverez rien ici, si ce n'est de merveilleux liens vers mes réseaux sociaux :"
     }
   },
   "error": {
     "actions": {
-      "contact": "Signaler un probl\u00e8me",
-      "home": "Retour \u00e0 l'accueil"
+      "contact": "Signaler un problème",
+      "home": "Retour à l'accueil"
     },
-    "back": "Retour \u00e0 l'accueil",
+    "back": "Retour à l'accueil",
     "description": {
-      "404": "La page que vous recherchez n'existe pas ou a \u00e9t\u00e9 d\u00e9plac\u00e9e.",
-      "default": "Quelque chose s'est mal pass\u00e9. Veuillez r\u00e9essayer plus tard."
+      "404": "La page que vous recherchez n'existe pas ou a été déplacée.",
+      "default": "Quelque chose s'est mal passé. Veuillez réessayer plus tard."
     },
     "eyebrow": "Hors des sentiers battus",
     "lead": {
-      "404": "L'URL a peut-\u00eatre chang\u00e9, \u00e9t\u00e9 supprim\u00e9e, ou n'a jamais exist\u00e9.",
-      "default": "Notre \u00e9quipe a \u00e9t\u00e9 notifi\u00e9e. R\u00e9essayez dans un instant."
+      "404": "L'URL a peut-être changé, été supprimée, ou n'a jamais existé.",
+      "default": "Notre équipe a été notifiée. Réessayez dans un instant."
     },
     "sub": {
       "404": "Cette page n'existe pas.",
-      "default": "Une erreur s'est produite de notre c\u00f4t\u00e9."
+      "default": "Une erreur s'est produite de notre côté."
     },
     "title": {
       "404": "Page introuvable",
@@ -87,16 +94,16 @@
       "projects": "Voir les projets"
     },
     "body": {
-      "p1": "Depuis une dizaine d'ann\u00e9es, je con\u00e7ois des interfaces web et j'accompagne des \u00e9quipes en agence.",
-      "p2": "Du SaaS port\u00e9 dans la dur\u00e9e au site \u00e9v\u00e9nementiel haut de gamme, des fronts pens\u00e9s pour la performance et pour durer."
+      "p1": "Depuis une dizaine d'années, je conçois des interfaces web et j'accompagne des équipes en agence.",
+      "p2": "Du SaaS porté dans la durée au site événementiel haut de gamme, des fronts pensés pour la performance et pour durer."
     },
     "greeting": "Bonjour",
     "marquee": "AnTSaSk/Alexis Besson",
     "name": "Alexis Besson",
-    "role": "Lead D\u00e9veloppeur Front-end",
+    "role": "Lead Développeur Front-end",
     "seo": {
-      "description": "Lead D\u00e9veloppeur Front-end bas\u00e9 \u00e0 Paris, ~10 ans d'exp\u00e9rience. JavaScript, TypeScript, Vue 3, Nuxt, design systems, performance et d\u00e9veloppement assist\u00e9 par IA.",
-      "title": "Alexis Besson {'|'} Lead D\u00e9veloppeur Front-end"
+      "description": "Lead Développeur Front-end basé à Paris, ~10 ans d'expérience. JavaScript, TypeScript, Vue 3, Nuxt, design systems, performance et développement assisté par IA.",
+      "title": "Alexis Besson {'|'} Lead Développeur Front-end"
     },
     "tags": {
       "ai": "Dev IA",
@@ -176,22 +183,22 @@
   "seo": {
     "meta": {
       "description": {
-        "landing": "Alexis Besson, Lead D\u00e9veloppeur Front-end, ~10 ans d'exp\u00e9rience dont 6+ en lead. Expert JavaScript & TypeScript (Vue 3, Nuxt, Node.js), design systems, performance et d\u00e9veloppement assist\u00e9 par IA (Claude Code) \u00e0 Paris."
+        "landing": "Alexis Besson, Lead Développeur Front-end, ~10 ans d'expérience dont 6+ en lead. Expert JavaScript & TypeScript (Vue 3, Nuxt, Node.js), design systems, performance et développement assisté par IA (Claude Code) à Paris."
       },
       "title": {
-        "generic": "Alexis Besson {'|'} Lead D\u00e9veloppeur Front-end \u00b7 Vue.js, TypeScript et Node.js",
-        "landing": "Alexis Besson {'|'} Lead D\u00e9veloppeur Front-end \u00b7 Vue.js, TypeScript et Node.js"
+        "generic": "Alexis Besson {'|'} Lead Développeur Front-end · Vue.js, TypeScript et Node.js",
+        "landing": "Alexis Besson {'|'} Lead Développeur Front-end · Vue.js, TypeScript et Node.js"
       },
       "variable": {
         "after": "{'|'} Alexis Besson",
         "default": "Alexis Besson {'|'} ",
-        "long": "Alexis Besson, Lead D\u00e9veloppeur Front-end {'|'} "
+        "long": "Alexis Besson, Lead Développeur Front-end {'|'} "
       }
     }
   },
   "view": {
     "landing": {
-      "subtitle": "Lead D\u00e9veloppeur Front-end"
+      "subtitle": "Lead Développeur Front-end"
     }
   }
 }

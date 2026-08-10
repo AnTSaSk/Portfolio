@@ -50,6 +50,13 @@ describe('i18n locale synchronization', () => {
     checkNonEmpty(en, 'en');
     checkNonEmpty(fr, 'fr');
   });
+
+  // Key consumed by useBreadcrumbItems; the home route is named `home`, not
+  // `index`, so it misses the composable's built-in Home fallback.
+  it('names the home breadcrumb in both locales', () => {
+    expect(en.breadcrumb.items.home.label).toBe('Home');
+    expect(fr.breadcrumb.items.home.label).toBe('Accueil');
+  });
 });
 
 const localesDir = path.resolve(
