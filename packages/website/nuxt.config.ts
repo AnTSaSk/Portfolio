@@ -195,7 +195,7 @@ export default defineNuxtConfig({
     },
     // Health must reflect the live process, never a memoized response.
     // `swr` is normalized to a `cache` rule, so only `cache: false` resets it.
-    '/health': { cache: false },
+    '/health': { cache: false, robots: false },
     '/': { sitemap: { priority: 1, changefreq: 'weekly' } },
     '/projects': { sitemap: { priority: 0.9, changefreq: 'weekly' } },
     '/blog': { sitemap: { priority: 0.7, changefreq: 'weekly' } },

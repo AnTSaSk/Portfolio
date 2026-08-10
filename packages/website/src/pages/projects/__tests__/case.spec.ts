@@ -5,6 +5,8 @@ import { defineComponent, h, ref } from 'vue';
 import { createT } from '../../__tests__/__stubs__/createT';
 import { mountSuspended } from '../../__tests__/__stubs__/mountSuspended';
 
+import { useBreadcrumbItemsMock } from '@/__tests__/setup/nuxt-macros';
+
 interface ProjectLink {
   label: string;
   href: string;
@@ -506,5 +508,21 @@ describe('pages/projects/[slug].vue', () => {
 
     expect(createErrorMock).not.toHaveBeenCalled();
     expect(wrapper.find('article').exists()).toBe(true);
+  });
+});
+
+// the case study invokes the generic route-derived breadcrumb mechanism
+// (useBreadcrumbItems, auto-imported @nuxtjs/seo), same wiring as blog.
+describe('projects/[slug].vue, generic BreadcrumbList wiring', () => {
+  it('calls useBreadcrumbItems so the route-derived BreadcrumbList is generated', async () => {
+    useBreadcrumbItemsMock.mockClear();
+    stubEnv('en', 'design-system-tokens', makeProject({}));
+
+    const CaseStudy = (await import('../[slug].vue')).default;
+
+    mountSuspended(CaseStudy);
+    await flushPromises();
+
+    expect(useBreadcrumbItemsMock).toHaveBeenCalled();
   });
 });

@@ -57,7 +57,7 @@
 
   import { Gallery, Head, MediaCover, MetaList } from '@antsask/styleguide';
 
-  /* global queryCollection, createError */
+  /* global queryCollection, createError, useBreadcrumbItems */
   interface ProjectLink {
     label: string;
     href: string;
@@ -184,4 +184,6 @@
     type: 'article',
     image: coverImage,
   });
+
+  useBreadcrumbItems();
 </script>

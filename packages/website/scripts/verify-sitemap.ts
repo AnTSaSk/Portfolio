@@ -3,7 +3,8 @@
 // in the @nuxt/content manifest, and callbacks broken by serialisation, both of which empty
 // the sitemap without any function being at fault.
 // Contract: `.output` must already be built. Assertions map to AC-SMAP-* in
-// docs/reference/sitemap-content-urls-acceptance-criteria.md.
+// docs/reference/sitemap-content-urls-acceptance-criteria.md and AC-SEO3-* in
+// docs/reference/seo-post-launch-acceptance-criteria.md.
 import { spawn } from 'node:child_process';
 import { readdirSync, readFileSync } from 'node:fs';
 import { createServer } from 'node:net';
@@ -194,6 +195,13 @@ const main = async (): Promise<void> => {
     for (const loc of locs) {
       if (/^\/fr\/(projects|about|legal)(\/|$)/.test(loc)) {
         failures.push(`AC-SMAP-8: untranslated FR URL — ${loc}`);
+      }
+    }
+
+    // AC-SEO3-3: no technical route in any sitemap.
+    for (const loc of locs) {
+      if (loc === '/health' || loc === '/fr/health') {
+        failures.push(`AC-SEO3-3: technical route exposed — ${loc}`);
       }
     }
 
