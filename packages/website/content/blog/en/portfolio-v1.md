@@ -13,7 +13,7 @@ cover:
     height: 1440
     caption: "I put a photo of my cat here to boost this article's traffic."
 author: Alexis Besson
-draft: true
+draft: false
 ---
 
 There's a page that's been sitting online since 2023. A plain "coming soon" landing page, put there while I built something better (spoiler: the wait lasted three years). I already had that something better in mind, and had even started it in Figma. Then plenty of other topics took priority, and the portfolio stayed on standby.
