@@ -10,7 +10,7 @@ shortDescription: Event site with a watch configurator for the Breitling × Asto
 description: 'Designed and built the front end of a luxury event site end to end: a watch configurator with live preview, a scroll-free experience tailored to a high-end audience, delivered on a tight timeline. Lighthouse Performance 100/100 desktop (LCP 0.7s) and 91/100 mobile, CLS 0, despite high-resolution visuals.'
 role: Lead Front-end Developer
 client: Breitling × Aston Martin
-highlight: true
+draft: true
 links:
     - label: Website
       href: https://valhalla.breitling.com/fr

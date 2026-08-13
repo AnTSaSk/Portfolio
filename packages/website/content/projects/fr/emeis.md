@@ -14,6 +14,7 @@ links:
       href: 'https://www.emeis.fr/fr'
 role: 'Lead Front-end'
 client: 'Emeis'
+highlight: true
 cover:
     src: /img/Projects/EMEIS_Cover.jpg
     width: 2560

@@ -10,7 +10,7 @@ shortDescription: Site événementiel avec configurateur de montre pour la colla
 description: "Conception et développement de bout en bout du front d'un site événementiel de luxe : un configurateur de montre avec aperçu en direct, une expérience sans scroll pensée pour le haut de gamme, livrée dans des délais courts. Lighthouse Performance 100/100 desktop (LCP 0,7 s) et 91/100 mobile, CLS 0, malgré des visuels haute définition."
 role: Lead Développeur Front-end
 client: Breitling × Aston Martin
-highlight: true
+draft: true
 links:
     - label: Site
       href: https://valhalla.breitling.com/fr
