@@ -29,7 +29,7 @@ RUN pnpm build:styleguide
 # Stage 2: Production: nginx serves static files
 # NOTE: tmpfs mounts are required at runtime for read_only container compatibility:
 #   /var/cache/nginx, /var/run, /tmp
-FROM nginx:1.31-alpine AS production
+FROM nginx:1.31.9-alpine AS production
 
 # Remove default nginx config and replace with minimal static-file config
 RUN rm /etc/nginx/conf.d/default.conf
